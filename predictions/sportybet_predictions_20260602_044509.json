@@ -1,0 +1,54 @@
+[
+  {
+    "timestamp": "2026-06-02 04:45:09",
+    "sport": "Football",
+    "league": "England",
+    "match": "MCI vs LIV",
+    "market": "Over 2.5",
+    "live_odds": 1.9,
+    "implied_pct": 52.6,
+    "historical_pct": 54.1,
+    "edge_pct": 1.5,
+    "n_samples": 2000,
+    "verdict": "SKIP"
+  },
+  {
+    "timestamp": "2026-06-02 04:45:09",
+    "sport": "Football",
+    "league": "England",
+    "match": "MCI vs LIV",
+    "market": "Draw",
+    "live_odds": 3.4,
+    "implied_pct": 29.4,
+    "historical_pct": 26.2,
+    "edge_pct": -3.2,
+    "n_samples": 2000,
+    "verdict": "SKIP"
+  },
+  {
+    "timestamp": "2026-06-02 04:45:09",
+    "sport": "Racing",
+    "league": "Horse Racing - Royal Meadow",
+    "match": "Next race",
+    "market": "Odd",
+    "live_odds": 1.81,
+    "implied_pct": 55.2,
+    "historical_pct": 58.7,
+    "edge_pct": 3.5,
+    "n_samples": 155,
+    "verdict": "VALUE BET"
+  },
+  {
+    "timestamp": "2026-06-02 04:45:09",
+    "sport": "Racing",
+    "league": "Horse Racing - Royal Meadow",
+    "match": "Next race",
+    "market": "Under",
+    "live_odds": 1.84,
+    "implied_pct": 54.3,
+    "historical_pct": 49.0,
+    "edge_pct": -5.3,
+    "n_samples": 155,
+    "verdict": "SKIP"
+  }
+]
