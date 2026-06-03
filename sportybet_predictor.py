@@ -442,245 +442,360 @@ def _parse_odds(text):
 
 def _expand_sidebar_toggler(frame, toggler_text):
     """
-    Expand a sidebar toggler by text.
-    Uses offsetHeight of the next sibling UL to detect expansion state.
+    Expand a sidebar section toggler.
+    Tries Playwright native click first (by icon class), then JS fallback.
     Returns True if successfully expanded (or already was).
     """
+    # Map known toggler texts to their CSS icon classes (from real DOM dumps)
+    ICON_CLASS = {
+        "Football League":  "gr-icon-league",
+        "Tournaments":      "gr-icon-golden-cup",
+        "Greyhound Racing": "gr-icon-dogs",
+        "Horse Racing":     "gr-icon-horses",
+        "Speedway Racing":  "gr-icon-speedway",
+        "Motorbike Racing": "gr-icon-motorbikes",
+    }
+    icon = ICON_CLASS.get(toggler_text)
+
+    # Check if already expanded via JS (sub-UL height > 0)
     try:
-        result = frame.evaluate(r"""(text) => {
-            // Find the toggler element
-            const all = Array.from(document.querySelectorAll(
-                '[class*="toggler"], [class*="nav-item"], li, a'
-            ));
+        already = frame.evaluate(r"""(text) => {
+            const all = Array.from(document.querySelectorAll('[class*="toggler"]'));
             const el = all.find(e =>
                 e.textContent.trim().includes(text) &&
                 e.getBoundingClientRect().height > 0
             );
-            if (!el) return 'not_found';
-
-            // Check if sub-list already has height (already expanded)
+            if (!el) return false;
             const sub = el.nextElementSibling || el.querySelector('ul');
-            if (sub && sub.offsetHeight > 0) return 'already_open';
-
-            // Click to expand
-            el.dispatchEvent(new MouseEvent('mousedown', {bubbles: true}));
-            el.dispatchEvent(new MouseEvent('mouseup',   {bubbles: true}));
-            el.click();
-            return 'clicked';
+            return sub ? sub.offsetHeight > 0 : false;
         }""", toggler_text)
-
-        if result == "already_open":
+        if already:
             print(f"    ℹ '{toggler_text}' already expanded", flush=True)
             return True
-        if result == "clicked":
-            _smart_sleep(1.2)
-            # Verify expansion
-            is_open = frame.evaluate(r"""(text) => {
+    except:
+        pass
+
+    # Try Playwright native click using icon class (most reliable)
+    clicked = False
+    if icon:
+        for sel in [
+            f"a[class*='{icon}']",
+            f"[class*='toggler'][class*='{icon}']",
+        ]:
+            try:
+                loc = frame.locator(sel).first
+                if loc.is_visible(timeout=1500):
+                    loc.click(timeout=3000)
+                    clicked = True
+                    break
+            except:
+                pass
+
+    # Fallback: JS click by text
+    if not clicked:
+        try:
+            matched = frame.evaluate(r"""(text) => {
                 const all = Array.from(document.querySelectorAll(
-                    '[class*="toggler"], [class*="nav-item"], li, a'
+                    '[class*="toggler"], a'
                 ));
                 const el = all.find(e =>
                     e.textContent.trim().includes(text) &&
                     e.getBoundingClientRect().height > 0
                 );
                 if (!el) return false;
-                const sub = el.nextElementSibling || el.querySelector('ul');
-                return sub ? sub.offsetHeight > 0 : false;
+                el.dispatchEvent(new MouseEvent('mousedown', {bubbles: true}));
+                el.dispatchEvent(new MouseEvent('mouseup',   {bubbles: true}));
+                el.click();
+                return true;
             }""", toggler_text)
-            if is_open:
-                print(f"    ✓ Expanded '{toggler_text}'", flush=True)
-                return True
-            print(f"    ⚠ '{toggler_text}' may not have expanded (check debug dump)", flush=True)
-            return False
-        print(f"    ⚠ Toggler '{toggler_text}' not found in DOM", flush=True)
+            if matched:
+                clicked = True
+        except:
+            pass
+
+    if not clicked:
+        print(f"    ⚠ Toggler '{toggler_text}' not found", flush=True)
+        return False
+
+    _smart_sleep(1.2)
+
+    # Verify expansion
+    try:
+        is_open = frame.evaluate(r"""(text) => {
+            const all = Array.from(document.querySelectorAll('[class*="toggler"]'));
+            const el = all.find(e =>
+                e.textContent.trim().includes(text) &&
+                e.getBoundingClientRect().height > 0
+            );
+            if (!el) return false;
+            const sub = el.nextElementSibling || el.querySelector('ul');
+            return sub ? sub.offsetHeight > 0 : false;
+        }""", toggler_text)
+        if is_open:
+            print(f"    ✓ Expanded '{toggler_text}'", flush=True)
+            return True
+        print(f"    ⚠ '{toggler_text}' expansion not verified", flush=True)
         return False
     except Exception as e:
-        print(f"    ⚠ expand_toggler error: {e}", flush=True)
+        print(f"    ⚠ expand_toggler verify error: {e}", flush=True)
         return False
 
 
 def _click_sidebar_item(frame, texts, label="item"):
     """
-    Click the first visible sidebar link whose text exactly matches any entry in `texts`.
-    Uses Playwright native click (triggers Angular router navigation).
-    Returns the matched text on success, None on failure.
+    Click a sidebar link using Playwright native click.
+
+    Angular's router checks event.isTrusted — only real browser events pass.
+    JS el.click() produces isTrusted=false and is silently ignored by the router.
+    Playwright's .click() dispatches genuine trusted input events.
+
+    Sidebar links have class 'text-overflow ng-star-inserted' (confirmed from DOM dumps).
+    We target that class specifically to avoid matching breadcrumbs or other 'England' text.
     """
     for text in texts:
-        # Playwright native click — auto-scrolls and triggers Angular router
-        try:
-            loc = frame.locator(f"text='{text}'").first
-            if loc.is_visible(timeout=1500):
-                loc.click(timeout=3000)
-                print(f"    ✓ Clicked {label}: '{text}'", flush=True)
-                return text
-        except:
-            pass
-
-        # Fallback: exact-text `a` element
-        try:
-            loc = frame.locator(f"a").filter(has_text=re.compile(rf"^{re.escape(text)}$")).first
-            if loc.is_visible(timeout=1000):
-                loc.click(timeout=3000)
-                print(f"    ✓ Clicked {label} (a exact): '{text}'", flush=True)
-                return text
-        except:
-            pass
-
-        # Last resort: JS with exact match + scrollIntoView
-        try:
-            matched = frame.evaluate(r"""(t) => {
-                const all = Array.from(document.querySelectorAll('a, li'));
-                const el = all.find(e =>
-                    e.textContent.trim() === t &&
-                    e.getBoundingClientRect().height > 0
-                );
-                if (el) {
-                    el.scrollIntoView({block: 'center'});
-                    el.dispatchEvent(new MouseEvent('mousedown', {bubbles: true}));
-                    el.dispatchEvent(new MouseEvent('mouseup',   {bubbles: true}));
-                    el.click();
-                    return true;
-                }
-                return false;
-            }""", text)
-            if matched:
-                print(f"    ✓ Clicked {label} (JS exact): '{text}'", flush=True)
-                return text
-        except:
-            pass
+        # Primary: Playwright click on sidebar `a.text-overflow` with exact text
+        # filter(has_text=regex) ensures exact match, not substring
+        for sel in [
+            "a[class*='text-overflow'][class*='ng-star']",
+            "a[class*='text-overflow']",
+            "a",
+        ]:
+            try:
+                loc = (frame.locator(sel)
+                       .filter(has_text=re.compile(rf"^\s*{re.escape(text)}\s*$"))
+                       .first)
+                if loc.is_visible(timeout=1000):
+                    loc.click(timeout=3000)
+                    print(f"    ✓ Clicked {label}: '{text}'", flush=True)
+                    return text
+            except:
+                pass
 
     return None
 
 
 def _click_tab(frame, tab_texts):
     """
-    Click a tab button by text using Playwright native click.
-    This properly triggers Angular's (click) bindings unlike JS el.click().
-    Returns matched text or None.
+    Click a tab button by EXACT text using Playwright native click.
+    The Market filter tabs (MAIN, Correct Score, Over/Under, Others) may be
+    a, button, li, div, or span — so we try all with exact-text regex filter.
     """
     for text in tab_texts:
-        # Playwright native: exact text match on likely tab elements
-        for sel in [
-            f"a:has-text('{text}')",
-            f"button:has-text('{text}')",
-            f"[role='tab']:has-text('{text}')",
-            f"[class*='tab']:has-text('{text}')",
-        ]:
+        # Try Playwright native click across all common tab element types
+        for sel in ["a", "button", "li", "div", "span", "[role='tab']"]:
             try:
-                loc = frame.locator(sel).first
-                if loc.is_visible(timeout=1000):
+                loc = (frame.locator(sel)
+                       .filter(has_text=re.compile(rf"^\s*{re.escape(text)}\s*$"))
+                       .first)
+                if loc.is_visible(timeout=600):
                     loc.click(timeout=3000)
                     print(f"    ✓ Clicked tab: '{text}'", flush=True)
                     return text
             except:
                 pass
-
-        # Fallback: JS with scrollIntoView to ensure it's in viewport
-        try:
-            matched = frame.evaluate(r"""(t) => {
-                const candidates = Array.from(document.querySelectorAll(
-                    'a, button, [role="tab"], [class*="tab-item"], [class*="market-filter"]'
-                ));
-                const el = candidates.find(e =>
-                    e.textContent.trim() === t &&
-                    e.getBoundingClientRect().height > 0
-                );
-                if (el) {
-                    el.scrollIntoView({block: 'center'});
-                    el.dispatchEvent(new MouseEvent('mousedown', {bubbles: true}));
-                    el.dispatchEvent(new MouseEvent('mouseup',   {bubbles: true}));
-                    el.click();
-                    return true;
-                }
-                return false;
-            }""", text)
-            if matched:
-                print(f"    ✓ Clicked tab (JS): '{text}'", flush=True)
-                return text
-        except:
-            pass
     return None
 
 
-def _scrape_football_ou25(frame):
+def _scrape_football_1x2(frame):
     """
-    Scrape Over/Under 2.5 odds from the Over/Under tab.
+    Parse MAIN tab 1X2 odds + team names.
 
-    Actual page format (multi-line, each value on its own line):
-        1.          <- match number
-        (space)
-        LEH         <- home abbrev
+    Multi-line innerText format (confirmed from DOM dumps):
+        1.
+
+        ALA
         -
-        SBR         <- away abbrev
-        Over 0.5
-        1.04        <- odds on NEXT line after label
-        Under 0.5
-        11.70
-        Over 1.5
-        1.37
-        Under 1.5
-        2.98
-        Over 2.5    <- ← we want this
-        2.12
-        Under 2.5
-        1.68
+        RAY
+        1
+        2.20
+        X
+        3.23
+        2
+        3.08
 
-    Returns list of {match_name, week, over_2_5, under_2_5}.
+    Returns list of {match_name, week, home_win, draw, away_win}.
+    """
+    results      = []
+    current_week = None
+    try:
+        body  = frame.evaluate("() => document.body.innerText")
+        lines = [l.strip() for l in body.split("\n") if l.strip()]
+
+        i = 0
+        while i < len(lines):
+            # Track current week as we scan — "Week N" can appear multiple times
+            wm = re.search(r'\bWeek\s+(\d+)\b', lines[i], re.IGNORECASE)
+            if wm:
+                current_week = int(wm.group(1))
+
+            # Match number marker e.g. "1." "2." "10."
+            if re.fullmatch(r'\d+\.', lines[i]):
+                j = i + 1
+                home = away = None
+                home_win = draw = away_win = None
+
+                # Collect home team abbrev (2-5 uppercase letters)
+                while j < len(lines) and not re.fullmatch(r'[A-Z]{2,5}', lines[j]):
+                    j += 1
+                if j < len(lines):
+                    home = lines[j]; j += 1
+
+                # Skip dash
+                if j < len(lines) and lines[j] == '-':
+                    j += 1
+
+                # Away team
+                if j < len(lines) and re.fullmatch(r'[A-Z]{2,5}', lines[j]):
+                    away = lines[j]; j += 1
+
+                # Parse 1, X, 2 labels with odds on next line
+                end = min(j + 12, len(lines))
+                while j < end:
+                    if lines[j] == '1' and j + 1 < len(lines):
+                        o = _parse_odds(lines[j + 1])
+                        if o: home_win = o[0]
+                    elif lines[j] == 'X' and j + 1 < len(lines):
+                        o = _parse_odds(lines[j + 1])
+                        if o: draw = o[0]
+                    elif lines[j] == '2' and j + 1 < len(lines):
+                        o = _parse_odds(lines[j + 1])
+                        if o: away_win = o[0]
+                    elif re.fullmatch(r'\d+\.', lines[j]):
+                        break  # next match block starts
+                    j += 1
+
+                if home and away and home_win:
+                    results.append({
+                        "match_name": f"{home} - {away}",
+                        "week":       current_week,
+                        "home_win":   home_win,
+                        "draw":       draw,
+                        "away_win":   away_win,
+                    })
+                i = j
+            else:
+                i += 1
+    except Exception as e:
+        print(f"    ⚠ 1X2 parse error: {e}", flush=True)
+    return results
+
+
+def _scrape_football_ou(frame):
+    """
+    Scrape Over/Under 1.5, 2.5 and 3.5 odds from the Over/Under tab.
+
+    Actual page format (column-header table, confirmed from screenshots):
+      OV 0.5 | OV 1.5 | OV 2.5 | OV 3.5 | OV 4.5
+      Each match row has one odds value per column (Over side).
+
+    Returns list of {match_name, week,
+                     over_1_5, under_1_5, over_2_5, under_2_5, over_3_5, under_3_5}.
     """
     results = []
-    week    = None
 
     try:
         body  = frame.evaluate("() => document.body.innerText")
         lines = [l.strip() for l in body.split("\n") if l.strip()]
 
-        # Find week number (e.g. "Week 18" or "Week 18 - France")
-        for line in lines:
-            wm = re.search(r'\bWeek\s+(\d+)\b', line, re.IGNORECASE)
-            if wm:
-                week = int(wm.group(1))
-                break
+        OU_HEADER = re.compile(
+            r'^(?:OV|UN|Over|Under|O|U)\s*(\d+\.5)$', re.IGNORECASE
+        )
 
-        # Collect all Over 2.5 / Under 2.5 lines with their odds (next line)
-        over_list  = []
-        under_list = []
+        def _col_idx(labels, threshold, side_re):
+            return next(
+                (j for j, h in enumerate(labels)
+                 if re.search(rf'{re.escape(threshold)}', h)
+                 and re.search(side_re, h, re.IGNORECASE)),
+                None
+            )
+
+        # ── Strategy 1: column-header table ─────────────────────────────────
+        col_labels    = []
+        col_start_idx = None
+
         for i, line in enumerate(lines):
-            # Exact label on its own line (e.g. "Over 2.5")
-            if re.fullmatch(r'[Oo]ver\s*2\.5', line):
-                if i + 1 < len(lines):
-                    odds = _parse_odds(lines[i + 1])
-                    if odds:
-                        over_list.append(odds[0])
-            elif re.fullmatch(r'[Uu]nder\s*2\.5', line):
-                if i + 1 < len(lines):
-                    odds = _parse_odds(lines[i + 1])
-                    if odds:
-                        under_list.append(odds[0])
-            # Also handle "Over 2.5  1.70" on a single line
-            elif '2.5' in line:
-                ll   = line.lower()
-                odds = _parse_odds(line)
-                if 'over' in ll and 'under' in ll and len(odds) >= 2:
-                    over_list.append(odds[0])
-                    under_list.append(odds[1])
-                elif 'over' in ll and odds:
-                    over_list.append(odds[0])
-                elif 'under' in ll and odds:
-                    under_list.append(odds[0])
+            if OU_HEADER.match(line):
+                if not col_labels:
+                    col_start_idx = i
+                col_labels.append(line)
+            elif col_labels and len(col_labels) >= 2:
+                break
+            elif col_labels:
+                col_labels = []
 
-        # Pair each Over with the corresponding Under
-        for j, (ov, un) in enumerate(zip(over_list, under_list)):
-            results.append({
-                "match_name": f"Week {week} Match {j + 1}" if week else f"Match {j + 1}",
-                "week":       week,
-                "over_2_5":   ov,
-                "under_2_5":  un,
-            })
+        if col_labels and len(col_labels) >= 2:
+            n_cols  = len(col_labels)
+            ov15_i  = _col_idx(col_labels, "1.5", r'^(?:OV|O|Over)')
+            ov25_i  = _col_idx(col_labels, "2.5", r'^(?:OV|O|Over)')
+            ov35_i  = _col_idx(col_labels, "3.5", r'^(?:OV|O|Over)')
+            un15_i  = _col_idx(col_labels, "1.5", r'^(?:UN|U|Under)')
+            un25_i  = _col_idx(col_labels, "2.5", r'^(?:UN|U|Under)')
+            un35_i  = _col_idx(col_labels, "3.5", r'^(?:UN|U|Under)')
+
+            current_week = None
+            data_lines   = lines[col_start_idx + n_cols:]
+            odds_block   = []
+            match_idx    = 1
+
+            for dl in data_lines:
+                wm = re.search(r'\bWeek\s+(\d+)\b', dl, re.IGNORECASE)
+                if wm:
+                    current_week = int(wm.group(1))
+
+                o = _parse_odds(dl)
+                if o:
+                    odds_block.append(o[0])
+                    if len(odds_block) == n_cols:
+                        def _get(idx):
+                            return odds_block[idx] if idx is not None else None
+                        label = (f"Week {current_week} Match {match_idx}"
+                                 if current_week else f"Match {match_idx}")
+                        results.append({
+                            "match_name": label,
+                            "week":       current_week,
+                            "over_1_5":   _get(ov15_i),
+                            "under_1_5":  _get(un15_i),
+                            "over_2_5":   _get(ov25_i),
+                            "under_2_5":  _get(un25_i),
+                            "over_3_5":   _get(ov35_i),
+                            "under_3_5":  _get(un35_i),
+                        })
+                        match_idx += 1
+                        odds_block = []
+                elif OU_HEADER.match(dl):
+                    break
+
+        # ── Strategy 2: labelled lines fallback ─────────────────────────────
+        if not results:
+            buckets = {"1.5": ([], []), "2.5": ([], []), "3.5": ([], [])}
+            for i, line in enumerate(lines):
+                for thr in buckets:
+                    if re.fullmatch(rf'(?:OV|Over)\s*{re.escape(thr)}', line, re.IGNORECASE):
+                        if i + 1 < len(lines):
+                            o = _parse_odds(lines[i + 1])
+                            if o: buckets[thr][0].append(o[0])
+                    elif re.fullmatch(rf'(?:UN|Under)\s*{re.escape(thr)}', line, re.IGNORECASE):
+                        if i + 1 < len(lines):
+                            o = _parse_odds(lines[i + 1])
+                            if o: buckets[thr][1].append(o[0])
+
+            max_matches = max((len(v[0]) for v in buckets.values()), default=0)
+            for j in range(max_matches):
+                def _b(thr, side):
+                    lst = buckets[thr][side]
+                    return lst[j] if j < len(lst) else None
+                results.append({
+                    "match_name": f"Match {j + 1}",
+                    "week":       None,
+                    "over_1_5":   _b("1.5", 0), "under_1_5": _b("1.5", 1),
+                    "over_2_5":   _b("2.5", 0), "under_2_5": _b("2.5", 1),
+                    "over_3_5":   _b("3.5", 0), "under_3_5": _b("3.5", 1),
+                })
 
     except Exception as e:
-        print(f"    ⚠ OU25 parse error: {e}", flush=True)
+        print(f"    ⚠ O/U parse error: {e}", flush=True)
 
-    # Deduplicate by odds pair
+    # Deduplicate by OV 2.5 odds pair
     seen, out = set(), []
     for r in results:
         key = (r.get("over_2_5"), r.get("under_2_5"))
@@ -721,23 +836,41 @@ def scrape_live_football(frame, leagues=None):
         # Wait for league page to fully load (Angular router + data fetch)
         _smart_sleep(3.5)
 
-        # Click the Over/Under tab — must use real Playwright click (triggers Angular)
+        # ── Step 1: scrape MAIN tab (1X2 + team names, loaded by default) ──
+        matches_1x2 = _scrape_football_1x2(frame)
+        if matches_1x2:
+            print(f"    ✓ {len(matches_1x2)} match(es) parsed from MAIN tab", flush=True)
+        else:
+            print(f"    ⚠ No 1X2 data on MAIN tab", flush=True)
+            dump_frame(frame, f"football_{league.lower()}_main_fail")
+
+        # ── Step 2: click Over/Under tab and scrape O/U 1.5/2.5/3.5 odds ────
         tab = _click_tab(frame, ["Over/Under"])
         if not tab:
             print(f"    ⚠ Over/Under tab not found — dumping DOM", flush=True)
             dump_frame(frame, f"football_{league.lower()}_tab_fail")
-            continue
-
-        # Wait for Over/Under content to render
-        _smart_sleep(2.0)
-
-        matches = _scrape_football_ou25(frame)
-        if not matches:
-            print(f"    ⚠ No O/U 2.5 odds found — dumping DOM", flush=True)
-            dump_frame(frame, f"football_{league.lower()}_ou_fail")
         else:
-            print(f"    ✓ {len(matches)} match(es) with O/U 2.5 odds", flush=True)
-            live[league] = matches
+            _smart_sleep(2.0)
+            matches_ou = _scrape_football_ou(frame)
+            if not matches_ou:
+                print(f"    ⚠ No O/U odds found — dumping DOM", flush=True)
+                dump_frame(frame, f"football_{league.lower()}_ou_fail")
+            else:
+                print(f"    ✓ {len(matches_ou)} match(es) with O/U odds", flush=True)
+                # Merge O/U odds into 1X2 matches by index
+                OU_KEYS = ("over_1_5", "under_1_5",
+                           "over_2_5", "under_2_5",
+                           "over_3_5", "under_3_5")
+                for idx, m1x2 in enumerate(matches_1x2):
+                    if idx < len(matches_ou):
+                        for k in OU_KEYS:
+                            if matches_ou[idx].get(k) is not None:
+                                m1x2[k] = matches_ou[idx][k]
+                        if not m1x2.get("week") and matches_ou[idx].get("week"):
+                            m1x2["week"] = matches_ou[idx]["week"]
+
+        if matches_1x2:
+            live[league] = matches_1x2
 
     return live
 
@@ -761,7 +894,9 @@ RACING_OU_TAB_CANDIDATES = ["Over/Under", "Over Under", "OverUnder",
 def _scrape_eo_ou_from_page(frame):
     """
     Read EVEN/ODD and OVER/UNDER odds from the current race tab.
-    Scans innerText for labeled pairs.
+
+    Screenshots confirm the page shows a table with 'Even' and 'Odd' column
+    headers, then odds rows per upcoming race. We take the first valid pair.
     """
     try:
         body = frame.evaluate("() => document.body.innerText")
@@ -772,27 +907,73 @@ def _scrape_eo_ou_from_page(frame):
     result = {"even_odds": None, "odd_odds": None,
               "over_odds": None, "under_odds": None}
 
-    for line in lines:
-        ll   = line.lower()
-        odds = _parse_odds(line)
-        if not odds:
-            continue
+    # Look for column header "Even" then "Odd" (table format from screenshots)
+    for i, line in enumerate(lines):
+        ll = line.lower()
 
-        if "even" in ll and "odd" in ll and len(odds) >= 2:
-            result["even_odds"] = odds[0]
-            result["odd_odds"]  = odds[1]
-        elif "even" in ll and len(odds) >= 1:
-            result["even_odds"] = odds[0]
-        elif "odd" in ll and "even" not in ll and len(odds) >= 1:
-            result["odd_odds"] = odds[0]
+        # Column header pattern: "Even" on one line, "Odd" on next (or same)
+        if ll == "even" and i + 1 < len(lines):
+            nxt = lines[i + 1].lower()
+            if nxt == "odd":
+                # Find first odds pair after these headers
+                for j in range(i + 2, min(i + 20, len(lines))):
+                    o1 = _parse_odds(lines[j])
+                    if o1 and j + 1 < len(lines):
+                        o2 = _parse_odds(lines[j + 1])
+                        if o2:
+                            result["even_odds"] = o1[0]
+                            result["odd_odds"]  = o2[0]
+                            break
+                if result["even_odds"]:
+                    break
 
-        if "over" in ll and "under" in ll and len(odds) >= 2:
-            result["over_odds"]  = odds[0]
-            result["under_odds"] = odds[1]
-        elif "over" in ll and "under" not in ll and len(odds) >= 1:
-            result["over_odds"] = odds[0]
-        elif "under" in ll and "over" not in ll and len(odds) >= 1:
-            result["under_odds"] = odds[0]
+        # Same-line "Even  1.85  Odd  1.85"
+        if "even" in ll and "odd" in ll:
+            odds = _parse_odds(line)
+            if len(odds) >= 2:
+                result["even_odds"] = odds[0]
+                result["odd_odds"]  = odds[1]
+                break
+
+        # Over/Under column headers
+        if ll == "over" and i + 1 < len(lines) and lines[i + 1].lower() == "under":
+            for j in range(i + 2, min(i + 20, len(lines))):
+                o1 = _parse_odds(lines[j])
+                if o1 and j + 1 < len(lines):
+                    o2 = _parse_odds(lines[j + 1])
+                    if o2:
+                        result["over_odds"]  = o1[0]
+                        result["under_odds"] = o2[0]
+                        break
+            if result["over_odds"]:
+                break
+
+    # Fallback: scan for labeled lines if table headers not found
+    if not result["even_odds"] and not result["odd_odds"]:
+        for line in lines:
+            ll   = line.lower()
+            odds = _parse_odds(line)
+            if not odds:
+                continue
+            if "even" in ll and "odd" in ll and len(odds) >= 2:
+                result["even_odds"] = odds[0]; result["odd_odds"] = odds[1]; break
+            elif "even" in ll:
+                result["even_odds"] = odds[0]
+            elif "odd" in ll and "even" not in ll:
+                result["odd_odds"] = odds[0]
+
+    if not result["over_odds"] and not result["under_odds"]:
+        for line in lines:
+            ll   = line.lower()
+            odds = _parse_odds(line)
+            if not odds:
+                continue
+            if "over" in ll and "under" in ll and len(odds) >= 2:
+                result["over_odds"] = odds[0]; result["under_odds"] = odds[1]; break
+            elif "over" in ll:
+                result["over_odds"] = odds[0]
+            elif "under" in ll and "over" not in ll:
+                result["under_odds"] = odds[0]
 
     return result
 
@@ -893,18 +1074,15 @@ def _make_rec(market, live_odds, hist_rate, n_samples):
 
 def predict_football(model, live_matches):
     """
-    Only predict Over/Under 2.5 — league-wide rate is statistically valid.
-    1X2 predictions are omitted: home win rate is a league average,
-    not valid for a specific match at specific odds.
+    Predict Home Win, Draw, Away Win, Over 2.5, Under 2.5 per match.
+    All use league-wide historical rates as the baseline probability.
     """
     preds = []
     for league, matches in live_matches.items():
         m = model.get(league)
         if not m:
             continue
-        hist_over  = m["over_2_5_rate"]
-        hist_under = 1 - hist_over
-        n          = m["n"]
+        n = m["n"]
         for match in matches:
             match_name = match.get("match_name", "Unknown Match")
             week       = match.get("week")
@@ -912,8 +1090,15 @@ def predict_football(model, live_matches):
 
             recs = []
             for mkt_name, hist, live_odds in [
-                ("Over 2.5",  hist_over,  match.get("over_2_5")),
-                ("Under 2.5", hist_under, match.get("under_2_5")),
+                ("Home Win",  m["home_win_rate"],          match.get("home_win")),
+                ("Draw",      m["draw_rate"],               match.get("draw")),
+                ("Away Win",  m["away_win_rate"],           match.get("away_win")),
+                ("Over 1.5",  m["over_1_5_rate"],          match.get("over_1_5")),
+                ("Under 1.5", 1 - m["over_1_5_rate"],      match.get("under_1_5")),
+                ("Over 2.5",  m["over_2_5_rate"],          match.get("over_2_5")),
+                ("Under 2.5", 1 - m["over_2_5_rate"],      match.get("under_2_5")),
+                ("Over 3.5",  m["over_3_5_rate"],          match.get("over_3_5")),
+                ("Under 3.5", 1 - m["over_3_5_rate"],      match.get("under_3_5")),
             ]:
                 r = _make_rec(mkt_name, live_odds, hist, n)
                 if r and r["edge"] >= MIN_EDGE:
@@ -961,21 +1146,20 @@ def predict_racing(model, live_racing):
 
 
 # ═══════════════════════════════════════════════════════════
-#  SECTION 9 — OUTPUT: EXCEL + JSON
-#  File 1: all strong bets (edge >= STRONG_EDGE) per league/week
-#  File 2: single top pick per gameweek (highest edge)
+#  SECTION 9 — OUTPUT: 3 SEPARATE EXCEL FILES
+#
+#  Football_Strong_Bets_TIMESTAMP.xlsx
+#    — All strong bets (1X2 + O/U 1.5/2.5/3.5), per league/week
+#  Football_Top_Picks_TIMESTAMP.xlsx
+#    — 2 picks per (league, week): best 1X2 + best O/U 2.5
+#  Racing_Predictions_TIMESTAMP.xlsx
+#    — Even/Odd + Over/Under strong bets per venue
 # ═══════════════════════════════════════════════════════════
 
-def _flag(edge):
-    if edge >= STRONG_EDGE: return "STRONG"
-    if edge >= MIN_EDGE:    return "VALUE"
-    return "SKIP"
-
-
-def _build_flat_rows(all_preds, threshold):
+def _build_rows(preds, threshold):
     rows = []
     ts   = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    for pred in all_preds:
+    for pred in preds:
         for r in pred["recs"]:
             verdict = ("STRONG BET" if r["edge"] >= STRONG_EDGE
                        else "VALUE BET" if r["edge"] >= threshold
@@ -984,10 +1168,10 @@ def _build_flat_rows(all_preds, threshold):
                 "timestamp":      ts,
                 "sport":          pred["sport"],
                 "league":         pred["league"],
-                "week":           pred.get("week", ""),
+                "week":           pred.get("week") or "",
                 "match":          pred["label"],
                 "market":         r["market"],
-                "live_odds":      round(r["odds"],      2),
+                "live_odds":      round(r["odds"],       2),
                 "implied_pct":    round(r["implied"]    * 100, 2),
                 "historical_pct": round(r["historical"] * 100, 2),
                 "edge_pct":       round(r["edge"]       * 100, 2),
@@ -997,53 +1181,20 @@ def _build_flat_rows(all_preds, threshold):
     return rows
 
 
-def _top_pick_per_week(strong_rows):
-    """
-    For each (league, week) combination, return the single row with
-    the highest edge. For racing (no week), group by league alone.
-    """
-    groups = defaultdict(list)
-    for row in strong_rows:
-        wk  = row.get("week") or "next"
-        key = (row["league"], wk)
-        groups[key].append(row)
-    top = []
-    for rows in groups.values():
-        best = max(rows, key=lambda x: x["edge_pct"])
-        top.append(best)
-    return sorted(top, key=lambda x: -x["edge_pct"])
-
-
-def save_predictions(all_preds, threshold):
-    """
-    Save predictions to predictions/ folder:
-      - sportybet_strong_bets_TIMESTAMP.xlsx   (all strong bets)
-      - sportybet_top_pick_TIMESTAMP.xlsx       (one pick per week)
-      - sportybet_predictions_TIMESTAMP.json    (all value bets)
-    """
+def _xl_writer():
     try:
         import openpyxl
         from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
         from openpyxl.utils import get_column_letter
-        has_xl = True
+        return openpyxl, Font, PatternFill, Alignment, Border, Side, get_column_letter
     except ImportError:
         print("  ⚠ openpyxl not installed — skipping Excel. Run: pip install openpyxl", flush=True)
-        has_xl = False
+        return None
 
-    ts   = datetime.now().strftime("%Y%m%d_%H%M%S")
-    rows = _build_flat_rows(all_preds, threshold)
 
-    # ── JSON: all value bets ─────────────────────────────────
-    json_path = os.path.join(PRED_DIR, f"sportybet_predictions_{ts}.json")
-    value_rows  = [r for r in rows if r["verdict"] in ("STRONG BET", "VALUE BET")]
-    with open(json_path, "w", encoding="utf-8") as f:
-        json.dump(value_rows, f, indent=2, ensure_ascii=False)
-    print(f"  💾 JSON: {json_path}  ({len(value_rows)} value bets)", flush=True)
+def _write_xl(path, title, data_rows, xl_pkg):
+    openpyxl, Font, PatternFill, Alignment, Border, Side, get_column_letter = xl_pkg
 
-    if not has_xl:
-        return
-
-    # Shared style setup
     HDR_FILL    = PatternFill("solid", fgColor="1F3864")
     HDR_FONT    = Font(bold=True, color="FFFFFF", size=11)
     hdr_align   = Alignment(horizontal="center", vertical="center", wrap_text=True)
@@ -1052,114 +1203,160 @@ def save_predictions(all_preds, threshold):
     thin        = Side(style="thin", color="BBBBBB")
     border      = Border(left=thin, right=thin, top=thin, bottom=thin)
 
-    headers  = ["Timestamp", "Sport", "League / Venue", "Week", "Match / Race",
-                "Market", "Live Odds", "Implied %", "Historical %",
-                "Edge %", "N Samples", "Verdict"]
-    col_keys = ["timestamp", "sport", "league", "week", "match", "market",
-                "live_odds", "implied_pct", "historical_pct",
-                "edge_pct", "n_samples", "verdict"]
-    col_widths = [18, 10, 35, 7, 35, 14, 10, 10, 12, 10, 10, 14]
+    headers    = ["Timestamp", "Sport", "League / Venue", "Week", "Match / Race",
+                  "Market", "Live Odds", "Implied %", "Historical %",
+                  "Edge %", "N Samples", "Verdict"]
+    col_keys   = ["timestamp", "sport", "league", "week", "match", "market",
+                  "live_odds", "implied_pct", "historical_pct",
+                  "edge_pct", "n_samples", "verdict"]
+    col_widths = [18, 10, 30, 7, 35, 14, 10, 10, 12, 10, 10, 14]
     pct_keys   = {"implied_pct", "historical_pct", "edge_pct"}
 
-    def _write_sheet(ws, data_rows):
-        for ci, h in enumerate(headers, 1):
-            cell = ws.cell(row=1, column=ci, value=h)
-            cell.fill = HDR_FILL; cell.font = HDR_FONT; cell.alignment = hdr_align
-        ws.row_dimensions[1].height = 28
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = title
 
-        for ri, row in enumerate(data_rows, 2):
-            fill = STRONG_FILL if row["verdict"] == "STRONG BET" else VALUE_FILL
-            for ci, key in enumerate(col_keys, 1):
-                cell = ws.cell(row=ri, column=ci, value=row[key])
-                cell.border    = border
-                cell.alignment = Alignment(horizontal="center", vertical="center")
-                cell.fill      = fill
-                if key in ("verdict", "edge_pct"):
-                    cell.font = Font(bold=True)
-                if key in pct_keys:
-                    cell.number_format = '0.00"%"'
+    if not data_rows:
+        ws.cell(row=1, column=1, value="No qualifying bets found.")
+        wb.save(path)
+        return
 
-        for ci, w in enumerate(col_widths, 1):
-            ws.column_dimensions[get_column_letter(ci)].width = w
-        ws.freeze_panes = "A2"
-        if data_rows:
-            ws.auto_filter.ref = ws.dimensions
+    for ci, h in enumerate(headers, 1):
+        cell = ws.cell(row=1, column=ci, value=h)
+        cell.fill = HDR_FILL; cell.font = HDR_FONT; cell.alignment = hdr_align
+    ws.row_dimensions[1].height = 28
 
-    # ── Excel 1: all strong bets ────────────────────────────
-    strong_rows = [r for r in rows if r["verdict"] == "STRONG BET"]
-    strong_rows.sort(key=lambda x: (x["league"], x.get("week") or "", -x["edge_pct"]))
+    for ri, row in enumerate(data_rows, 2):
+        fill = STRONG_FILL if row["verdict"] == "STRONG BET" else VALUE_FILL
+        for ci, key in enumerate(col_keys, 1):
+            cell = ws.cell(row=ri, column=ci, value=row[key])
+            cell.border    = border
+            cell.alignment = Alignment(horizontal="center", vertical="center")
+            cell.fill      = fill
+            if key in ("verdict", "edge_pct"):
+                cell.font = Font(bold=True)
+            if key in pct_keys:
+                cell.number_format = '0.00"%"'
 
-    xl1_path = os.path.join(PRED_DIR, f"sportybet_strong_bets_{ts}.xlsx")
-    wb1 = openpyxl.Workbook()
-    ws1 = wb1.active
-    ws1.title = "Strong Bets"
-    if strong_rows:
-        _write_sheet(ws1, strong_rows)
-    else:
-        ws1.cell(row=1, column=1, value="No strong bets found at current threshold.")
-    wb1.save(xl1_path)
-    print(f"  💾 Strong bets: {xl1_path}  ({len(strong_rows)} bets)", flush=True)
-
-    # ── Excel 2: top pick per gameweek ──────────────────────
-    top_rows = _top_pick_per_week(strong_rows if strong_rows else value_rows)
-    xl2_path = os.path.join(PRED_DIR, f"sportybet_top_pick_{ts}.xlsx")
-    wb2 = openpyxl.Workbook()
-    ws2 = wb2.active
-    ws2.title = "Top Pick Per Week"
-    if top_rows:
-        _write_sheet(ws2, top_rows)
-    else:
-        ws2.cell(row=1, column=1, value="No picks available.")
-    wb2.save(xl2_path)
-    print(f"  💾 Top picks:   {xl2_path}  ({len(top_rows)} picks)", flush=True)
+    for ci, w in enumerate(col_widths, 1):
+        ws.column_dimensions[get_column_letter(ci)].width = w
+    ws.freeze_panes = "A2"
+    ws.auto_filter.ref = ws.dimensions
+    wb.save(path)
 
 
-def display_predictions(all_preds, threshold):
+def save_football_strong_bets(football_preds, ts):
+    """All strong bets: 1X2 + O/U 1.5/2.5/3.5, sorted by league/week/edge."""
+    xl_pkg = _xl_writer()
+    rows   = _build_rows(football_preds, MIN_EDGE)
+    strong = [r for r in rows if r["verdict"] == "STRONG BET"]
+    strong.sort(key=lambda x: (x["league"], x.get("week") or "", -x["edge_pct"]))
+
+    path = os.path.join(PRED_DIR, f"Football_Strong_Bets_{ts}.xlsx")
+    if xl_pkg:
+        _write_xl(path, "Strong Bets", strong, xl_pkg)
+        print(f"  💾 Football strong bets: {path}  ({len(strong)} bets)", flush=True)
+    return strong
+
+
+def save_football_top_picks(football_preds, ts):
+    """
+    2 picks per (league, week):
+      - best 1X2 pick (Home Win / Draw / Away Win)
+      - best O/U 2.5 pick (Over 2.5 / Under 2.5)
+    """
+    xl_pkg = _xl_writer()
+    rows   = _build_rows(football_preds, MIN_EDGE)
+    strong = [r for r in rows if r["verdict"] == "STRONG BET"]
+
+    WIN_DRAW_MKTS = {"Home Win", "Draw", "Away Win"}
+    OU25_MKTS     = {"Over 2.5", "Under 2.5"}
+
+    groups = defaultdict(lambda: {"wd": [], "ou": []})
+    for row in strong:
+        wk  = row.get("week") or "N/A"
+        key = (row["league"], wk)
+        if row["market"] in WIN_DRAW_MKTS:
+            groups[key]["wd"].append(row)
+        elif row["market"] in OU25_MKTS:
+            groups[key]["ou"].append(row)
+
+    picks = []
+    for (league, wk), cats in sorted(groups.items()):
+        if cats["wd"]:
+            picks.append(max(cats["wd"], key=lambda x: x["edge_pct"]))
+        if cats["ou"]:
+            picks.append(max(cats["ou"], key=lambda x: x["edge_pct"]))
+
+    picks.sort(key=lambda x: (x["league"], x.get("week") or "", -x["edge_pct"]))
+
+    path = os.path.join(PRED_DIR, f"Football_Top_Picks_{ts}.xlsx")
+    if xl_pkg:
+        _write_xl(path, "Top Picks Per Week", picks, xl_pkg)
+        print(f"  💾 Football top picks:   {path}  ({len(picks)} picks)", flush=True)
+    return picks
+
+
+def save_racing_predictions(racing_preds, ts):
+    """Even/Odd + Over/Under strong bets per venue."""
+    xl_pkg = _xl_writer()
+    rows   = _build_rows(racing_preds, MIN_EDGE)
+    strong = [r for r in rows if r["verdict"] == "STRONG BET"]
+    strong.sort(key=lambda x: (x["league"], -x["edge_pct"]))
+
+    path = os.path.join(PRED_DIR, f"Racing_Predictions_{ts}.xlsx")
+    if xl_pkg:
+        _write_xl(path, "Racing Predictions", strong, xl_pkg)
+        print(f"  💾 Racing predictions:   {path}  ({len(strong)} bets)", flush=True)
+    return strong
+
+
+def display_predictions(football_preds, racing_preds, threshold):
     w  = 92
     ts = datetime.now().strftime("%Y-%m-%d %H:%M")
     print("\n" + "═" * w)
-    print(f"  LIVE PREDICTIONS  [{ts}]   (showing STRONG bets only, edge >= {STRONG_EDGE*100:.0f}%)")
+    print(f"  LIVE PREDICTIONS  [{ts}]   (STRONG bets = edge >= {STRONG_EDGE*100:.0f}%)")
     print("═" * w)
+
+    all_preds   = football_preds + racing_preds
+    strong_bets = [
+        {**r, "sport": p["sport"], "league": p["league"],
+         "week": p.get("week"), "label": p["label"]}
+        for p in all_preds
+        for r in p["recs"]
+        if r["edge"] >= STRONG_EDGE
+    ]
 
     if not all_preds:
         print("\n  No predictions — live scraper may need DOM calibration.")
         print("  Check debug/ folder for debug_predictor_*.txt files.")
-        print("═" * w)
-        return
-
-    strong_bets = []
-
-    for pred in all_preds:
-        for r in pred["recs"]:
-            if r["edge"] >= STRONG_EDGE:
-                strong_bets.append({**r,
-                                    "sport":  pred["sport"],
-                                    "league": pred["league"],
-                                    "week":   pred.get("week"),
-                                    "label":  pred["label"]})
-
-    if not strong_bets:
+    elif not strong_bets:
         print(f"\n  No STRONG bets (edge >= {STRONG_EDGE*100:.0f}%) found right now.")
-        print("  Value bets (smaller edge) are still saved to the JSON file.")
+        print("  Reduce --min-edge or wait for better market conditions.")
     else:
         print(f"\n  {len(strong_bets)} STRONG BET(S) — sorted by edge:\n")
-        print(f"  {'Sport':<8} {'League':<35} {'Week':>5}  {'Market':<12} {'Odds':>6}  "
-              f"{'Hist%':>7}  {'Edge':>7}  N")
+        print(f"  {'Sport':<8} {'League':<30} {'Week':>5}  {'Market':<12} "
+              f"{'Odds':>6}  {'Hist%':>7}  {'Edge':>7}  N")
         print("  " + "─" * (w - 2))
         for vb in sorted(strong_bets, key=lambda x: -x["edge"]):
             wk = str(vb["week"]) if vb["week"] else "—"
-            print(f"  {vb['sport']:<8} {vb['league']:<35} {wk:>5}  "
+            print(f"  {vb['sport']:<8} {vb['league']:<30} {wk:>5}  "
                   f"{vb['market']:<12} {vb['odds']:>6.2f}  "
                   f"{vb['historical']*100:>6.1f}%  {vb['edge']*100:>+6.1f}%  {vb['n_samples']}")
 
     print("\n" + "═" * w)
     print()
-    print("  ⚠  These are virtual RNG games. Edge is calibrated vs historical data only.")
-    print("     Higher N = more statistically reliable. Never bet money you can't afford to lose.")
-    print("═" * w)
+    print("  ⚠  Virtual RNG games only. Edge calibrated vs historical data.")
+    print("     Higher N = more reliable. Never bet money you can't afford to lose.")
+    print("═" * w + "\n")
 
-    print()
-    save_predictions(all_preds, threshold)
+    # ── Save files ──────────────────────────────────────────
+    file_ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    if football_preds:
+        save_football_strong_bets(football_preds, file_ts)
+        save_football_top_picks(football_preds, file_ts)
+    if racing_preds:
+        save_racing_predictions(racing_preds, file_ts)
 
 
 # ═══════════════════════════════════════════════════════════
@@ -1254,7 +1451,7 @@ def main():
         # ── Predict ───────────────────────────────────────────
         fp = predict_football(football_model, live_football)
         rp = predict_racing(racing_model, live_racing)
-        display_predictions(fp + rp, threshold=MIN_EDGE)
+        display_predictions(fp, rp, threshold=MIN_EDGE)
 
     except Exception as e:
         print(f"\n  ✗ Error: {e}", flush=True)
