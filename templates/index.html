@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="text-center mb-5 mt-4">
+    <h1 class="display-5 fw-bold">Sportybet Virtual Predictor</h1>
+    <p class="text-muted lead">AI-powered predictions for virtual football & racing</p>
+    {% if not data_loaded %}
+    <div class="alert alert-warning d-inline-flex align-items-center gap-2 mt-3">
+        <div class="spinner-border spinner-border-sm" role="status"></div>
+        Loading historical data and building models... This may take a moment.
+    </div>
+    {% endif %}
+</div>
+
+<div class="row g-4 justify-content-center">
+    <div class="col-md-5">
+        <a href="/football" class="card sport-card p-4 text-decoration-none h-100">
+            <div class="text-center">
+                <div class="mb-3">
+                    <i class="bi bi-dribbble" style="font-size: 4rem; color: var(--accent);"></i>
+                </div>
+                <h2 class="fw-bold text-white mb-2">Football</h2>
+                <p class="text-muted mb-3">Virtual league predictions powered by Poisson models</p>
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <span class="badge bg-secondary">England</span>
+                    <span class="badge bg-secondary">France</span>
+                    <span class="badge bg-secondary">Germany</span>
+                    <span class="badge bg-secondary">Italy</span>
+                    <span class="badge bg-secondary">Spain</span>
+                    <span class="badge bg-secondary">Turkey</span>
+                </div>
+                <div class="mt-3">
+                    <small class="text-muted">
+                        <i class="bi bi-graph-up"></i> Match results, Over/Under, BTTS, Correct Score
+                    </small>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-5">
+        <a href="/racing" class="card sport-card p-4 text-decoration-none h-100">
+            <div class="text-center">
+                <div class="mb-3">
+                    <i class="bi bi-flag" style="font-size: 4rem; color: var(--accent);"></i>
+                </div>
+                <h2 class="fw-bold text-white mb-2">Racing</h2>
+                <p class="text-muted mb-3">Even/Odd & Over/Under analysis across all venues</p>
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <span class="badge bg-secondary">Greyhound</span>
+                    <span class="badge bg-secondary">Horse</span>
+                    <span class="badge bg-secondary">Speedway</span>
+                    <span class="badge bg-secondary">Motorbike</span>
+                </div>
+                <div class="mt-3">
+                    <small class="text-muted">
+                        <i class="bi bi-graph-up"></i> Even/Odd, Over/Under, Top Runners
+                    </small>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+{% if last_update %}
+<div class="text-center mt-5">
+    <div class="card d-inline-block p-3">
+        <small class="text-muted">
+            <i class="bi bi-clock"></i> Data last updated: <strong>{{ last_update }}</strong>
+            &mdash; Auto-updates every ~20s
+        </small>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

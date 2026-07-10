@@ -1,0 +1,647 @@
+[
+  {
+    "race_id": "3267059",
+    "sport": "Speedway Racing",
+    "race_name": "Bristol",
+    "race_date": "03/07/2026",
+    "race_time": "09:00",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Meriwether Booker"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Malcolm Farnham"
+      }
+    ],
+    "winner": "Meriwether Booker",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.72
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 4.64
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.69
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.16
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 2.33
+      }
+    }
+  },
+  {
+    "race_id": "3267057",
+    "sport": "Speedway Racing",
+    "race_name": "Bristol",
+    "race_date": "03/07/2026",
+    "race_time": "08:58",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Anatol Mullen"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Andrzej Bosko"
+      }
+    ],
+    "winner": "Anatol Mullen",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.78
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 8.42
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.5
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.36
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 4.6
+      }
+    }
+  },
+  {
+    "race_id": "3267055",
+    "sport": "Speedway Racing",
+    "race_name": "Bristol",
+    "race_date": "03/07/2026",
+    "race_time": "08:56",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Hans Kingston"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Magnus Smythe"
+      }
+    ],
+    "winner": "Hans Kingston",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.3
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 3.37
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.67
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.32
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 1.75
+      }
+    }
+  },
+  {
+    "race_id": "3267053",
+    "sport": "Speedway Racing",
+    "race_name": "Bristol",
+    "race_date": "03/07/2026",
+    "race_time": "08:54",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Malcolm Farnham"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Roland Frank"
+      }
+    ],
+    "winner": "Malcolm Farnham",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.7
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 6.14
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.32
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.85
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 3.27
+      }
+    }
+  },
+  {
+    "race_id": "3267051",
+    "sport": "Speedway Racing",
+    "race_name": "Bristol",
+    "race_date": "03/07/2026",
+    "race_time": "08:52",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Andrzej Bosko"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Jarle Seward"
+      }
+    ],
+    "winner": "Andrzej Bosko",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 4.64
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 9.26
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.89
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.44
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 4.18
+      }
+    }
+  },
+  {
+    "race_id": "3267049",
+    "sport": "Speedway Racing",
+    "race_name": "Bristol",
+    "race_date": "03/07/2026",
+    "race_time": "08:50",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Roland Frank"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Hans Kingston"
+      }
+    ],
+    "winner": "Roland Frank",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 4.89
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 9.97
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.47
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.92
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 4.48
+      }
+    }
+  },
+  {
+    "race_id": "3267047",
+    "sport": "Speedway Racing",
+    "race_name": "Bristol",
+    "race_date": "03/07/2026",
+    "race_time": "08:48",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Svante Ecclestone"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Anatol Mullen"
+      }
+    ],
+    "winner": "Svante Ecclestone",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 5.21
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 10.5
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.48
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.59
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 4.61
+      }
+    }
+  },
+  {
+    "race_id": "3267045",
+    "sport": "Speedway Racing",
+    "race_name": "Bristol",
+    "race_date": "03/07/2026",
+    "race_time": "08:46",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Roland Frank"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Anatol Mullen"
+      }
+    ],
+    "winner": "Roland Frank",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.63
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 6.05
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.2
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.32
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 3.26
+      }
+    }
+  },
+  {
+    "race_id": "3267043",
+    "sport": "Speedway Racing",
+    "race_name": "Bristol",
+    "race_date": "03/07/2026",
+    "race_time": "08:44",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Hans Kingston"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Malcolm Farnham"
+      }
+    ],
+    "winner": "Hans Kingston",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 3.56
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 6.62
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.56
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.83
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 3.12
+      }
+    }
+  },
+  {
+    "race_id": "3267041",
+    "sport": "Speedway Racing",
+    "race_name": "Bristol",
+    "race_date": "03/07/2026",
+    "race_time": "08:42",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Svante Ecclestone"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Andrzej Bosko"
+      }
+    ],
+    "winner": "Svante Ecclestone",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 3.54
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 6.76
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.32
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.42
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 3.21
+      }
+    }
+  },
+  {
+    "race_id": "3267039",
+    "sport": "Speedway Racing",
+    "race_name": "Bristol",
+    "race_date": "03/07/2026",
+    "race_time": "08:40",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Mickey Stenger"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Manny Clarke"
+      }
+    ],
+    "winner": "Mickey Stenger",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 3.1
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 8.85
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.54
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.21
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 4.68
+      }
+    }
+  },
+  {
+    "race_id": "3267037",
+    "sport": "Speedway Racing",
+    "race_name": "Bristol",
+    "race_date": "03/07/2026",
+    "race_time": "08:38",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Russel Horn"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Svante Ecclestone"
+      }
+    ],
+    "winner": "Russel Horn",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.61
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 5.06
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.58
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.22
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 2.65
+      }
+    }
+  },
+  {
+    "race_id": "3267035",
+    "sport": "Speedway Racing",
+    "race_name": "Bristol",
+    "race_date": "03/07/2026",
+    "race_time": "08:36",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Anatol Mullen"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Hans Kingston"
+      }
+    ],
+    "winner": "Anatol Mullen",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.68
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 6.9
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.52
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.26
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 3.74
+      }
+    }
+  },
+  {
+    "race_id": "3267033",
+    "sport": "Speedway Racing",
+    "race_name": "Bristol",
+    "race_date": "03/07/2026",
+    "race_time": "08:34",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Anatol Mullen"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Quentin Stefan"
+      }
+    ],
+    "winner": "Anatol Mullen",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 6.66
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 14.2
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.82
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.61
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 6.14
+      }
+    }
+  },
+  {
+    "race_id": "3267031",
+    "sport": "Speedway Racing",
+    "race_name": "Bristol",
+    "race_date": "03/07/2026",
+    "race_time": "08:32",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Hans Kingston"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Svante Ecclestone"
+      }
+    ],
+    "winner": "Hans Kingston",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 3.35
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 10.6
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.69
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.65
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 5.51
+      }
+    }
+  }
+]

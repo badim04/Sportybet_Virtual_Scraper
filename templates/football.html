@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Football — SportyPredict{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active">Football</li>
+    </ol>
+</nav>
+
+<h2 class="fw-bold mb-4"><i class="bi bi-dribbble"></i> Football Leagues</h2>
+
+<div class="row g-4">
+    {% for lg in leagues %}
+    <div class="col-md-4 col-sm-6">
+        <a href="/football/{{ lg.name.lower() }}" class="card sport-card card-accent p-3 text-decoration-none h-100">
+            <div class="d-flex align-items-center mb-3">
+                <h4 class="fw-bold text-white mb-0 me-auto">{{ lg.name }}</h4>
+                {% if lg.has_data %}
+                <span class="badge" style="background: var(--accent);">Live</span>
+                {% else %}
+                <span class="badge bg-secondary">No Data</span>
+                {% endif %}
+            </div>
+            <div class="row g-2 text-center">
+                <div class="col-4">
+                    <div class="stat-value" style="font-size:1.4rem;">{{ lg.teams }}</div>
+                    <div class="stat-label">Teams</div>
+                </div>
+                <div class="col-4">
+                    <div class="stat-value" style="font-size:1.4rem;">{{ lg.current_week }}</div>
+                    <div class="stat-label">Week</div>
+                </div>
+                <div class="col-4">
+                    <div class="stat-value" style="font-size:1.4rem;">S{{ lg.current_season }}</div>
+                    <div class="stat-label">Season</div>
+                </div>
+            </div>
+            {% if lg.has_data %}
+            <div class="progress-thin mt-3">
+                {% set pct = (lg.current_week / lg.total_weeks * 100) | int %}
+                <div class="progress-bar" style="width: {{ pct }}%; background: var(--accent);" role="progressbar"></div>
+            </div>
+            <small class="text-muted mt-1 d-block">Week {{ lg.current_week }} / {{ lg.total_weeks }}</small>
+            {% endif %}
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

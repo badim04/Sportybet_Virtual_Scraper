@@ -1,0 +1,778 @@
+[
+  {
+    "race_id": "2223590",
+    "sport": "Horse Racing",
+    "race_name": "Golden Gate Fields",
+    "race_date": "03/07/2026",
+    "race_time": "13:07",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Recital"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Pannolino"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Carolino"
+      }
+    ],
+    "winner": "Recital",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.71
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 8.77
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.49
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.6
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 4.78
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 47.4
+      }
+    }
+  },
+  {
+    "race_id": "2223587",
+    "sport": "Horse Racing",
+    "race_name": "Golden Gate Fields",
+    "race_date": "03/07/2026",
+    "race_time": "13:04",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Cani Da Caccia"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Ravi"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Re Dei Re"
+      }
+    ],
+    "winner": "Cani Da Caccia",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 3.1
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 16.8
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.72
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.81
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 9.24
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 36.6
+      }
+    }
+  },
+  {
+    "race_id": "2223584",
+    "sport": "Horse Racing",
+    "race_name": "Golden Gate Fields",
+    "race_date": "03/07/2026",
+    "race_time": "13:01",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Robin"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Dentino"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Sayonara Baby"
+      }
+    ],
+    "winner": "Robin",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 5.79
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 15.5
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 2.73
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 2.5
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 7.1
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 91.0
+      }
+    }
+  },
+  {
+    "race_id": "2223581",
+    "sport": "Horse Racing",
+    "race_name": "Golden Gate Fields",
+    "race_date": "03/07/2026",
+    "race_time": "12:58",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Bufaletto"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Modello"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Calabrese"
+      }
+    ],
+    "winner": "Bufaletto",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 5.91
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 51.9
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.66
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.76
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 26.9
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "2223578",
+    "sport": "Horse Racing",
+    "race_name": "Golden Gate Fields",
+    "race_date": "03/07/2026",
+    "race_time": "12:55",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Cani Da Caccia"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Buffo"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Run Bolero"
+      }
+    ],
+    "winner": "Cani Da Caccia",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.84
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 17.3
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.74
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.98
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 9.76
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 40.1
+      }
+    }
+  },
+  {
+    "race_id": "2223575",
+    "sport": "Horse Racing",
+    "race_name": "Golden Gate Fields",
+    "race_date": "03/07/2026",
+    "race_time": "12:52",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Scirone"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Pungolo"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Uccello Del Paradiso"
+      }
+    ],
+    "winner": "Scirone",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.63
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 31.5
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.22
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.28
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 18.5
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "2223572",
+    "sport": "Horse Racing",
+    "race_name": "Golden Gate Fields",
+    "race_date": "03/07/2026",
+    "race_time": "12:49",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Telemaco"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Giraffa"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Coccode"
+      }
+    ],
+    "winner": "Telemaco",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 6.48
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 16.5
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.58
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 3.51
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 7.35
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 27.8
+      }
+    }
+  },
+  {
+    "race_id": "2223569",
+    "sport": "Horse Racing",
+    "race_name": "Golden Gate Fields",
+    "race_date": "03/07/2026",
+    "race_time": "12:46",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Reg"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Pluto"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Piccolo"
+      }
+    ],
+    "winner": "Reg",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 6.29
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 14.5
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 2.18
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.58
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 6.3
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 37.4
+      }
+    }
+  },
+  {
+    "race_id": "2223566",
+    "sport": "Horse Racing",
+    "race_name": "Golden Gate Fields",
+    "race_date": "03/07/2026",
+    "race_time": "12:43",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "The Gardener"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Sam Sam"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Matched II"
+      }
+    ],
+    "winner": "The Gardener",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.54
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 6.54
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.35
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 2.18
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 3.54
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 11.1
+      }
+    }
+  },
+  {
+    "race_id": "2223563",
+    "sport": "Horse Racing",
+    "race_name": "Golden Gate Fields",
+    "race_date": "03/07/2026",
+    "race_time": "12:40",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Orione"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Regolo"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Rink"
+      }
+    ],
+    "winner": "Orione",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 19.3
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 48.4
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.67
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.27
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 19.9
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "2223560",
+    "sport": "Horse Racing",
+    "race_name": "Golden Gate Fields",
+    "race_date": "03/07/2026",
+    "race_time": "12:37",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Reginn"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Tanai"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Tafio"
+      }
+    ],
+    "winner": "Reginn",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 3.16
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 7.03
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.8
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.65
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 3.49
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 30.1
+      }
+    }
+  },
+  {
+    "race_id": "2223557",
+    "sport": "Horse Racing",
+    "race_name": "Golden Gate Fields",
+    "race_date": "03/07/2026",
+    "race_time": "12:34",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Kind Marsha"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Telefo"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Quentin"
+      }
+    ],
+    "winner": "Kind Marsha",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.85
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 7.09
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 2.28
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.53
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 3.69
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 9.96
+      }
+    }
+  },
+  {
+    "race_id": "2223554",
+    "sport": "Horse Racing",
+    "race_name": "Golden Gate Fields",
+    "race_date": "03/07/2026",
+    "race_time": "12:31",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Reg"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Balena"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Brigadier"
+      }
+    ],
+    "winner": "Reg",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 4.38
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 51.3
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.78
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.69
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 27.8
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "2223551",
+    "sport": "Horse Racing",
+    "race_name": "Golden Gate Fields",
+    "race_date": "03/07/2026",
+    "race_time": "12:28",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Scamandro"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Camaleonte"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Pepperkorn"
+      }
+    ],
+    "winner": "Scamandro",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 3.06
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 13.5
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.32
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.75
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 7.35
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 67.6
+      }
+    }
+  },
+  {
+    "race_id": "2223548",
+    "sport": "Horse Racing",
+    "race_name": "Golden Gate Fields",
+    "race_date": "03/07/2026",
+    "race_time": "12:25",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Sam Sam"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Teofane"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Taumante"
+      }
+    ],
+    "winner": "Sam Sam",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 4.08
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 9.29
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.35
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.48
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 4.36
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 29.4
+      }
+    }
+  }
+]

@@ -1,0 +1,776 @@
+[
+  {
+    "race_id": "3265525",
+    "sport": "Horse Racing",
+    "race_name": "Queen Mary",
+    "race_date": "07/07/2026",
+    "race_time": "17:16",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Albacete"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Capricorno"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Tinto"
+      }
+    ],
+    "winner": "Albacete",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.89
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 17.7
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.28
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.66
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 10.1
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 80.3
+      }
+    }
+  },
+  {
+    "race_id": "3265523",
+    "sport": "Horse Racing",
+    "race_name": "Queen Mary",
+    "race_date": "07/07/2026",
+    "race_time": "17:14",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Carolino"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Tarchezio"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Finito"
+      }
+    ],
+    "winner": "Carolino",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 11.6
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 32.8
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.79
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.86
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 14.1
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3265521",
+    "sport": "Horse Racing",
+    "race_name": "Queen Mary",
+    "race_date": "07/07/2026",
+    "race_time": "17:12",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Raphis"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Recio"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Pannolino"
+      }
+    ],
+    "winner": "Raphis",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 10.3
+      },
+      "exacta": {
+        "runners": []
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 2.55
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 2.58
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 52.6
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3265519",
+    "sport": "Horse Racing",
+    "race_name": "Queen Mary",
+    "race_date": "07/07/2026",
+    "race_time": "17:10",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Bussola"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Tarpea"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Narvik"
+      }
+    ],
+    "winner": "Bussola",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.72
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 18.9
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.72
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.65
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 11.0
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 82.3
+      }
+    }
+  },
+  {
+    "race_id": "3265517",
+    "sport": "Horse Racing",
+    "race_name": "Queen Mary",
+    "race_date": "07/07/2026",
+    "race_time": "17:08",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Rais"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Sayonara Baby"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Talao"
+      }
+    ],
+    "winner": "Rais",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.45
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 4.58
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.18
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.16
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 2.39
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 18.8
+      }
+    }
+  },
+  {
+    "race_id": "3265515",
+    "sport": "Horse Racing",
+    "race_name": "Queen Mary",
+    "race_date": "07/07/2026",
+    "race_time": "17:06",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Tano Cho"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Pannolino"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Renard"
+      }
+    ],
+    "winner": "Tano Cho",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 3.55
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 7.62
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.27
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.32
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 3.63
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 32.3
+      }
+    }
+  },
+  {
+    "race_id": "3265513",
+    "sport": "Horse Racing",
+    "race_name": "Queen Mary",
+    "race_date": "07/07/2026",
+    "race_time": "17:04",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Rho"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Rachi"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Accelerato"
+      }
+    ],
+    "winner": "Rho",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 3.06
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 7.03
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.86
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.32
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 3.56
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 31.1
+      }
+    }
+  },
+  {
+    "race_id": "3265511",
+    "sport": "Horse Racing",
+    "race_name": "Queen Mary",
+    "race_date": "07/07/2026",
+    "race_time": "17:02",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Giraffa"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Ercole"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Temi"
+      }
+    ],
+    "winner": "Giraffa",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.96
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 24.8
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.36
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.95
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 14.3
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 53.9
+      }
+    }
+  },
+  {
+    "race_id": "3265509",
+    "sport": "Horse Racing",
+    "race_name": "Queen Mary",
+    "race_date": "07/07/2026",
+    "race_time": "17:00",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Archimede"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Liberato"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Artax"
+      }
+    ],
+    "winner": "Archimede",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 7.06
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 57.4
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 2.11
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.73
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 29.5
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3265507",
+    "sport": "Horse Racing",
+    "race_name": "Queen Mary",
+    "race_date": "07/07/2026",
+    "race_time": "16:58",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Matched II"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Lince"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Lahara"
+      }
+    ],
+    "winner": "Matched II",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.68
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 5.85
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 2.03
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.54
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 3.06
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 10.6
+      }
+    }
+  },
+  {
+    "race_id": "3265505",
+    "sport": "Horse Racing",
+    "race_name": "Queen Mary",
+    "race_date": "07/07/2026",
+    "race_time": "16:56",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Dardo"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Reg"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Dinklage"
+      }
+    ],
+    "winner": "Dardo",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 22.0
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 62.5
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.55
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 2.36
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 26.1
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3265503",
+    "sport": "Horse Racing",
+    "race_name": "Queen Mary",
+    "race_date": "07/07/2026",
+    "race_time": "16:54",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Lolita"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Smilin Stan"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Pegaso"
+      }
+    ],
+    "winner": "Lolita",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 4.57
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 19.6
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.34
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 2.29
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 10.0
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3265501",
+    "sport": "Horse Racing",
+    "race_name": "Queen Mary",
+    "race_date": "07/07/2026",
+    "race_time": "16:52",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Re"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Codacorta"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Regolo"
+      }
+    ],
+    "winner": "Re",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.34
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 16.0
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.61
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.23
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 9.71
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 32.6
+      }
+    }
+  },
+  {
+    "race_id": "3265499",
+    "sport": "Horse Racing",
+    "race_name": "Queen Mary",
+    "race_date": "07/07/2026",
+    "race_time": "16:50",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Lahara"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Fammifare"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Pittore"
+      }
+    ],
+    "winner": "Lahara",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 4.36
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 9.12
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 3.3
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 3.39
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 4.1
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 11.8
+      }
+    }
+  },
+  {
+    "race_id": "3265497",
+    "sport": "Horse Racing",
+    "race_name": "Queen Mary",
+    "race_date": "07/07/2026",
+    "race_time": "16:48",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Yerba Buena"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Red"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Cavallino"
+      }
+    ],
+    "winner": "Yerba Buena",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 21.4
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 62.7
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 2.27
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.05
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 26.5
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 78.7
+      }
+    }
+  }
+]

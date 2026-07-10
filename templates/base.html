@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sportybet Virtual Predictor{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #00d4aa;
+            --accent-dim: #00a888;
+            --bg-card: #1a1d23;
+            --bg-body: #0f1117;
+            --bg-surface: #161921;
+        }
+        body {
+            background: var(--bg-body);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: #e0e0e0;
+        }
+        .navbar {
+            background: var(--bg-surface) !important;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--accent) !important;
+            letter-spacing: 0.5px;
+        }
+        .nav-link { color: #aaa !important; transition: color 0.2s; }
+        .nav-link:hover, .nav-link.active { color: var(--accent) !important; }
+        .card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+        }
+        .card-accent {
+            border-left: 3px solid var(--accent);
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .badge-hw { background: #1b5e20; color: #c8e6c9; }
+        .badge-draw { background: #e65100; color: #ffe0b2; }
+        .badge-aw { background: #b71c1c; color: #ffcdd2; }
+        .badge-over { background: #1565c0; color: #bbdefb; }
+        .badge-under { background: #6a1b9a; color: #e1bee7; }
+        .badge-even { background: #00695c; color: #b2dfdb; }
+        .badge-odd { background: #4527a0; color: #d1c4e9; }
+        .table-dark { --bs-table-bg: transparent; }
+        .table-dark th {
+            background: rgba(0,212,170,0.1);
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .table-dark td { border-color: rgba(255,255,255,0.04); }
+        .table-dark tbody tr:hover { background: rgba(0,212,170,0.05); }
+        .sport-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .sport-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,212,170,0.15);
+        }
+        .top-pick-card {
+            background: linear-gradient(135deg, #1a2a1a 0%, #1a1d23 100%);
+            border: 1px solid rgba(0,212,170,0.3);
+        }
+        .pulse { animation: pulse 2s ease-in-out infinite; }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .progress-thin { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.06); }
+        .progress-thin .progress-bar { border-radius: 3px; }
+        .confidence-bar { height: 4px; border-radius: 2px; }
+        .status-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            display: inline-block; margin-right: 6px;
+        }
+        .status-dot.live { background: #4caf50; }
+        .status-dot.waiting { background: #ff9800; }
+        .status-dot.error { background: #f44336; }
+        a { color: var(--accent); }
+        a:hover { color: #fff; }
+        .breadcrumb-item a { color: #888; }
+        .breadcrumb-item.active { color: var(--accent); }
+        footer { border-top: 1px solid rgba(255,255,255,0.06); }
+    </style>
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-trophy"></i> SportyPredict
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="nav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if '/football' in request.path %}active{% endif %}" href="/football">
+                            <i class="bi bi-dribbble"></i> Football
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if '/racing' in request.path %}active{% endif %}" href="/racing">
+                            <i class="bi bi-flag"></i> Racing
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if '/bankers' in request.path %}active{% endif %}" href="/bankers" style="color: #ffd54a !important;">
+                            <i class="bi bi-star-fill"></i> Bankers
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/status' %}active{% endif %}" href="/status">
+                            <i class="bi bi-heart-pulse"></i> Status
+                        </a>
+                    </li>
+                </ul>
+                <span class="navbar-text small" id="status-bar">
+                    {% if last_update %}
+                        <span class="status-dot live"></span> Updated: {{ last_update }}
+                    {% else %}
+                        <span class="status-dot waiting pulse"></span> Loading data...
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-4">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="py-3 mt-5">
+        <div class="container text-center">
+            <small class="text-muted">Sportybet Virtual Predictor &mdash; Auto-updates every ~20s</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function updateStatus() {
+            fetch('/api/status')
+                .then(r => r.json())
+                .then(d => {
+                    const bar = document.getElementById('status-bar');
+                    if (!bar) return;
+                    const dot = d.scraper_running ? 'waiting pulse' : (d.data_loaded ? 'live' : 'error');
+                    const text = d.last_update ? 'Updated: ' + d.last_update : d.scraper_status;
+                    bar.innerHTML = `<span class="status-dot ${dot}"></span> ${text}`;
+                })
+                .catch(() => {});
+        }
+        setInterval(updateStatus, 15000);
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

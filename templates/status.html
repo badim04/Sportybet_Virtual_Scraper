@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Status — SportyPredict{% endblock %}
+
+{% block content %}
+<meta http-equiv="refresh" content="30">
+
+<div class="d-flex align-items-center mb-3 flex-wrap gap-3">
+    <div>
+        <h2 class="fw-bold mb-0"><i class="bi bi-heart-pulse" style="color: var(--accent);"></i> App Status</h2>
+        <small class="text-muted">Auto-refreshes every 30 seconds — version {{ version }}</small>
+    </div>
+    <div class="ms-auto text-end">
+        {% if all_ok %}
+        <span class="badge bg-success fs-6 px-3 py-2"><i class="bi bi-check-circle"></i> ALL SYSTEMS WORKING</span>
+        {% else %}
+        <span class="badge bg-danger fs-6 px-3 py-2"><i class="bi bi-exclamation-triangle"></i> SOMETHING NEEDS ATTENTION</span>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    {% for c in comps %}
+    <div class="col-md-6 col-lg-4">
+        <div class="card p-3 h-100" style="border-left: 4px solid {{ '#22c55e' if c.ok else ('#666' if c.unknown else '#ef4444') }};">
+            <div class="d-flex align-items-center mb-1">
+                {% if c.ok %}
+                <i class="bi bi-check-circle-fill me-2" style="color:#22c55e;"></i>
+                {% elif c.unknown %}
+                <i class="bi bi-hourglass-split me-2 text-muted"></i>
+                {% else %}
+                <i class="bi bi-x-circle-fill me-2" style="color:#ef4444;"></i>
+                {% endif %}
+                <strong>{{ c.label }}</strong>
+            </div>
+            <small class="text-muted d-block mb-1">{{ c.desc }}</small>
+            {% if c.ok %}
+            <small style="color:#22c55e;">Working — last success {{ c.ok_at }}</small>
+            {% elif c.unknown %}
+            <small class="text-muted">No activity yet (normal right after startup)</small>
+            {% else %}
+            <small class="text-danger d-block">Failing: {{ c.error }}</small>
+            {% if c.ok_at %}<small class="text-muted">Last worked: {{ c.ok_at }}</small>{% endif %}
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h6 class="fw-bold mb-2"><i class="bi bi-clock-history"></i> Last data update</h6>
+            <div class="fs-5">{{ last_update or "not yet" }}</div>
+            <small class="text-muted">Predictions were last refreshed at this time. If this is more than ~10 minutes old, check the cards above.</small>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h6 class="fw-bold mb-2"><i class="bi bi-calendar-week"></i> Current gameweeks</h6>
+            <div>
+                {% for lg, wk in current_weeks.items() %}
+                <span class="badge bg-secondary me-1 mb-1">{{ lg }}: GW{{ wk }}</span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if not all_ok %}
+<div class="alert" style="background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); color:#fff;">
+    <strong><i class="bi bi-wrench-adjustable"></i> Something failing?</strong>
+    <small class="d-block mt-1">
+        Most problems self-heal within ~10 minutes (session rejections, internet drops, waking from sleep).
+        If a card stays red longer than that: close the app and double-click <code>fix_stuck.bat</code> in the
+        project folder. Full guide: <code>TROUBLESHOOTING.md</code>.
+    </small>
+</div>
+{% endif %}
+{% endblock %}

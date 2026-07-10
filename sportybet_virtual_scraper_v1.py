@@ -171,12 +171,30 @@ def create_stealth_browser(headless=False, proxy_server=None, stealth_mode="adva
     launch_kwargs = {
         "headless": headless,
         "args": args,
-        "channel": "chrome",          # use real installed Chrome, not Playwright Chromium
         "ignore_default_args": ["--enable-automation"],
     }
     if proxy_server:
         launch_kwargs["proxy"] = {"server": proxy_server}
-    browser = pw.chromium.launch(**launch_kwargs)
+
+    # Prefer real installed Chrome (best stealth); fall back to Edge (present
+    # on every Windows box) and finally Playwright's bundled Chromium, so the
+    # app still works on machines without Chrome.
+    browser = None
+    last_err = None
+    for channel in ("chrome", "msedge", None):
+        try:
+            kw = dict(launch_kwargs)
+            if channel:
+                kw["channel"] = channel
+            browser = pw.chromium.launch(**kw)
+            if channel != "chrome":
+                print(f"  ⚠ Chrome not found — using {channel or 'bundled Chromium'}")
+            break
+        except Exception as e:
+            last_err = e
+    if browser is None:
+        pw.stop()
+        raise last_err
     ctx_kwargs = {"viewport": {"width": 1280, "height": 900}, "locale": "en-US",
                   "timezone_id": "America/New_York", "extra_http_headers": {"Accept-Language": "en-US,en;q=0.9"}}
     if stealth_mode == "advanced":
@@ -846,6 +864,17 @@ def assign_season_numbers(matches):
     return matches
 
 
+HEARTBEAT = None  # set by app.py's watchdog; called at scrape progress points
+
+
+def _heartbeat():
+    if HEARTBEAT:
+        try:
+            HEARTBEAT()
+        except Exception:
+            pass
+
+
 def _scrape_and_load_until(frame, league_name, seen_ids, all_matches,
                             target_total, date_label=""):
     """
@@ -877,6 +906,7 @@ def _scrape_and_load_until(frame, league_name, seen_ids, all_matches,
 
     while len(all_matches) < target_total:
         _check_pause()
+        _heartbeat()
         if not click_load_more(frame):
             print(f"    ℹ Load More exhausted after {click_count} clicks")
             break
@@ -1083,7 +1113,8 @@ def scrape_match_detail_dropdown(frame, match_id):
 
 
 def scrape_league_results(frame, league_name, target_seasons=5,
-                          first_league=True, detail_seasons=0):
+                          first_league=True, detail_seasons=0,
+                          target_matches=None):
     """
     Scrape Results History for one league.
 
@@ -1091,6 +1122,8 @@ def scrape_league_results(frame, league_name, target_seasons=5,
                       we have this many seasons of match results.
     detail_seasons  — additionally expand each match for full dropdown detail
                       (only for the most recent N seasons). 0 = skip.
+    target_matches  — override the match target directly (e.g. ~30 for a
+                      light "latest gameweeks only" incremental scrape).
 
     Season detection: week number resets (38→1 going forward in time) mark
     season boundaries. Season 1 = most recent.
@@ -1098,8 +1131,9 @@ def scrape_league_results(frame, league_name, target_seasons=5,
     from datetime import date as _date, timedelta as _td
 
     mps = MATCHES_PER_SEASON.get(league_name, 380)
-    target_matches = target_seasons * mps
-    print(f"\n  🎯 Target: {target_seasons} seasons × {mps} matches = {target_matches} matches")
+    if target_matches is None:
+        target_matches = target_seasons * mps
+    print(f"\n  🎯 Target: {target_matches} matches (~{target_matches / mps:.2f} seasons)")
 
     # ── Navigate to Results History ────────────────────────────────────────
     if first_league or not already_on_results_history(frame):
@@ -1124,6 +1158,7 @@ def scrape_league_results(frame, league_name, target_seasons=5,
     # ── Keep going back day by day until we hit the target ────────────────
     while len(all_matches) < target_matches:
         _check_pause()
+        _heartbeat()
 
         if day_offset == 0:
             label = "today"

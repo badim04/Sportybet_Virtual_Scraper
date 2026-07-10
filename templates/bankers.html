@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block title %}Bankers — SportyPredict{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center mb-2 flex-wrap gap-3">
+    <div>
+        <h2 class="fw-bold mb-0"><i class="bi bi-star-fill" style="color:#ffd54a;"></i> Bankers</h2>
+        <small class="text-muted">Plays with the highest live-verified hit rates, rebuilt from every evaluated prediction</small>
+    </div>
+</div>
+
+{% macro streak_line(st) %}
+{% if st %}
+<div class="mt-1" style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 4px;">
+    <small class="{% if st.current >= 3 %}text-danger fw-bold{% else %}text-muted{% endif %}" title="Consecutive losses — for martingale staking">
+        losing now: <strong>{{ st.current }}</strong> in a row
+    </small><br>
+    <small class="text-muted">worst streak — 2d: <strong>{{ st.d2 }}</strong> · 7d: <strong>{{ st.d7 }}</strong> · 30d: <strong>{{ st.d30 }}</strong> · ever: <strong>{{ st.max }}</strong></small>
+</div>
+{% endif %}
+{% endmacro %}
+
+{% if banker_record %}
+<div class="d-flex gap-3 mb-3 flex-wrap">
+    {% if banker_record.one %}
+    <div class="card p-2 px-3 text-center">
+        <div class="stat-value" style="font-size:1.3rem; color:#4ade80;">{{ banker_record.one.w }}/{{ banker_record.one.n }}</div>
+        <div class="stat-label">single banker record ({{ banker_record.one.win_pct }}%, ROI {{ banker_record.one.roi }}%)</div>
+        {{ streak_line(banker_streaks.get('one')) }}
+    </div>
+    {% endif %}
+    {% if banker_record.two %}
+    <div class="card p-2 px-3 text-center">
+        <div class="stat-value" style="font-size:1.3rem; color:#ffd54a;">{{ banker_record.two.w }}/{{ banker_record.two.n }}</div>
+        <div class="stat-label">2-odds banker record ({{ banker_record.two.win_pct }}%, ROI {{ banker_record.two.roi }}%)</div>
+        {{ streak_line(banker_streaks.get('two')) }}
+    </div>
+    {% endif %}
+    {% if banker_record.three %}
+    <div class="card p-2 px-3 text-center">
+        <div class="stat-value" style="font-size:1.3rem; color:#ff9d3a;">{{ banker_record.three.w }}/{{ banker_record.three.n }}</div>
+        <div class="stat-label">3-odds ticket record ({{ banker_record.three.win_pct }}%, ROI {{ banker_record.three.roi }}%)</div>
+        {{ streak_line(banker_streaks.get('three')) }}
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+
+<div class="alert d-flex align-items-center gap-2 mb-4" style="background: rgba(255,213,74,0.08); border: 1px solid rgba(255,213,74,0.3); color:#fff;">
+    <i class="bi bi-info-circle" style="color:#ffd54a;"></i>
+    <small>
+        "Verified" = real measured hit rate of this play type across all evaluated predictions so far
+        {% if rates.ou60.n %}(O/U at 60%+ confidence: <strong>{{ rates.ou60.hit }}%</strong> over {{ rates.ou60.n }} matches){% endif %}.
+        These rates keep updating as more matches finish. Nothing wins always — stake accordingly.
+    </small>
+</div>
+
+{% macro ticket_table(items, color, kind) %}
+{% if items %}
+<div class="table-responsive mb-3">
+    <table class="table table-dark table-sm align-middle mb-0">
+        <thead>
+            <tr><th>League</th><th>GW</th><th>Match &amp; Call{% if kind != 'single' %}s{% endif %}</th><th>Model conf</th><th>Total odds</th><th>Est. win</th></tr>
+        </thead>
+        <tbody>
+            {% for t in items %}
+            <tr {% if loop.first %}style="background: rgba(255,213,74,0.06);"{% endif %}>
+                <td>{{ t.league }}</td>
+                <td>{{ t.gw }}</td>
+                <td>
+                    {% for l in t.legs %}
+                    <span class="me-2 text-nowrap"><strong>{{ l.desc }}</strong>
+                    <span class="badge {% if l.call == 'O2.5' %}bg-info text-dark{% elif l.call == 'U2.5' %}bg-secondary{% else %}badge-hw{% endif %}">{{ l.call }}</span>
+                    <small>@{{ l.odds }}</small></span>{% if not loop.last %}<small class="text-muted">+ </small>{% endif %}
+                    {% endfor %}
+                    {% if t.provisional %}<span class="badge bg-secondary" title="No verified-tier legs this GW — market-priced picks">prov.</span>{% endif %}
+                </td>
+                <td><small>{% for l in t.legs %}{{ l.conf | round(1) if l.conf else '—' }}%{% if not loop.last %} · {% endif %}{% endfor %}</small></td>
+                <td><span class="badge" style="background:{{ color }}; color:#000;">{{ t.total }}</span></td>
+                <td><strong style="color:{{ color }};">≈{{ t.p }}%</strong></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="text-muted mb-3"><small>— none qualifying in this wave yet (fills in as odds are scraped)</small></div>
+{% endif %}
+{% endmacro %}
+
+{% for w in waves %}
+<div class="card p-3 mb-4" {% if loop.first %}style="border: 1px solid rgba(255,213,74,0.5);"{% endif %}>
+    <h5 class="fw-bold mb-3">
+        {% if w.idx == 0 %}
+        <i class="bi bi-lightning-fill" style="color:#ffd54a;"></i> NOW / NEXT — playing or about to start
+        <span class="badge bg-danger ms-1">LIVE WINDOW</span>
+        {% else %}
+        <i class="bi bi-clock"></i> +{{ w.idx }} GW <small class="text-muted">(~{{ (w.idx * 4.5) | round | int }} min later)</small>
+        {% endif %}
+    </h5>
+
+    <h6 class="fw-bold" style="color:#4ade80;"><i class="bi bi-1-circle"></i> Top Singles <small class="text-muted">(martingale-safe — surest first)</small></h6>
+    {{ ticket_table(w.singles, '#4ade80', 'single') }}
+
+    <h6 class="fw-bold" style="color:#ffd54a;"><i class="bi bi-2-circle"></i> 2-Odds Bankers <small class="text-muted">(2.05–2.90 total)</small></h6>
+    {{ ticket_table(w.twos, '#ffd54a', 'multi') }}
+
+    <h6 class="fw-bold" style="color:#ff9d3a;"><i class="bi bi-3-circle"></i> 3-Odds Tickets <small class="text-muted">(3.05–3.90 total, different picks)</small></h6>
+    {{ ticket_table(w.threes, '#ff9d3a', 'multi') }}
+</div>
+{% else %}
+<div class="alert alert-info"><small>Waiting for fresh odds — waves appear a few minutes after scraping starts.</small></div>
+{% endfor %}
+
+<div class="alert mt-4" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color:#aaa;">
+    <small>
+        <i class="bi bi-shield-exclamation"></i> Honest math: a single at ~2.0 odds with a 60%+ verified rate is a genuinely good play
+        (the O/U 60%+ confidence picks are currently the only type achieving it). A ~3.0-odds ticket
+        can't reach 60% — the best verified double sits around 40–45%. The 1X2 market itself is
+        calibrated with a margin, so no 1X2 odds bracket beats its implied probability long-term.
+    </small>
+</div>
+{% endblock %}

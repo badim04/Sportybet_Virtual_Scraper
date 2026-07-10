@@ -1,0 +1,482 @@
+{% extends "base.html" %}
+{% block title %}{{ venue_key }} — SportyPredict{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item"><a href="/racing">Racing</a></li>
+        <li class="breadcrumb-item active">{{ model.venue if model is defined else venue_key }}</li>
+    </ol>
+</nav>
+
+{% if error %}
+<div class="alert alert-warning">
+    <i class="bi bi-exclamation-triangle"></i> No data available for <strong>{{ venue_key }}</strong>.
+</div>
+{% else %}
+
+<!-- Header -->
+<div class="d-flex align-items-center mb-4 flex-wrap gap-3">
+    <div>
+        <h2 class="fw-bold mb-0"><i class="bi bi-flag"></i> {{ model.venue }}</h2>
+        <small class="text-muted">{{ model.sport }} &mdash; {{ model.n }} races analyzed</small>
+    </div>
+    <div class="ms-auto d-flex gap-3">
+        <div class="card p-2 px-3 text-center">
+            <div class="stat-value" style="font-size:1.5rem;">{{ model.n }}</div>
+            <div class="stat-label">Races</div>
+        </div>
+        {% if model.avg_win_odds %}
+        <div class="card p-2 px-3 text-center">
+            <div class="stat-value" style="font-size:1.5rem;">{{ model.avg_win_odds | round(2) }}</div>
+            <div class="stat-label">Avg Win Odds</div>
+        </div>
+        {% endif %}
+        <div class="card p-2 px-3 text-center">
+            <div class="stat-value" style="font-size:1.5rem;">{{ model.total_unique_runners }}</div>
+            <div class="stat-label">Runners</div>
+        </div>
+    </div>
+</div>
+
+<!-- Market Analysis -->
+<div class="row g-4 mb-4">
+    {% if model.even_rate is not none %}
+    <div class="col-md-6">
+        <div class="card p-4">
+            <h5 class="fw-bold mb-3"><i class="bi bi-shuffle"></i> Even / Odd Pattern</h5>
+            <div class="row text-center mb-3">
+                <div class="col-6">
+                    <div class="stat-value">{{ (model.even_rate * 100) | round(1) }}%</div>
+                    <div class="stat-label">Even</div>
+                </div>
+                <div class="col-6">
+                    <div class="stat-value" style="color: #bb86fc;">{{ (model.odd_rate * 100) | round(1) }}%</div>
+                    <div class="stat-label">Odd</div>
+                </div>
+            </div>
+            <div class="progress-thin mb-2">
+                {% set even_pct = (model.even_rate * 100) | round | int %}
+                <div class="progress-bar" style="width: {{ even_pct }}%; background: var(--accent);" role="progressbar"></div>
+            </div>
+            <!-- Recent streak -->
+            {% if model.eo_sequence %}
+            <div class="mt-2 text-center">
+                <small class="text-muted">Last 10: </small>
+                {% for r in model.eo_sequence[:10] %}
+                <span class="badge {% if r == 'E' %}bg-success{% else %}bg-warning text-dark{% endif %}" style="font-size:0.7rem;">{{ r }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if model.over_rate is not none %}
+    <div class="col-md-6">
+        <div class="card p-4">
+            <h5 class="fw-bold mb-3"><i class="bi bi-arrow-up-right"></i> Over / Under Pattern</h5>
+            <div class="row text-center mb-3">
+                <div class="col-6">
+                    <div class="stat-value" style="color: #64b5f6;">{{ (model.over_rate * 100) | round(1) }}%</div>
+                    <div class="stat-label">Over</div>
+                </div>
+                <div class="col-6">
+                    <div class="stat-value" style="color: #ce93d8;">{{ (model.under_rate * 100) | round(1) }}%</div>
+                    <div class="stat-label">Under</div>
+                </div>
+            </div>
+            <div class="progress-thin mb-2">
+                {% set over_pct = (model.over_rate * 100) | round | int %}
+                <div class="progress-bar" style="width: {{ over_pct }}%; background: #64b5f6;" role="progressbar"></div>
+            </div>
+            {% if model.ou_sequence %}
+            <div class="mt-2 text-center">
+                <small class="text-muted">Last 10: </small>
+                {% for r in model.ou_sequence[:10] %}
+                <span class="badge {% if r == 'O' %}bg-info{% else %}bg-secondary{% endif %}" style="font-size:0.7rem;">{{ r }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% if accuracy and accuracy.evaluated %}
+<!-- Accuracy panel -->
+<div class="card p-3 mb-4" style="border: 1px solid rgba(0,212,170,0.3);">
+    <div class="d-flex align-items-center flex-wrap gap-4">
+        <h6 class="fw-bold mb-0"><i class="bi bi-bullseye" style="color: var(--accent);"></i>
+            Prediction Accuracy</h6>
+        <small class="text-muted">{{ accuracy.evaluated }} races evaluated</small>
+        {% if accuracy.winner_pct is not none %}
+        <div class="text-center"><div class="stat-value" style="font-size:1.1rem;">{{ accuracy.winner_pct }}%</div><div class="stat-label">Winner</div></div>
+        {% endif %}
+        {% if accuracy.top3_pct is not none %}
+        <div class="text-center"><div class="stat-value" style="font-size:1.1rem;">{{ accuracy.top3_pct }}%</div><div class="stat-label">Winner in Top 3</div></div>
+        {% endif %}
+        {% if accuracy.eo_pct is not none %}
+        <div class="text-center"><div class="stat-value" style="font-size:1.1rem;">{{ accuracy.eo_pct }}%</div><div class="stat-label">Even/Odd</div></div>
+        {% endif %}
+        {% if accuracy.ou_pct is not none %}
+        <div class="text-center"><div class="stat-value" style="font-size:1.1rem;">{{ accuracy.ou_pct }}%</div><div class="stat-label">Over/Under</div></div>
+        {% endif %}
+        {% if accuracy.exacta_pct is not none %}
+        <div class="text-center"><div class="stat-value" style="font-size:1.1rem;">{{ accuracy.exacta_pct }}%</div><div class="stat-label">Exacta</div></div>
+        {% endif %}
+        {% if accuracy.quinella_pct is not none %}
+        <div class="text-center"><div class="stat-value" style="font-size:1.1rem;">{{ accuracy.quinella_pct }}%</div><div class="stat-label">Quinella</div></div>
+        {% endif %}
+        {% if accuracy.trifecta_pct is not none %}
+        <div class="text-center"><div class="stat-value" style="font-size:1.1rem;">{{ accuracy.trifecta_pct }}%</div><div class="stat-label">Trifecta</div></div>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+
+<!-- Tab Navigation -->
+<ul class="nav nav-tabs mb-4" role="tablist">
+    <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#upcoming" type="button">
+            <i class="bi bi-lightning"></i> Live &amp; Upcoming Races
+        </button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#improved" type="button" style="color: #00ff88;">
+            <i class="bi bi-graph-up-arrow"></i> Improved Picks
+        </button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#history" type="button">
+            <i class="bi bi-clock-history"></i> Recent Results
+        </button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#runners" type="button">
+            <i class="bi bi-people"></i> Top Runners
+        </button>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <!-- Live & Upcoming Races -->
+    <div class="tab-pane fade show active" id="upcoming">
+        {% if races %}
+            {% for p in races %}
+            <div class="card mb-4 p-0" style="overflow: hidden; {% if loop.first %}border: 2px solid var(--accent);{% endif %}">
+                <div class="d-flex align-items-center px-3 py-2" style="background: rgba(0,212,170,{{ '0.15' if loop.first else '0.05' }});">
+                    <h6 class="fw-bold mb-0">
+                        <i class="bi bi-stopwatch" style="color: var(--accent);"></i>
+                        Race #{{ p.race_id }}
+                        {% if p.countdown %}<span class="text-muted ms-2" style="font-weight:400;">starts in {{ p.countdown }}</span>{% endif %}
+                    </h6>
+                    {% if p.status %}
+                    <span class="badge ms-2 {% if p.status in ('WATCH','NOW') %}bg-danger{% else %}bg-secondary{% endif %}">{{ p.status }}</span>
+                    {% endif %}
+                    <span class="ms-auto">
+                        {% if p.imp_ready and p.imp_winner_pick %}
+                        <span class="badge" style="background: #00ff88; color:#000;" title="Re-ranked by this venue's measured pattern of which predicted rank actually wins">
+                            TOP PICK: {{ p.imp_winner_pick.badge }} {{ p.imp_winner_pick.name }} ({{ p.imp_winner_pick.win_prob }}%)
+                        </span>
+                        {% endif %}
+                        <span class="badge" style="background: var(--accent); color:#000;">
+                            MODEL: {{ p.winner_pick.badge }} {{ p.winner_pick.name }} ({{ p.winner_pick.win_prob }}%)
+                        </span>
+                    </span>
+                </div>
+                {% if accuracy and accuracy.rank_rates %}
+                <div class="px-3 py-1" style="background: rgba(255,255,255,0.03);">
+                    <small class="text-muted">
+                        Venue pattern ({{ accuracy.rankwin_eval }} races): winner comes from our
+                        {% for rk, rate in accuracy.rank_rates.items() %}
+                        <span class="{% if loop.index <= 3 %}fw-bold{% endif %}" {% if rk != '1' and rk != 1 %}style="color:#00ff88;"{% endif %}>pick {{ rk }} → {{ rate }}%</span>{% if not loop.last %} · {% endif %}
+                        {% endfor %}
+                    </small>
+                </div>
+                {% endif %}
+                <div class="row g-0">
+                    <div class="col-lg-6 p-2">
+                        <table class="table table-dark table-sm align-middle mb-0">
+                            <thead>
+                                <tr><th>#</th><th>Runner</th><th>Form</th><th>Win%</th><th>Odds W</th><th>P</th><th>S</th></tr>
+                            </thead>
+                            <tbody>
+                                {% for rn in p.runners %}
+                                <tr {% if loop.first %}style="background: rgba(0,212,170,0.08);"{% endif %}>
+                                    <td><span class="badge bg-secondary">{{ rn.badge or '?' }}</span></td>
+                                    <td class="fw-bold">{{ rn.name }}</td>
+                                    <td><small class="text-muted">{{ rn.form }}</small></td>
+                                    <td class="{% if loop.first %}fw-bold{% endif %}" style="color: var(--accent);">{{ rn.win_prob }}%</td>
+                                    <td><small>{{ rn.win_odds or '—' }}</small></td>
+                                    <td><small>{{ rn.place_odds or '—' }}</small></td>
+                                    <td><small>{{ rn.show_odds or '—' }}</small></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-lg-6 p-3">
+                        <div class="d-flex flex-wrap gap-3 mb-3">
+                            <div>
+                                <div class="stat-label mb-1">Even / Odd</div>
+                                <span class="badge {% if p.eo_prediction == 'E' %}bg-success{% else %}bg-warning text-dark{% endif %} px-3">
+                                    {{ 'EVEN' if p.eo_prediction == 'E' else 'ODD' }}
+                                </span>
+                                <span class="ms-1 {% if p.eo_confidence >= 60 %}fw-bold{% endif %}">{{ p.eo_confidence }}%</span>
+                                {% if p.eo_odds_even or p.eo_odds_odd %}
+                                <small class="text-muted d-block mt-1">odds E {{ p.eo_odds_even or '—' }} / O {{ p.eo_odds_odd or '—' }}</small>
+                                {% endif %}
+                            </div>
+                            <div>
+                                <div class="stat-label mb-1">Over / Under</div>
+                                <span class="badge {% if p.ou_prediction == 'OVER' %}bg-info{% else %}bg-secondary{% endif %} px-3">{{ p.ou_prediction }}</span>
+                                <span class="ms-1 {% if p.ou_confidence >= 60 %}fw-bold{% endif %}">{{ p.ou_confidence }}%</span>
+                                {% if p.ou_odds_over or p.ou_odds_under %}
+                                <small class="text-muted d-block mt-1">odds O {{ p.ou_odds_over or '—' }} / U {{ p.ou_odds_under or '—' }}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="col-4">
+                                <div class="stat-label mb-1">Exacta (1st → 2nd)</div>
+                                {% for c in p.exacta %}
+                                <div><small><span class="badge bg-secondary">{{ c.runners[0].badge }}</span> → <span class="badge bg-secondary">{{ c.runners[1].badge }}</span> {{ c.runners[0].name }} → {{ c.runners[1].name }} <span style="color: var(--accent);">{{ c.prob }}%</span></small></div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-label mb-1">Quinella (any order)</div>
+                                {% for c in p.quinella %}
+                                <div><small><span class="badge bg-secondary">{{ c.runners[0].badge }}</span> + <span class="badge bg-secondary">{{ c.runners[1].badge }}</span> {{ c.runners[0].name }} + {{ c.runners[1].name }} <span style="color: var(--accent);">{{ c.prob }}%</span></small></div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-label mb-1">Trifecta (1-2-3)</div>
+                                {% for c in p.trifecta %}
+                                <div><small>{% for r in c.runners %}<span class="badge bg-secondary">{{ r.badge }}</span>{% if not loop.last %}→{% endif %}{% endfor %} <span style="color: var(--accent);">{{ c.prob }}%</span></small></div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+        <div class="alert alert-info d-flex align-items-center gap-2">
+            <div class="spinner-border spinner-border-sm" role="status"></div>
+            <div>
+                <strong>Waiting for live race data...</strong><br>
+                <small>The scraper is collecting upcoming races (runners &amp; odds) from Sportybet. This updates automatically — races appear a few minutes after the app starts.</small>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Improved Picks (rank-pattern learned) -->
+    <div class="tab-pane fade" id="improved">
+        {% if accuracy and accuracy.rank_rates %}
+        <div class="alert d-flex align-items-center gap-2 mb-3" style="background: rgba(0,255,136,0.08); border: 1px solid rgba(0,255,136,0.3); color: #fff;">
+            <i class="bi bi-info-circle" style="color: #00ff88;"></i>
+            <small>
+                Learned from <strong>{{ accuracy.rankwin_eval }}</strong> evaluated races at this venue — how often the actual winner
+                came from each of our predicted ranks:
+                {% for rk, rate in accuracy.rank_rates.items() %}
+                <span class="badge bg-secondary ms-1">pick {{ rk }} → {{ rate }}%</span>
+                {% endfor %}
+                {% if accuracy.imp_winner_pct is not none %}
+                <span class="d-block mt-1">Improved winner accuracy so far: <strong style="color:#00ff88;">{{ accuracy.imp_winner_pct }}%</strong>
+                vs standard {{ accuracy.winner_pct }}% ({{ accuracy.imp_eval }} races)</span>
+                {% endif %}
+            </small>
+        </div>
+        {% endif %}
+        {% set imp_races = races | selectattr('imp_ready') | list if races else [] %}
+        {% if imp_races %}
+            {% for p in imp_races %}
+            <div class="card mb-4 p-0" style="overflow: hidden; {% if loop.first %}border: 2px solid #00ff88;{% endif %}">
+                <div class="d-flex align-items-center px-3 py-2" style="background: rgba(0,255,136,{{ '0.12' if loop.first else '0.04' }});">
+                    <h6 class="fw-bold mb-0">
+                        <i class="bi bi-stopwatch" style="color: #00ff88;"></i>
+                        Race #{{ p.race_id }}
+                        {% if p.countdown %}<span class="text-muted ms-2" style="font-weight:400;">starts in {{ p.countdown }}</span>{% endif %}
+                    </h6>
+                    {% if p.status %}
+                    <span class="badge ms-2 {% if p.status in ('WATCH','NOW') %}bg-danger{% else %}bg-secondary{% endif %}">{{ p.status }}</span>
+                    {% endif %}
+                    <span class="ms-auto">
+                        <span class="badge" style="background: #00ff88; color:#000;">
+                            IMPROVED PICK: {{ p.imp_winner_pick.badge }} {{ p.imp_winner_pick.name }} ({{ p.imp_winner_pick.win_prob }}%)
+                        </span>
+                    </span>
+                </div>
+                <div class="row g-0">
+                    <div class="col-lg-6 p-2">
+                        <table class="table table-dark table-sm align-middle mb-0">
+                            <thead>
+                                <tr><th>#</th><th>Runner</th><th>Form</th><th>Win%</th><th>Odds W</th></tr>
+                            </thead>
+                            <tbody>
+                                {% for rn in p.imp_runners %}
+                                <tr {% if loop.first %}style="background: rgba(0,255,136,0.08);"{% endif %}>
+                                    <td><span class="badge bg-secondary">{{ rn.badge or '?' }}</span></td>
+                                    <td class="fw-bold">{{ rn.name }}</td>
+                                    <td><small class="text-muted">{{ rn.form }}</small></td>
+                                    <td class="{% if loop.first %}fw-bold{% endif %}" style="color: #00ff88;">{{ rn.win_prob }}%</td>
+                                    <td><small>{{ rn.win_odds or '—' }}</small></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-lg-6 p-3">
+                        <div class="row g-2">
+                            <div class="col-4">
+                                <div class="stat-label mb-1">Exacta (1st → 2nd)</div>
+                                {% for c in p.imp_exacta %}
+                                <div><small><span class="badge bg-secondary">{{ c.runners[0].badge }}</span> → <span class="badge bg-secondary">{{ c.runners[1].badge }}</span> {{ c.runners[0].name }} → {{ c.runners[1].name }} <span style="color: #00ff88;">{{ c.prob }}%</span></small></div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-label mb-1">Quinella (any order)</div>
+                                {% for c in p.imp_quinella %}
+                                <div><small><span class="badge bg-secondary">{{ c.runners[0].badge }}</span> + <span class="badge bg-secondary">{{ c.runners[1].badge }}</span> {{ c.runners[0].name }} + {{ c.runners[1].name }} <span style="color: #00ff88;">{{ c.prob }}%</span></small></div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-label mb-1">Trifecta (1-2-3)</div>
+                                {% for c in p.imp_trifecta %}
+                                <div><small>{% for r in c.runners %}<span class="badge bg-secondary">{{ r.badge }}</span>{% if not loop.last %}→{% endif %}{% endfor %} <span style="color: #00ff88;">{{ c.prob }}%</span></small></div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <small class="text-muted d-block mt-3">
+                            Even/Odd and Over/Under picks are the same as the standard tab — the rank pattern only re-orders the runner picks.
+                        </small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+        <div class="alert alert-info d-flex align-items-center gap-2">
+            <i class="bi bi-hourglass-split"></i>
+            <div>
+                <strong>Still learning this venue's pattern...</strong><br>
+                <small>Improved picks activate after 30 races have been predicted and evaluated here
+                ({{ accuracy.rankwin_eval if accuracy else 0 }}/30 so far). The standard predictions tab works in the meantime.</small>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Recent Results -->
+    <div class="tab-pane fade" id="history">
+        {% if model.recent_races %}
+        <div class="table-responsive">
+            <table class="table table-dark table-sm align-middle">
+                <thead>
+                    <tr>
+                        <th>Race #</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Winner</th>
+                        <th>2nd</th>
+                        <th>3rd</th>
+                        <th>Win Odds</th>
+                        <th>E/O</th>
+                        <th>O/U</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in model.recent_races %}
+                    <tr>
+                        <td class="fw-bold">{{ r.race_num }}</td>
+                        <td><small class="text-muted">{{ r.date }}</small></td>
+                        <td><small>{{ r.time }}</small></td>
+                        <td class="fw-bold" style="color: var(--accent);">{{ r.winner }}</td>
+                        <td>{{ r.runners[1] if r.runners | length > 1 else '—' }}</td>
+                        <td>{{ r.runners[2] if r.runners | length > 2 else '—' }}</td>
+                        <td>
+                            {% if r.win_odds %}
+                            <span class="{% if r.win_odds > 5 %}text-warning{% endif %}">{{ r.win_odds }}</span>
+                            {% else %}&mdash;{% endif %}
+                        </td>
+                        <td>
+                            <span class="badge {% if r.eo_result == 'E' %}bg-success{% elif r.eo_result == 'O' %}bg-warning text-dark{% endif %}" style="font-size:0.7rem;">
+                                {{ r.eo_result or '—' }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge {% if r.ou_result == 'O' %}bg-info{% elif r.ou_result == 'U' %}bg-secondary{% endif %}" style="font-size:0.7rem;">
+                                {{ r.ou_result or '—' }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Top Runners -->
+    <div class="tab-pane fade" id="runners">
+        {% if model.top_winners %}
+        <div class="table-responsive">
+            <table class="table table-dark table-sm align-middle">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Runner</th>
+                        <th>Wins</th>
+                        <th>Appearances</th>
+                        <th>Win Rate</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for name, count in model.top_winners[:15] %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td class="fw-bold">{{ name }}</td>
+                        <td style="color: var(--accent);">{{ count }}</td>
+                        <td>{{ model.runner_appearances.get(name, count) }}</td>
+                        <td>
+                            {% set apps = model.runner_appearances.get(name, count) %}
+                            {% set wr = (count / apps * 100) | round(1) %}
+                            <span class="{% if wr >= 10 %}fw-bold text-success{% endif %}">{{ wr }}%</span>
+                        </td>
+                        <td>
+                            <div class="progress-thin" style="width: 120px;">
+                                {% set wp = (count / model.n * 100) | round | int %}
+                                <div class="progress-bar" style="width: {{ [wp * 5, 100] | min }}%; background: var(--accent);" role="progressbar"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endif %}
+
+{% block scripts %}
+<script>
+    let lastUpdate = "{{ last_update }}";
+    setInterval(() => {
+        fetch('/api/status')
+            .then(r => r.json())
+            .then(d => {
+                if (d.last_update && d.last_update !== lastUpdate) {
+                    lastUpdate = d.last_update;
+                    location.reload();
+                }
+            })
+            .catch(() => {});
+    }, 30000);
+</script>
+{% endblock %}
+{% endblock %}

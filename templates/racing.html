@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Racing — SportyPredict{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active">Racing</li>
+    </ol>
+</nav>
+
+<h2 class="fw-bold mb-4"><i class="bi bi-flag"></i> Racing Sports</h2>
+
+{% if not sports %}
+<div class="alert alert-warning">
+    <i class="bi bi-exclamation-triangle"></i> No racing data available yet. The scraper will collect data automatically.
+</div>
+{% endif %}
+
+{% for sport, venues in sports | dictsort %}
+<div class="mb-5">
+    <h4 class="fw-bold mb-3">
+        {% if 'Greyhound' in sport %}
+        <i class="bi bi-speedometer"></i>
+        {% elif 'Horse' in sport %}
+        <i class="bi bi-trophy"></i>
+        {% elif 'Speedway' in sport %}
+        <i class="bi bi-lightning"></i>
+        {% else %}
+        <i class="bi bi-flag-fill"></i>
+        {% endif %}
+        {{ sport }}
+        <span class="badge bg-secondary ms-2">{{ venues | length }} venue{{ 's' if venues | length > 1 }}</span>
+    </h4>
+
+    <div class="row g-3">
+        {% for v in venues %}
+        <div class="col-md-4 col-sm-6">
+            <a href="/racing/{{ v.key }}" class="card sport-card card-accent p-3 text-decoration-none h-100">
+                <h5 class="fw-bold text-white mb-3">
+                    {{ v.venue }}
+                    {% if v.upcoming %}
+                    <span class="badge ms-1" style="background: var(--accent); color:#000; font-size:0.65rem;">{{ v.upcoming }} LIVE</span>
+                    {% endif %}
+                    {% if v.winner_pct is not none %}
+                    <span class="badge bg-secondary ms-1" style="font-size:0.65rem;">Winner {{ v.winner_pct }}%</span>
+                    {% endif %}
+                </h5>
+                <div class="row text-center g-2">
+                    <div class="col-4">
+                        <div class="stat-value" style="font-size:1.2rem;">{{ v.n }}</div>
+                        <div class="stat-label">Races</div>
+                    </div>
+                    <div class="col-4">
+                        {% if v.even_rate is not none %}
+                        <div class="stat-value" style="font-size:1.2rem;">{{ (v.even_rate * 100) | round(1) }}%</div>
+                        <div class="stat-label">Even</div>
+                        {% else %}
+                        <div class="stat-value" style="font-size:1.2rem;">—</div>
+                        <div class="stat-label">E/O</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-4">
+                        {% if v.over_rate is not none %}
+                        <div class="stat-value" style="font-size:1.2rem;">{{ (v.over_rate * 100) | round(1) }}%</div>
+                        <div class="stat-label">Over</div>
+                        {% else %}
+                        <div class="stat-value" style="font-size:1.2rem;">—</div>
+                        <div class="stat-label">O/U</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
