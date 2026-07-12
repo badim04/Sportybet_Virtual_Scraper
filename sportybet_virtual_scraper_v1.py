@@ -456,7 +456,27 @@ def click_league_top_tab_js(frame, league_name):
     Click the league tab at the TOP of the Results History page.
     The real DOM uses <DIV class="item ng-star-inserted"> for these tabs — NOT anchors.
     Selected tab has class "item selected ng-star-inserted".
+    The tab strip renders LATE (after the calendar), so retry for ~12s
+    before giving up.
     """
+    clicked = None
+    for attempt in range(6):
+        clicked = _try_click_league_top_tab(frame, league_name)
+        if clicked:
+            break
+        _heartbeat()
+        time.sleep(2)
+
+    if clicked:
+        print(f"    ✓ Clicked top tab '{league_name}' via {clicked}")
+        return True
+
+    print(f"    ⚠ Top tab '{league_name}' not found after retries — dumping")
+    dump_frame_debug(frame, f"top_tab_{league_name}_fail")
+    return False
+
+
+def _try_click_league_top_tab(frame, league_name):
     clicked = frame.evaluate(f"""(league) => {{
         // Primary: div.item elements (confirmed from real DOM)
         const divItems = Array.from(document.querySelectorAll('div.item, div[class*="item"]'));
@@ -478,14 +498,7 @@ def click_league_top_tab_js(frame, league_name):
         }}
         return null;
     }}""", league_name)
-
-    if clicked:
-        print(f"    ✓ Clicked top tab '{league_name}' via {clicked}")
-        return True
-
-    print(f"    ⚠ Top tab '{league_name}' not found — dumping")
-    dump_frame_debug(frame, f"top_tab_{league_name}_fail")
-    return False
+    return clicked
 
 
 # ─────────────────────────────────────────────────────────────

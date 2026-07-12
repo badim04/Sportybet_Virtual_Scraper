@@ -32,7 +32,7 @@ else:
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     PROJECT_DIR = BASE_DIR
 
-APP_VERSION = "v12-2026.07.10"
+APP_VERSION = "v13-2026.07.11"
 
 DATA_DIR = os.path.join(PROJECT_DIR, "data")
 ACCURACY_DIR = os.path.join(DATA_DIR, "accuracy")
@@ -1786,7 +1786,18 @@ def rebuild_models():
             cur_weeks[league] = odds_weeks.get(league, detect_current_week(league_data, league))
             cur_seasons[league] = detect_current_season(league_data, league)
 
+    # Small recent-results cache for the auto-bettor's result cross-check
+    recent_results = {}
+    for lg, ms in league_data.items():
+        recent_results[lg] = [
+            {"week": m.get("week"), "home": m.get("home_team"),
+             "away": m.get("away_team"), "hs": m.get("home_score"),
+             "as": m.get("away_score"), "_file_ts": m.get("_file_ts", "")}
+            for m in ms[-150:]
+        ]
+
     with state_lock:
+        state["recent_results"] = recent_results
         state["history_counts"] = {lg: len(ms) for lg, ms in league_data.items()}
         state["football_models"] = football_models
         state["football_tables"] = football_tables
@@ -2911,6 +2922,7 @@ def _try_full_scrape():
         _register_driver("scraper", pw)
         try:
             print("  [Scraper] Full scrape: 4 seasons per league...", flush=True)
+            done = set()
             for li, league in enumerate(FOOTBALL_LEAGUES):
                 _beat("scraper")
                 try:
@@ -2923,10 +2935,30 @@ def _try_full_scrape():
                         with open(fname, "w", encoding="utf-8") as f:
                             json.dump(matches, f, indent=2, ensure_ascii=False)
                         print(f"  [Scraper] Saved {len(matches)} {league} matches", flush=True)
+                        done.add(league)
                 except Exception as e:
                     print(f"  [Scraper] Error scraping {league}: {e}", flush=True)
                 if li < len(FOOTBALL_LEAGUES) - 1:
                     time.sleep(10)
+
+            # Second pass: leagues that got nothing (the first league often
+            # runs while the page is still settling, so e.g. England can
+            # come up empty on a fresh install)
+            for league in [lg for lg in FOOTBALL_LEAGUES if lg not in done]:
+                _beat("scraper")
+                print(f"  [Scraper] Retrying {league} (0 matches on first pass)", flush=True)
+                try:
+                    matches, _ = results_mod.scrape_league_results(
+                        frame, league, target_seasons=4,
+                        first_league=True, detail_seasons=0,
+                    )
+                    if matches:
+                        fname = os.path.join(DATA_DIR, f"sportybet_results_{league.lower()}_{ts}.json")
+                        with open(fname, "w", encoding="utf-8") as f:
+                            json.dump(matches, f, indent=2, ensure_ascii=False)
+                        print(f"  [Scraper] Saved {len(matches)} {league} matches (retry)", flush=True)
+                except Exception as e:
+                    print(f"  [Scraper] Retry error for {league}: {e}", flush=True)
 
             # Racing history: one full day per sport (Load More until exhausted)
             for sport in RACING_SPORTS:
@@ -2993,6 +3025,7 @@ def _try_quick_scrape():
         try:
             print("  [Scraper] Quick scrape: latest GWs per league + odds...", flush=True)
             res_saved = 0
+            missing = []
             for li, league in enumerate(FOOTBALL_LEAGUES):
                 _beat("scraper")
                 try:
@@ -3007,10 +3040,32 @@ def _try_quick_scrape():
                             json.dump(matches, f, indent=2, ensure_ascii=False)
                         print(f"  [Scraper] Saved {len(matches)} {league} matches (quick)", flush=True)
                         res_saved += 1
+                    else:
+                        missing.append(league)
                 except Exception as e:
                     print(f"  [Scraper] Error scraping {league}: {e}", flush=True)
+                    missing.append(league)
                 if li < len(FOOTBALL_LEAGUES) - 1:
                     time.sleep(5)
+
+            # One retry pass for leagues that came up empty
+            for league in missing:
+                _beat("scraper")
+                print(f"  [Scraper] Retrying {league} (0 matches on first pass)", flush=True)
+                try:
+                    matches, _ = results_mod.scrape_league_results(
+                        frame, league, target_seasons=1,
+                        first_league=True, detail_seasons=0,
+                        target_matches=LEAGUE_TEAM_COUNT.get(league, 20) // 2 * 3,
+                    )
+                    if matches:
+                        fname = os.path.join(DATA_DIR, f"sportybet_results_{league.lower()}_{ts}.json")
+                        with open(fname, "w", encoding="utf-8") as f:
+                            json.dump(matches, f, indent=2, ensure_ascii=False)
+                        print(f"  [Scraper] Saved {len(matches)} {league} matches (retry)", flush=True)
+                        res_saved += 1
+                except Exception as e:
+                    print(f"  [Scraper] Retry error for {league}: {e}", flush=True)
             if res_saved:
                 _health("results_scrape")
             else:
@@ -3839,7 +3894,7 @@ def compute_banker_streaks(league=None):
                     ts = datetime.strptime(rec.get("ts", ""), "%Y-%m-%d %H:%M")
                 except (ValueError, TypeError):
                     continue
-                seqs[kind].append((ts, bool(rec.get("won"))))
+                seqs[kind].append((ts, bool(rec.get("won")), rec.get("odds") or 0))
     except FileNotFoundError:
         pass
     except Exception:
@@ -3853,17 +3908,19 @@ def compute_banker_streaks(league=None):
 
         def max_streak(items):
             worst = cur = 0
-            for _, won in items:
-                cur = 0 if won else cur + 1
+            for item in items:
+                cur = 0 if item[1] else cur + 1
                 worst = max(worst, cur)
             return worst
 
         current = 0
-        for _, won in reversed(seq):
-            if won:
+        for item in reversed(seq):
+            if item[1]:
                 break
             current += 1
 
+        wins = sum(1 for item in seq if item[1])
+        ret = sum(item[2] for item in seq if item[1])
         out[kind] = {
             "n": len(seq),
             "current": current,
@@ -3871,6 +3928,11 @@ def compute_banker_streaks(league=None):
             "d7": max_streak([s for s in seq if (now - s[0]).days < 7]),
             "d30": max_streak([s for s in seq if (now - s[0]).days < 30]),
             "max": max_streak(seq),
+            # Record over the SAME outcomes the streaks are computed from,
+            # so the two lines can never disagree
+            "w": wins,
+            "win_pct": round(wins / len(seq) * 100, 1),
+            "roi": round((ret - len(seq)) / len(seq) * 100, 1),
         }
     return out
 
@@ -4047,6 +4109,19 @@ def football_league(league):
                 best_edge = edge
                 top_pick = m
 
+    # Per-league record + streaks from the SAME outcome log, so the two
+    # lines always agree; fall back to global record while a league has no
+    # resolved outcomes yet
+    league_streaks = compute_banker_streaks(league)
+    if league_streaks:
+        league_banker_record = {
+            k: {"n": v["n"], "w": v["w"],
+                "win_pct": v["win_pct"], "roi": v["roi"]}
+            for k, v in league_streaks.items()
+        }
+    else:
+        league_banker_record = load_banker_record()
+
     return render_template("league.html",
                            league=league,
                            flag=LEAGUE_FLAGS.get(league, ""),
@@ -4060,8 +4135,8 @@ def football_league(league):
                            upcoming=upcoming_weeks,
                            upcoming_improved=improved_weeks,
                            gw_bankers=gw_bankers,
-                           banker_record=load_banker_record(),
-                           banker_streaks=compute_banker_streaks(league),
+                           banker_record=league_banker_record,
+                           banker_streaks=league_streaks,
                            accuracy_stats=acc_stats,
                            top_pick=top_pick,
                            top_pick_play=top_pick_play,
@@ -4150,6 +4225,69 @@ def status_page():
                            version=APP_VERSION,
                            current_weeks=cur_weeks,
                            last_update=last_update)
+
+
+@app.route("/api/bet_pick")
+def api_bet_pick():
+    """The auto-bettor's pick feed: best verified SINGLE from the next
+    not-yet-playing wave. Returns {} when nothing qualifies."""
+    try:
+        waves = _collect_banker_waves(max_waves=3)
+    except Exception:
+        waves = []
+    for w in waves:
+        if w["idx"] == 0:
+            continue  # current wave is already playing — too late to bet
+        for s in w["singles"]:
+            if s.get("provisional"):
+                continue  # only verified-tier plays for real money
+            leg = s["legs"][0]
+            return jsonify({
+                "league": s["league"], "week": s["gw"],
+                "home": leg["match"][0], "away": leg["match"][1],
+                "market": leg.get("market", ""), "call": leg["call"],
+                "odds": leg["odds"], "est_win_pct": s["p"],
+                "wave": w["idx"],
+                "fetched_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            })
+    return jsonify({})
+
+
+@app.route("/api/bet_result")
+def api_bet_result():
+    """Result cross-check for the auto-bettor: was this call a win?
+    Only trusts results scraped within the last 2 hours (fixtures recycle
+    every season cycle)."""
+    from flask import request as _rq
+    league = (_rq.args.get("league") or "").title()
+    home = _rq.args.get("home") or ""
+    away = _rq.args.get("away") or ""
+    call = _rq.args.get("call") or ""
+    try:
+        week = int(_rq.args.get("week") or 0)
+    except ValueError:
+        week = 0
+
+    with state_lock:
+        rows = list(state.get("recent_results", {}).get(league, []))
+
+    cutoff = datetime.now() - timedelta(hours=2)
+    for m in reversed(rows):
+        if m["week"] != week or m["home"] != home or m["away"] != away:
+            continue
+        try:
+            fdt = datetime.strptime(m.get("_file_ts", ""), "%Y%m%d_%H%M%S")
+        except ValueError:
+            continue
+        if fdt < cutoff:
+            continue
+        if m["hs"] is None or m["as"] is None:
+            continue
+        won = _leg_hit({"call": call},
+                       {"home_score": m["hs"], "away_score": m["as"]})
+        return jsonify({"status": "won" if won else "lost",
+                        "score": f"{m['hs']}-{m['as']}"})
+    return jsonify({"status": "pending"})
 
 
 @app.route("/api/status")
