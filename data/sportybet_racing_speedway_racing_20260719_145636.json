@@ -1,0 +1,721 @@
+[
+  {
+    "race_id": "3047729",
+    "sport": "Horse Racing",
+    "race_name": "Dubai",
+    "race_date": "18/07/2026",
+    "race_time": "22:55",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Violaceo"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Orione"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Scamandro"
+      },
+      {
+        "finish_pos": 4,
+        "badge": null,
+        "name": "Bulletto"
+      }
+    ],
+    "winner": "Violaceo",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 7.54
+      },
+      "exacta": {
+        "runners": []
+      },
+      "quinella": {
+        "runners": []
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3047726",
+    "sport": "Horse Racing",
+    "race_name": "Dubai",
+    "race_date": "18/07/2026",
+    "race_time": "22:52",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Nautico"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Macchina Pneumatica"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Dinklage"
+      },
+      {
+        "finish_pos": 4,
+        "badge": null,
+        "name": "Telefo"
+      }
+    ],
+    "winner": "Nautico",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 4.2
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 13.1
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 6.56
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3047723",
+    "sport": "Horse Racing",
+    "race_name": "Dubai",
+    "race_date": "18/07/2026",
+    "race_time": "22:49",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Pugolino"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Pannolino"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Semele"
+      },
+      {
+        "finish_pos": 4,
+        "badge": null,
+        "name": "Caribou"
+      }
+    ],
+    "winner": "Pugolino",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 25.3
+      },
+      "exacta": {
+        "runners": []
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 80.1
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3047720",
+    "sport": "Horse Racing",
+    "race_name": "Dubai",
+    "race_date": "18/07/2026",
+    "race_time": "22:46",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Tamiri"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Delfino"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Ragas"
+      },
+      {
+        "finish_pos": 4,
+        "badge": null,
+        "name": "Labola"
+      }
+    ],
+    "winner": "Tamiri",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 3.81
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 23.6
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 12.8
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 83.5
+      }
+    }
+  },
+  {
+    "race_id": "3047717",
+    "sport": "Horse Racing",
+    "race_name": "Dubai",
+    "race_date": "18/07/2026",
+    "race_time": "22:43",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Caribou"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Pardo"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Teonoe"
+      },
+      {
+        "finish_pos": 4,
+        "badge": null,
+        "name": "Rosolone"
+      }
+    ],
+    "winner": "Caribou",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 3.78
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 9.43
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 4.59
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3047714",
+    "sport": "Horse Racing",
+    "race_name": "Dubai",
+    "race_date": "18/07/2026",
+    "race_time": "22:40",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Revue"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Aye Aye"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Rho"
+      },
+      {
+        "finish_pos": 4,
+        "badge": null,
+        "name": "Delfino"
+      }
+    ],
+    "winner": "Revue",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 5.69
+      },
+      "exacta": {
+        "runners": []
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 71.3
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3047711",
+    "sport": "Horse Racing",
+    "race_name": "Dubai",
+    "race_date": "18/07/2026",
+    "race_time": "22:37",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Scamandro"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Pardo"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Robin"
+      },
+      {
+        "finish_pos": 4,
+        "badge": null,
+        "name": "Race"
+      }
+    ],
+    "winner": "Scamandro",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 10.3
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 34.8
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 15.7
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 94.2
+      }
+    }
+  },
+  {
+    "race_id": "3047708",
+    "sport": "Horse Racing",
+    "race_name": "Dubai",
+    "race_date": "18/07/2026",
+    "race_time": "22:34",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Temeno"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Pluto"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Follow Me"
+      },
+      {
+        "finish_pos": 4,
+        "badge": null,
+        "name": "Scudo"
+      }
+    ],
+    "winner": "Temeno",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 6.13
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 17.1
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 7.87
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 83.8
+      }
+    }
+  },
+  {
+    "race_id": "3047705",
+    "sport": "Horse Racing",
+    "race_name": "Dubai",
+    "race_date": "18/07/2026",
+    "race_time": "22:31",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Telefo"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Rhone"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Nautico"
+      },
+      {
+        "finish_pos": 4,
+        "badge": null,
+        "name": "Reefer"
+      }
+    ],
+    "winner": "Telefo",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 17.5
+      },
+      "exacta": {
+        "runners": []
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 99.4
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3047702",
+    "sport": "Horse Racing",
+    "race_name": "Dubai",
+    "race_date": "18/07/2026",
+    "race_time": "22:28",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Reel"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Pannolino"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Pariolo"
+      },
+      {
+        "finish_pos": 4,
+        "badge": null,
+        "name": "Cancro"
+      }
+    ],
+    "winner": "Reel",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 6.48
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 27.4
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 13.4
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3047699",
+    "sport": "Horse Racing",
+    "race_name": "Dubai",
+    "race_date": "18/07/2026",
+    "race_time": "22:25",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Rapsodia"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Pannolino"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Dentino"
+      },
+      {
+        "finish_pos": 4,
+        "badge": null,
+        "name": "Camaleonte"
+      }
+    ],
+    "winner": "Rapsodia",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 5.12
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 15.0
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 7.18
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 58.4
+      }
+    }
+  },
+  {
+    "race_id": "3047696",
+    "sport": "Horse Racing",
+    "race_name": "Dubai",
+    "race_date": "18/07/2026",
+    "race_time": "22:22",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Bob-omb"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Carolino"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Cane Minore"
+      },
+      {
+        "finish_pos": 4,
+        "badge": null,
+        "name": "Saturno"
+      }
+    ],
+    "winner": "Bob-omb",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 3.33
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 78.5
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 45.5
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3047693",
+    "sport": "Horse Racing",
+    "race_name": "Dubai",
+    "race_date": "18/07/2026",
+    "race_time": "22:19",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Servio Tullio"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Rosty"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Cariatide"
+      },
+      {
+        "finish_pos": 4,
+        "badge": null,
+        "name": "Taso"
+      }
+    ],
+    "winner": "Servio Tullio",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 5.2
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 28.1
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 14.5
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3047690",
+    "sport": "Horse Racing",
+    "race_name": "Dubai",
+    "race_date": "18/07/2026",
+    "race_time": "22:16",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Talao"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Rhone"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Saturno"
+      },
+      {
+        "finish_pos": 4,
+        "badge": null,
+        "name": "Barello"
+      }
+    ],
+    "winner": "Talao",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 22.8
+      },
+      "exacta": {
+        "runners": []
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 69.4
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3047687",
+    "sport": "Horse Racing",
+    "race_name": "Dubai",
+    "race_date": "18/07/2026",
+    "race_time": "22:13",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Caribou"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Taso"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Cariatide"
+      },
+      {
+        "finish_pos": 4,
+        "badge": null,
+        "name": "Germinario"
+      }
+    ],
+    "winner": "Caribou",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 4.59
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 12.4
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 5.94
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 91.7
+      }
+    }
+  }
+]

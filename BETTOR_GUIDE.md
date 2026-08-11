@@ -1,7 +1,16 @@
 # Auto-Bettor Guide
 
-Bets the predictor's verified SINGLE pick each gameweek with martingale
-staking, inside your configured time windows.
+Bets the predictor's picks inside your configured time windows.
+
+On startup it asks (Enter keeps the current value):
+- **Bet type**: `single` (football single banker) / `two` (2-odds banker) /
+  `three` (3-odds ticket) / `racing_place` (predicted 2nd AND 3rd runners
+  on the PLACE market at your chosen venue — two flat bets per race)
+- **Martingale on/off** (off = flat base stake every bet; racing is always flat)
+- **Base stake**, max stake cap, daily profit target / loss limit
+- **Dry run** on/off
+
+Windows may cross midnight (e.g. `["22:00","04:00"]` works).
 
 ## How to run
 

@@ -1,0 +1,776 @@
+[
+  {
+    "race_id": "3282069",
+    "sport": "Motorbike Racing",
+    "race_name": "Southern",
+    "race_date": "13/07/2026",
+    "race_time": "19:09",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "M.Marchand"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "E.Kevinson"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "D.Santillana"
+      }
+    ],
+    "winner": "M.Marchand",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 5.55
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 18.9
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.51
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.74
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 9.18
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 84.0
+      }
+    }
+  },
+  {
+    "race_id": "3282066",
+    "sport": "Motorbike Racing",
+    "race_name": "Southern",
+    "race_date": "13/07/2026",
+    "race_time": "19:06",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "G.Ferraro"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "M.Silva"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "S.Vidmar"
+      }
+    ],
+    "winner": "G.Ferraro",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 5.29
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 20.8
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.5
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.48
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 10.4
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 58.3
+      }
+    }
+  },
+  {
+    "race_id": "3282063",
+    "sport": "Motorbike Racing",
+    "race_name": "Southern",
+    "race_date": "13/07/2026",
+    "race_time": "19:03",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "G.Lambert"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Z.Wang"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "S.Vidmar"
+      }
+    ],
+    "winner": "G.Lambert",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 5.02
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 21.8
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.66
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.58
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 11.1
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 62.9
+      }
+    }
+  },
+  {
+    "race_id": "3282060",
+    "sport": "Motorbike Racing",
+    "race_name": "Southern",
+    "race_date": "13/07/2026",
+    "race_time": "19:00",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "R.Perkins"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "E.Kevinson"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "C.Hawking"
+      }
+    ],
+    "winner": "R.Perkins",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 8.5
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 46.7
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.78
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.73
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 23.0
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3282057",
+    "sport": "Motorbike Racing",
+    "race_name": "Southern",
+    "race_date": "13/07/2026",
+    "race_time": "18:57",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "D.Santillana"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "J.Cheng"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Z.Wang"
+      }
+    ],
+    "winner": "D.Santillana",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 4.04
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 12.5
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.19
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.42
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 6.31
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 68.6
+      }
+    }
+  },
+  {
+    "race_id": "3282054",
+    "sport": "Motorbike Racing",
+    "race_name": "Southern",
+    "race_date": "13/07/2026",
+    "race_time": "18:54",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "E.Kevinson"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "V.Novak"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "F.Varano"
+      }
+    ],
+    "winner": "E.Kevinson",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 9.99
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 48.8
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 2.08
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 2.0
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 23.6
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3282051",
+    "sport": "Motorbike Racing",
+    "race_name": "Southern",
+    "race_date": "13/07/2026",
+    "race_time": "18:51",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "S.Vidmar"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "G.Ferraro"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "K.Wasswa"
+      }
+    ],
+    "winner": "S.Vidmar",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 5.35
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 27.0
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.6
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.81
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 13.8
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3282048",
+    "sport": "Motorbike Racing",
+    "race_name": "Southern",
+    "race_date": "13/07/2026",
+    "race_time": "18:48",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "W.Steinmann"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "W.Scheinberg"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "M.Marchand"
+      }
+    ],
+    "winner": "W.Steinmann",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 4.64
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 10.7
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.88
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.58
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 4.96
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 45.5
+      }
+    }
+  },
+  {
+    "race_id": "3282045",
+    "sport": "Motorbike Racing",
+    "race_name": "Southern",
+    "race_date": "13/07/2026",
+    "race_time": "18:45",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "D.Santillana"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "S.Mooshian"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "D.Lukska"
+      }
+    ],
+    "winner": "D.Santillana",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 3.74
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 27.5
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.47
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.61
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 15.1
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3282042",
+    "sport": "Motorbike Racing",
+    "race_name": "Southern",
+    "race_date": "13/07/2026",
+    "race_time": "18:42",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "K.Wasswa"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "V.Messana"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "S.Vidmar"
+      }
+    ],
+    "winner": "K.Wasswa",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 4.27
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 15.7
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.46
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.54
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 7.97
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 62.3
+      }
+    }
+  },
+  {
+    "race_id": "3282039",
+    "sport": "Motorbike Racing",
+    "race_name": "Southern",
+    "race_date": "13/07/2026",
+    "race_time": "18:39",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "M.Stasiuk"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "D.Santillana"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "W.Steinmann"
+      }
+    ],
+    "winner": "M.Stasiuk",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 4.39
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 23.2
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.43
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.43
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 12.2
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 91.3
+      }
+    }
+  },
+  {
+    "race_id": "3282036",
+    "sport": "Motorbike Racing",
+    "race_name": "Southern",
+    "race_date": "13/07/2026",
+    "race_time": "18:36",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "A.Guerra"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "S.Mooshian"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "R.Zelenko"
+      }
+    ],
+    "winner": "A.Guerra",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 5.76
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 18.8
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.51
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.98
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 9.06
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 66.0
+      }
+    }
+  },
+  {
+    "race_id": "3282033",
+    "sport": "Motorbike Racing",
+    "race_name": "Southern",
+    "race_date": "13/07/2026",
+    "race_time": "18:33",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "P.Serrano"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "L.Skala"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "M.Marchand"
+      }
+    ],
+    "winner": "P.Serrano",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 7.28
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 22.8
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.78
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.53
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 10.7
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 89.3
+      }
+    }
+  },
+  {
+    "race_id": "3282030",
+    "sport": "Motorbike Racing",
+    "race_name": "Southern",
+    "race_date": "13/07/2026",
+    "race_time": "18:30",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "R.Perkins"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "S.Vidmar"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "A.Quiroga"
+      }
+    ],
+    "winner": "R.Perkins",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 5.98
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 28.6
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.38
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.55
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 14.4
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3282027",
+    "sport": "Motorbike Racing",
+    "race_name": "Southern",
+    "race_date": "13/07/2026",
+    "race_time": "18:27",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "C.Eduardo"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "V.Messana"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "W.Scheinberg"
+      }
+    ],
+    "winner": "C.Eduardo",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 7.28
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 35.2
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.4
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.6
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 17.3
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  }
+]

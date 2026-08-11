@@ -1,374 +1,130 @@
 {
-  "England_W29": {
+  "England_W5": {
     "league": "England",
-    "week": 29,
-    "ts": "2026-07-12 15:56",
+    "week": 5,
+    "ts": "2026-08-11 01:33",
     "one": {
-      "total": 1.74,
-      "p": 54.7,
+      "total": 1.63,
+      "p": 56.6,
       "provisional": false,
       "legs": [
         {
-          "home": "FOR",
-          "away": "MUN",
+          "home": "HLL",
+          "away": "LIV",
           "call": "O2.5",
-          "odds": 1.74
-        }
-      ]
-    },
-    "two": {
-      "total": 2.1,
-      "p": 38.7,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "ARS",
-          "away": "FUL",
-          "call": "1",
-          "odds": 1.41
-        },
-        {
-          "home": "LIV",
-          "away": "BUR",
-          "call": "O2.5",
-          "odds": 1.49
-        }
-      ]
-    },
-    "three": null
-  },
-  "England_W30": {
-    "league": "England",
-    "week": 30,
-    "ts": "2026-07-12 16:00",
-    "one": {
-      "total": 1.69,
-      "p": 56.4,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "TOT",
-          "away": "WOL",
-          "call": "O2.5",
-          "odds": 1.69
+          "odds": 1.63
         }
       ]
     },
     "two": {
       "total": 2.35,
-      "p": 37.2,
+      "p": 37.7,
       "provisional": false,
       "legs": [
         {
-          "home": "LIV",
-          "away": "LEE",
+          "home": "MCI",
+          "away": "BOU",
           "call": "1",
-          "odds": 1.36
+          "odds": 1.43
         },
-        {
-          "home": "FUL",
-          "away": "NEW",
-          "call": "O2.5",
-          "odds": 1.73
-        }
-      ]
-    },
-    "three": {
-      "total": 3.08,
-      "p": 29.5,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "AST",
-          "away": "EVE",
-          "call": "1",
-          "odds": 1.74
-        },
-        {
-          "home": "MUN",
-          "away": "BHA",
-          "call": "O2.5",
-          "odds": 1.77
-        }
-      ]
-    }
-  },
-  "England_W32": {
-    "league": "England",
-    "week": 32,
-    "ts": "2026-07-12 16:05",
-    "one": {
-      "total": 1.68,
-      "p": 56.7,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "LIV",
-          "away": "NEW",
-          "call": "O2.5",
-          "odds": 1.68
-        }
-      ]
-    },
-    "two": {
-      "total": 2.69,
-      "p": 33.7,
-      "provisional": true,
-      "legs": [
         {
           "home": "LEE",
           "away": "ARS",
           "call": "O2.5",
           "odds": 1.64
-        },
-        {
-          "home": "FUL",
-          "away": "MCI",
-          "call": "O2.5",
-          "odds": 1.64
         }
       ]
     },
     "three": {
-      "total": 3.06,
-      "p": 29.6,
+      "total": 3.16,
+      "p": 28.7,
       "provisional": true,
       "legs": [
         {
-          "home": "SUN",
-          "away": "CHE",
+          "home": "TOT",
+          "away": "NEW",
           "call": "O2.5",
-          "odds": 1.73
+          "odds": 1.69
         },
         {
-          "home": "BOU",
-          "away": "BRN",
+          "home": "FOR",
+          "away": "SUN",
           "call": "O2.5",
-          "odds": 1.77
+          "odds": 1.87
         }
       ]
     }
   },
-  "Germany_W16": {
-    "league": "Germany",
-    "week": 16,
-    "ts": "2026-07-12 16:05",
-    "one": {
-      "total": 1.61,
-      "p": 57.3,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "RBL",
-          "away": "STP",
-          "call": "O2.5",
-          "odds": 1.61
-        }
-      ]
-    },
-    "two": {
-      "total": 2.59,
-      "p": 35.0,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "BVB",
-          "away": "BMU",
-          "call": "O2.5",
-          "odds": 1.56
-        },
-        {
-          "home": "LEV",
-          "away": "FRE",
-          "call": "1",
-          "odds": 1.66
-        }
-      ]
-    },
-    "three": {
-      "total": 3.15,
-      "p": 28.8,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "HAM",
-          "away": "KOE",
-          "call": "U2.5",
-          "odds": 1.71
-        },
-        {
-          "home": "MGB",
-          "away": "BRE",
-          "call": "U2.5",
-          "odds": 1.84
-        }
-      ]
-    }
-  },
-  "Italy_W32": {
-    "league": "Italy",
-    "week": 32,
-    "ts": "2026-07-12 16:05",
-    "one": {
-      "total": 1.67,
-      "p": 57.0,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "CRE",
-          "away": "LEC",
-          "call": "U2.5",
-          "odds": 1.67
-        }
-      ]
-    },
-    "two": {
-      "total": 2.53,
-      "p": 35.8,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "JUV",
-          "away": "UDI",
-          "call": "1",
-          "odds": 1.44
-        },
-        {
-          "home": "PAR",
-          "away": "BOL",
-          "call": "U2.5",
-          "odds": 1.76
-        }
-      ]
-    },
-    "three": null
-  },
-  "France_W30": {
+  "France_W27": {
     "league": "France",
-    "week": 30,
-    "ts": "2026-07-12 16:06",
-    "one": {
-      "total": 1.64,
-      "p": 57.3,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "REN",
-          "away": "NAN",
-          "call": "U2.5",
-          "odds": 1.64
-        }
-      ]
-    },
-    "two": {
-      "total": 2.2,
-      "p": 41.2,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "NIC",
-          "away": "PFC",
-          "call": "1",
-          "odds": 1.44
-        },
-        {
-          "home": "LIL",
-          "away": "LOR",
-          "call": "1",
-          "odds": 1.53
-        }
-      ]
-    },
-    "three": {
-      "total": 3.12,
-      "p": 29.1,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "AXR",
-          "away": "STR",
-          "call": "U2.5",
-          "odds": 1.76
-        },
-        {
-          "home": "LNS",
-          "away": "PSG",
-          "call": "O2.5",
-          "odds": 1.77
-        }
-      ]
-    }
-  },
-  "Spain_W34": {
-    "league": "Spain",
-    "week": 34,
-    "ts": "2026-07-12 16:06",
+    "week": 27,
+    "ts": "2026-08-11 01:33",
     "one": {
       "total": 1.68,
       "p": 56.7,
-      "provisional": false,
+      "provisional": true,
       "legs": [
         {
-          "home": "ESP",
-          "away": "OSA",
+          "home": "LEH",
+          "away": "AXR",
           "call": "U2.5",
           "odds": 1.68
         }
       ]
     },
     "two": {
-      "total": 2.05,
-      "p": 40.4,
-      "provisional": true,
+      "total": 2.1,
+      "p": 37.4,
+      "provisional": false,
       "legs": [
         {
-          "home": "RMA",
-          "away": "GET",
+          "home": "MRS",
+          "away": "ANG",
           "call": "1",
-          "odds": 1.29
+          "odds": 1.44
         },
         {
-          "home": "ALA",
-          "away": "BAR",
-          "call": "2",
-          "odds": 1.59
+          "home": "PSG",
+          "away": "TOU",
+          "call": "O2.5",
+          "odds": 1.46
         }
       ]
     },
     "three": {
-      "total": 3.06,
-      "p": 29.6,
+      "total": 3.38,
+      "p": 26.8,
       "provisional": true,
       "legs": [
         {
-          "home": "RAY",
-          "away": "GIR",
+          "home": "SBR",
+          "away": "NIC",
           "call": "U2.5",
-          "odds": 1.72
+          "odds": 1.8
         },
         {
-          "home": "VAL",
-          "away": "ATM",
+          "home": "REN",
+          "away": "LYO",
           "call": "U2.5",
-          "odds": 1.78
+          "odds": 1.88
         }
       ]
     }
   },
-  "Turkey_W8": {
-    "league": "Turkey",
-    "week": 8,
-    "ts": "2026-07-12 16:06",
+  "Spain_W5": {
+    "league": "Spain",
+    "week": 5,
+    "ts": "2026-08-11 01:33",
     "one": {
-      "total": 1.63,
-      "p": 58.4,
-      "provisional": true,
+      "total": 1.65,
+      "p": 56.6,
+      "provisional": false,
       "legs": [
         {
-          "home": "IST",
-          "away": "GAZ",
-          "call": "1",
-          "odds": 1.63
+          "home": "DEP",
+          "away": "GET",
+          "call": "U2.5",
+          "odds": 1.65
         }
       ]
     },
@@ -378,656 +134,72 @@
       "provisional": true,
       "legs": [
         {
-          "home": "TRA",
-          "away": "EYU",
-          "call": "1",
-          "odds": 1.54
-        },
-        {
-          "home": "FEN",
-          "away": "CAY",
-          "call": "1",
-          "odds": 1.56
-        }
-      ]
-    },
-    "three": null
-  },
-  "England_W33": {
-    "league": "England",
-    "week": 33,
-    "ts": "2026-07-12 16:10",
-    "one": {
-      "total": 1.65,
-      "p": 57.3,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "MCI",
-          "away": "BOU",
-          "call": "O2.5",
-          "odds": 1.65
-        }
-      ]
-    },
-    "two": {
-      "total": 2.17,
-      "p": 38.7,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "ARS",
-          "away": "BUR",
-          "call": "1",
-          "odds": 1.35
-        },
-        {
-          "home": "BRN",
-          "away": "LIV",
-          "call": "O2.5",
-          "odds": 1.61
-        }
-      ]
-    },
-    "three": {
-      "total": 3.2,
-      "p": 28.3,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "BHA",
-          "away": "AST",
-          "call": "O2.5",
-          "odds": 1.79
-        },
-        {
-          "home": "MUN",
-          "away": "FUL",
-          "call": "O2.5",
-          "odds": 1.79
-        }
-      ]
-    }
-  },
-  "France_W31": {
-    "league": "France",
-    "week": 31,
-    "ts": "2026-07-12 16:10",
-    "one": {
-      "total": 1.73,
-      "p": 55.0,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "NAN",
-          "away": "LNS",
-          "call": "U2.5",
-          "odds": 1.73
-        }
-      ]
-    },
-    "two": {
-      "total": 2.31,
-      "p": 39.3,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "PSG",
-          "away": "LIL",
-          "call": "1",
-          "odds": 1.51
-        },
-        {
-          "home": "MRS",
-          "away": "AXR",
-          "call": "1",
-          "odds": 1.53
-        }
-      ]
-    },
-    "three": null
-  },
-  "Germany_W18": {
-    "league": "Germany",
-    "week": 18,
-    "ts": "2026-07-12 16:10",
-    "one": {
-      "total": 1.6,
-      "p": 57.3,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "STU",
-          "away": "BMU",
-          "call": "O2.5",
-          "odds": 1.6
-        }
-      ]
-    },
-    "two": {
-      "total": 2.13,
-      "p": 39.9,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "BVB",
-          "away": "STP",
-          "call": "1",
-          "odds": 1.32
-        },
-        {
-          "home": "LEV",
-          "away": "RBL",
-          "call": "O2.5",
-          "odds": 1.61
-        }
-      ]
-    },
-    "three": {
-      "total": 3.08,
-      "p": 29.4,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "WLF",
-          "away": "MNZ",
-          "call": "U2.5",
-          "odds": 1.75
-        },
-        {
-          "home": "HDH",
-          "away": "AUG",
-          "call": "U2.5",
-          "odds": 1.76
-        }
-      ]
-    }
-  },
-  "Italy_W34": {
-    "league": "Italy",
-    "week": 34,
-    "ts": "2026-07-12 16:10",
-    "one": {
-      "total": 1.68,
-      "p": 56.7,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "COM",
-          "away": "BOL",
-          "call": "U2.5",
-          "odds": 1.68
-        }
-      ]
-    },
-    "two": {
-      "total": 2.06,
-      "p": 42.9,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "INT",
-          "away": "UDI",
-          "call": "1",
-          "odds": 1.37
-        },
-        {
-          "home": "JUV",
-          "away": "SAS",
-          "call": "1",
-          "odds": 1.5
-        }
-      ]
-    },
-    "three": {
-      "total": 3.08,
-      "p": 29.5,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "PIS",
-          "away": "CRE",
-          "call": "U2.5",
-          "odds": 1.73
-        },
-        {
-          "home": "PAR",
-          "away": "NAP",
-          "call": "U2.5",
-          "odds": 1.78
-        }
-      ]
-    }
-  },
-  "Spain_W35": {
-    "league": "Spain",
-    "week": 35,
-    "ts": "2026-07-12 16:10",
-    "one": {
-      "total": 1.63,
-      "p": 57.3,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "OVI",
-          "away": "RMA",
-          "call": "O2.5",
-          "odds": 1.63
-        }
-      ]
-    },
-    "two": {
-      "total": 2.13,
-      "p": 38.7,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "BAR",
-          "away": "RAY",
-          "call": "1",
-          "odds": 1.3
-        },
-        {
           "home": "ELC",
-          "away": "ATH",
-          "call": "U2.5",
-          "odds": 1.64
-        }
-      ]
-    },
-    "three": null
-  },
-  "Turkey_W9": {
-    "league": "Turkey",
-    "week": 9,
-    "ts": "2026-07-12 16:10",
-    "one": {
-      "total": 1.64,
-      "p": 57.3,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "BES",
-          "away": "GAL",
-          "call": "O2.5",
-          "odds": 1.64
-        }
-      ]
-    },
-    "two": {
-      "total": 2.54,
-      "p": 35.7,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "FAT",
-          "away": "FEN",
-          "call": "O2.5",
-          "odds": 1.58
+          "away": "BAR",
+          "call": "2",
+          "odds": 1.52
         },
         {
-          "home": "SAM",
-          "away": "KNY",
+          "home": "RAY",
+          "away": "MAL",
           "call": "1",
-          "odds": 1.61
-        }
-      ]
-    },
-    "three": null
-  },
-  "England_W34": {
-    "league": "England",
-    "week": 34,
-    "ts": "2026-07-12 16:12",
-    "one": {
-      "total": 1.72,
-      "p": 55.4,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "BOU",
-          "away": "MUN",
-          "call": "O2.5",
-          "odds": 1.72
-        }
-      ]
-    },
-    "two": {
-      "total": 2.86,
-      "p": 31.8,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "LIV",
-          "away": "MCI",
-          "call": "O2.5",
-          "odds": 1.66
-        },
-        {
-          "home": "AST",
-          "away": "CHE",
-          "call": "O2.5",
-          "odds": 1.72
+          "odds": 1.58
         }
       ]
     },
     "three": {
-      "total": 3.2,
-      "p": 28.3,
+      "total": 3.09,
+      "p": 29.3,
       "provisional": true,
       "legs": [
         {
-          "home": "ARS",
-          "away": "NEW",
-          "call": "O2.5",
-          "odds": 1.76
+          "home": "ALA",
+          "away": "CEL",
+          "call": "U2.5",
+          "odds": 1.7
         },
         {
-          "home": "EVE",
-          "away": "FOR",
+          "home": "VAL",
+          "away": "ATH",
           "call": "U2.5",
           "odds": 1.82
         }
       ]
     }
   },
-  "France_W32": {
-    "league": "France",
-    "week": 32,
-    "ts": "2026-07-12 16:12",
-    "one": {
-      "total": 1.79,
-      "p": 53.2,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "AXR",
-          "away": "REN",
-          "call": "U2.5",
-          "odds": 1.79
-        }
-      ]
-    },
-    "two": {
-      "total": 2.38,
-      "p": 38.0,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "ANG",
-          "away": "PSG",
-          "call": "2",
-          "odds": 1.49
-        },
-        {
-          "home": "LNS",
-          "away": "MTZ",
-          "call": "1",
-          "odds": 1.6
-        }
-      ]
-    },
-    "three": null
-  },
-  "Spain_W36": {
-    "league": "Spain",
-    "week": 36,
-    "ts": "2026-07-12 16:12",
-    "one": {
-      "total": 1.65,
-      "p": 57.5,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "CEL",
-          "away": "ATH",
-          "call": "U2.5",
-          "odds": 1.65
-        }
-      ]
-    },
-    "two": {
-      "total": 2.36,
-      "p": 38.0,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "RMA",
-          "away": "BET",
-          "call": "1",
-          "odds": 1.44
-        },
-        {
-          "home": "RAY",
-          "away": "MLL",
-          "call": "U2.5",
-          "odds": 1.64
-        }
-      ]
-    },
-    "three": {
-      "total": 3.06,
-      "p": 29.6,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "ALA",
-          "away": "ELC",
-          "call": "U2.5",
-          "odds": 1.75
-        },
-        {
-          "home": "OSA",
-          "away": "GIR",
-          "call": "U2.5",
-          "odds": 1.75
-        }
-      ]
-    }
-  },
-  "Turkey_W10": {
+  "Turkey_W5": {
     "league": "Turkey",
-    "week": 10,
-    "ts": "2026-07-12 16:12",
+    "week": 5,
+    "ts": "2026-08-11 01:33",
     "one": {
-      "total": 1.61,
-      "p": 59.2,
-      "provisional": true,
+      "total": 1.67,
+      "p": 56.6,
+      "provisional": false,
       "legs": [
         {
-          "home": "FEN",
-          "away": "ALA",
-          "call": "1",
-          "odds": 1.61
+          "home": "GAZ",
+          "away": "FEN",
+          "call": "O2.5",
+          "odds": 1.67
         }
       ]
     },
     "two": {
-      "total": 2.27,
-      "p": 39.6,
-      "provisional": true,
+      "total": 2.19,
+      "p": 38.0,
+      "provisional": false,
       "legs": [
+        {
+          "home": "BES",
+          "away": "COR",
+          "call": "1",
+          "odds": 1.42
+        },
         {
           "home": "GAL",
-          "away": "KAY",
-          "call": "1",
-          "odds": 1.4
-        },
-        {
-          "home": "TRA",
           "away": "KAS",
-          "call": "1",
-          "odds": 1.62
-        }
-      ]
-    },
-    "three": null
-  },
-  "England_W35": {
-    "league": "England",
-    "week": 35,
-    "ts": "2026-07-12 16:15",
-    "one": {
-      "total": 1.62,
-      "p": 57.5,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "NEW",
-          "away": "BUR",
           "call": "O2.5",
-          "odds": 1.62
-        }
-      ]
-    },
-    "two": {
-      "total": 2.41,
-      "p": 36.5,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "MCI",
-          "away": "LEE",
-          "call": "1",
-          "odds": 1.37
-        },
-        {
-          "home": "FOR",
-          "away": "WOL",
-          "call": "O2.5",
-          "odds": 1.76
-        }
-      ]
-    },
-    "three": {
-      "total": 3.17,
-      "p": 28.6,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "CHE",
-          "away": "WHU",
-          "call": "O2.5",
-          "odds": 1.76
-        },
-        {
-          "home": "BHA",
-          "away": "EVE",
-          "call": "O2.5",
-          "odds": 1.8
-        }
-      ]
-    }
-  },
-  "France_W33": {
-    "league": "France",
-    "week": 33,
-    "ts": "2026-07-12 16:15",
-    "one": {
-      "total": 1.72,
-      "p": 55.4,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "NAN",
-          "away": "ANG",
-          "call": "U2.5",
-          "odds": 1.72
-        }
-      ]
-    },
-    "two": {
-      "total": 2.32,
-      "p": 36.3,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "PSG",
-          "away": "LEH",
-          "call": "1",
-          "odds": 1.31
-        },
-        {
-          "home": "AXR",
-          "away": "LNS",
-          "call": "U2.5",
-          "odds": 1.77
-        }
-      ]
-    },
-    "three": null
-  },
-  "Germany_W20": {
-    "league": "Germany",
-    "week": 20,
-    "ts": "2026-07-12 16:15",
-    "one": {
-      "total": 1.68,
-      "p": 56.7,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "MNZ",
-          "away": "KOE",
-          "call": "U2.5",
-          "odds": 1.68
-        }
-      ]
-    },
-    "two": {
-      "total": 2.58,
-      "p": 35.2,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "BVB",
-          "away": "LEV",
-          "call": "O2.5",
-          "odds": 1.6
-        },
-        {
-          "home": "WLF",
-          "away": "BMU",
-          "call": "O2.5",
-          "odds": 1.61
-        }
-      ]
-    },
-    "three": null
-  },
-  "Italy_W36": {
-    "league": "Italy",
-    "week": 36,
-    "ts": "2026-07-12 16:15",
-    "one": {
-      "total": 1.6,
-      "p": 57.5,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "INT",
-          "away": "SAS",
-          "call": "O2.5",
-          "odds": 1.6
-        }
-      ]
-    },
-    "two": {
-      "total": 2.21,
-      "p": 40.1,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "JUV",
-          "away": "VER",
-          "call": "1",
-          "odds": 1.38
-        },
-        {
-          "home": "GEN",
-          "away": "LEC",
-          "call": "U2.5",
-          "odds": 1.6
+          "odds": 1.54
         }
       ]
     },
@@ -1037,427 +209,103 @@
       "provisional": true,
       "legs": [
         {
-          "home": "ATA",
-          "away": "PIS",
-          "call": "O2.5",
-          "odds": 1.66
+          "home": "IST",
+          "away": "ERZ",
+          "call": "1",
+          "odds": 1.55
         },
         {
-          "home": "COM",
-          "away": "LAZ",
+          "home": "SAM",
+          "away": "CAY",
           "call": "U2.5",
-          "odds": 1.84
+          "odds": 1.97
         }
       ]
     }
   },
-  "Spain_W37": {
-    "league": "Spain",
-    "week": 37,
-    "ts": "2026-07-12 16:15",
-    "one": {
-      "total": 1.64,
-      "p": 57.5,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "MLL",
-          "away": "RSO",
-          "call": "U2.5",
-          "odds": 1.64
-        }
-      ]
-    },
-    "two": {
-      "total": 2.24,
-      "p": 38.7,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "BAR",
-          "away": "OSA",
-          "call": "1",
-          "odds": 1.35
-        },
-        {
-          "home": "ELC",
-          "away": "RAY",
-          "call": "U2.5",
-          "odds": 1.66
-        }
-      ]
-    },
-    "three": {
-      "total": 3.06,
-      "p": 29.6,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "CEL",
-          "away": "ALA",
-          "call": "1",
-          "odds": 1.7
-        },
-        {
-          "home": "GIR",
-          "away": "SEV",
-          "call": "U2.5",
-          "odds": 1.8
-        }
-      ]
-    }
-  },
-  "Turkey_W11": {
-    "league": "Turkey",
-    "week": 11,
-    "ts": "2026-07-12 16:16",
+  "England_W6": {
+    "league": "England",
+    "week": 6,
+    "ts": "2026-08-11 01:37",
     "one": {
       "total": 1.62,
-      "p": 58.8,
-      "provisional": true,
+      "p": 56.6,
+      "provisional": false,
       "legs": [
         {
-          "home": "EYU",
-          "away": "FEN",
+          "home": "ARS",
+          "away": "TOT",
           "call": "O2.5",
           "odds": 1.62
         }
       ]
     },
     "two": {
-      "total": 2.71,
-      "p": 33.5,
-      "provisional": true,
+      "total": 2.08,
+      "p": 45.8,
+      "provisional": false,
       "legs": [
         {
-          "home": "BES",
-          "away": "ALA",
-          "call": "O2.5",
-          "odds": 1.63
-        },
-        {
-          "home": "SAM",
-          "away": "GAL",
-          "call": "O2.5",
-          "odds": 1.66
+          "home": "BOU",
+          "away": "IPS",
+          "call": "U2.5",
+          "odds": 2.08
         }
       ]
     },
     "three": {
-      "total": 3.22,
-      "p": 28.2,
+      "total": 3.18,
+      "p": 28.5,
       "provisional": true,
       "legs": [
         {
-          "home": "KAY",
-          "away": "CAY",
-          "call": "U2.5",
-          "odds": 1.79
-        },
-        {
-          "home": "KNY",
-          "away": "IST",
-          "call": "U2.5",
-          "odds": 1.8
-        }
-      ]
-    }
-  },
-  "England_W3": {
-    "league": "England",
-    "week": 3,
-    "ts": "2026-07-12 16:32",
-    "one": {
-      "total": 1.67,
-      "p": 57.0,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "FOR",
-          "away": "MCI",
-          "call": "O2.5",
-          "odds": 1.67
-        }
-      ]
-    },
-    "two": {
-      "total": 2.32,
-      "p": 38.2,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "LIV",
+          "home": "MUN",
           "away": "CRY",
-          "call": "1",
-          "odds": 1.38
-        },
-        {
-          "home": "NEW",
-          "away": "BHA",
-          "call": "1",
-          "odds": 1.68
-        }
-      ]
-    },
-    "three": {
-      "total": 3.06,
-      "p": 29.6,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "ARS",
-          "away": "CHE",
           "call": "O2.5",
-          "odds": 1.75
-        },
-        {
-          "home": "TOT",
-          "away": "EVE",
-          "call": "O2.5",
-          "odds": 1.75
-        }
-      ]
-    }
-  },
-  "Spain_W5": {
-    "league": "Spain",
-    "week": 5,
-    "ts": "2026-07-12 16:32",
-    "one": {
-      "total": 1.64,
-      "p": 57.5,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "MLL",
-          "away": "RSO",
-          "call": "U2.5",
-          "odds": 1.64
-        }
-      ]
-    },
-    "two": {
-      "total": 2.15,
-      "p": 38.8,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "BAR",
-          "away": "CEL",
-          "call": "1",
-          "odds": 1.37
-        },
-        {
-          "home": "OSA",
-          "away": "RAY",
-          "call": "U2.5",
-          "odds": 1.57
-        }
-      ]
-    },
-    "three": {
-      "total": 3.11,
-      "p": 29.1,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "ESP",
-          "away": "ALA",
-          "call": "U2.5",
           "odds": 1.71
         },
         {
-          "home": "VAL",
-          "away": "LEV",
-          "call": "U2.5",
-          "odds": 1.82
+          "home": "BHA",
+          "away": "LEE",
+          "call": "O2.5",
+          "odds": 1.86
         }
       ]
     }
   },
-  "Turkey_W17": {
-    "league": "Turkey",
-    "week": 17,
-    "ts": "2026-07-12 16:32",
-    "one": {
-      "total": 1.68,
-      "p": 56.7,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "IST",
-          "away": "KAY",
-          "call": "1",
-          "odds": 1.68
-        }
-      ]
-    },
-    "two": {
-      "total": 2.4,
-      "p": 37.8,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "GAL",
-          "away": "EYU",
-          "call": "1",
-          "odds": 1.42
-        },
-        {
-          "home": "GOZ",
-          "away": "FEN",
-          "call": "O2.5",
-          "odds": 1.69
-        }
-      ]
-    },
-    "three": {
-      "total": 3.1,
-      "p": 29.3,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "TRA",
-          "away": "BES",
-          "call": "O2.5",
-          "odds": 1.73
-        },
-        {
-          "home": "ANT",
-          "away": "SAM",
-          "call": "U2.5",
-          "odds": 1.79
-        }
-      ]
-    }
-  },
-  "England_W4": {
-    "league": "England",
-    "week": 4,
-    "ts": "2026-07-12 16:36",
+  "France_W28": {
+    "league": "France",
+    "week": 28,
+    "ts": "2026-08-11 01:37",
     "one": {
       "total": 1.61,
-      "p": 57.5,
-      "provisional": false,
+      "p": 59.2,
+      "provisional": true,
       "legs": [
         {
-          "home": "BRN",
-          "away": "LIV",
-          "call": "O2.5",
+          "home": "LYO",
+          "away": "SBR",
+          "call": "1",
           "odds": 1.61
         }
       ]
     },
     "two": {
-      "total": 2.35,
-      "p": 38.4,
+      "total": 2.84,
+      "p": 32.0,
       "provisional": true,
       "legs": [
         {
-          "home": "CHE",
-          "away": "SUN",
-          "call": "1",
-          "odds": 1.41
+          "home": "STR",
+          "away": "PSG",
+          "call": "2",
+          "odds": 1.65
         },
         {
-          "home": "LEE",
-          "away": "TOT",
-          "call": "O2.5",
-          "odds": 1.67
-        }
-      ]
-    },
-    "three": {
-      "total": 3.08,
-      "p": 29.4,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "MUN",
-          "away": "EVE",
-          "call": "O2.5",
-          "odds": 1.75
-        },
-        {
-          "home": "BHA",
-          "away": "WOL",
-          "call": "O2.5",
-          "odds": 1.76
-        }
-      ]
-    }
-  },
-  "France_W5": {
-    "league": "France",
-    "week": 5,
-    "ts": "2026-07-12 16:36",
-    "one": {
-      "total": 1.69,
-      "p": 56.4,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "SBR",
-          "away": "LNS",
+          "home": "ANG",
+          "away": "LOR",
           "call": "U2.5",
-          "odds": 1.69
-        }
-      ]
-    },
-    "two": {
-      "total": 2.52,
-      "p": 35.9,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "PSG",
-          "away": "NIC",
-          "call": "1",
-          "odds": 1.45
-        },
-        {
-          "home": "PFC",
-          "away": "TOU",
-          "call": "U2.5",
-          "odds": 1.74
-        }
-      ]
-    },
-    "three": null
-  },
-  "Germany_W26": {
-    "league": "Germany",
-    "week": 26,
-    "ts": "2026-07-12 16:36",
-    "one": {
-      "total": 1.63,
-      "p": 57.5,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "RBL",
-          "away": "HAM",
-          "call": "O2.5",
-          "odds": 1.63
-        }
-      ]
-    },
-    "two": {
-      "total": 2.32,
-      "p": 38.0,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "BMU",
-          "away": "MGB",
-          "call": "1",
-          "odds": 1.37
-        },
-        {
-          "home": "AUG",
-          "away": "BVB",
-          "call": "O2.5",
-          "odds": 1.69
+          "odds": 1.72
         }
       ]
     },
@@ -1467,88 +315,32 @@
       "provisional": true,
       "legs": [
         {
-          "home": "FRA",
-          "away": "STU",
+          "home": "LIL",
+          "away": "MON",
           "call": "O2.5",
           "odds": 1.73
         },
         {
-          "home": "MNZ",
-          "away": "BRE",
+          "home": "LEH",
+          "away": "REN",
           "call": "U2.5",
           "odds": 1.8
         }
       ]
     }
   },
-  "Italy_W4": {
-    "league": "Italy",
-    "week": 4,
-    "ts": "2026-07-12 16:36",
-    "one": {
-      "total": 1.63,
-      "p": 58.4,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "CAG",
-          "away": "JUV",
-          "call": "2",
-          "odds": 1.63
-        }
-      ]
-    },
-    "two": {
-      "total": 2.25,
-      "p": 40.3,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "CRE",
-          "away": "INT",
-          "call": "2",
-          "odds": 1.48
-        },
-        {
-          "home": "FIO",
-          "away": "LEC",
-          "call": "1",
-          "odds": 1.52
-        }
-      ]
-    },
-    "three": {
-      "total": 3.06,
-      "p": 29.6,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "PIS",
-          "away": "UDI",
-          "call": "U2.5",
-          "odds": 1.7
-        },
-        {
-          "home": "PAR",
-          "away": "ROM",
-          "call": "U2.5",
-          "odds": 1.8
-        }
-      ]
-    }
-  },
-  "Spain_W6": {
-    "league": "Spain",
-    "week": 6,
-    "ts": "2026-07-12 16:36",
+  "Germany_W15": {
+    "league": "Germany",
+    "week": 15,
+    "ts": "2026-08-11 01:37",
     "one": {
       "total": 1.65,
-      "p": 57.5,
+      "p": 56.6,
       "provisional": false,
       "legs": [
         {
-          "home": "ELC",
-          "away": "BAR",
+          "home": "BVB",
+          "away": "HAM",
           "call": "O2.5",
           "odds": 1.65
         }
@@ -1556,205 +348,37 @@
     },
     "two": {
       "total": 2.07,
-      "p": 38.8,
-      "provisional": false,
+      "p": 40.4,
+      "provisional": true,
       "legs": [
         {
-          "home": "RMA",
-          "away": "OSA",
+          "home": "BMU",
+          "away": "KOE",
           "call": "1",
           "odds": 1.3
         },
         {
-          "home": "GET",
-          "away": "ATH",
-          "call": "U2.5",
+          "home": "STU",
+          "away": "BRE",
+          "call": "1",
           "odds": 1.59
         }
       ]
     },
     "three": {
-      "total": 3.06,
-      "p": 29.6,
+      "total": 3.17,
+      "p": 28.6,
       "provisional": true,
       "legs": [
         {
-          "home": "ALA",
-          "away": "VAL",
+          "home": "MNZ",
+          "away": "FRE",
           "call": "U2.5",
-          "odds": 1.7
+          "odds": 1.77
         },
-        {
-          "home": "BET",
-          "away": "MLL",
-          "call": "U2.5",
-          "odds": 1.8
-        }
-      ]
-    }
-  },
-  "Turkey_W18": {
-    "league": "Turkey",
-    "week": 18,
-    "ts": "2026-07-12 16:36",
-    "one": {
-      "total": 1.6,
-      "p": 57.5,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "GAZ",
-          "away": "GAL",
-          "call": "O2.5",
-          "odds": 1.6
-        }
-      ]
-    },
-    "two": {
-      "total": 2.33,
-      "p": 38.9,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "BES",
-          "away": "GCL",
-          "call": "1",
-          "odds": 1.42
-        },
-        {
-          "home": "FEN",
-          "away": "ANT",
-          "call": "1",
-          "odds": 1.64
-        }
-      ]
-    },
-    "three": {
-      "total": 3.06,
-      "p": 29.7,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "ALA",
-          "away": "FAT",
-          "call": "1",
-          "odds": 1.67
-        },
-        {
-          "home": "EYU",
-          "away": "CAY",
-          "call": "U2.5",
-          "odds": 1.83
-        }
-      ]
-    }
-  },
-  "France_W6": {
-    "league": "France",
-    "week": 6,
-    "ts": "2026-07-12 16:37",
-    "one": {
-      "total": 1.62,
-      "p": 58.8,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "LIL",
-          "away": "AXR",
-          "call": "1",
-          "odds": 1.62
-        }
-      ]
-    },
-    "two": {
-      "total": 2.5,
-      "p": 36.3,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "LEH",
-          "away": "PSG",
-          "call": "2",
-          "odds": 1.42
-        },
-        {
-          "home": "TOU",
-          "away": "REN",
-          "call": "U2.5",
-          "odds": 1.76
-        }
-      ]
-    },
-    "three": {
-      "total": 3.31,
-      "p": 27.4,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "ANG",
-          "away": "PFC",
-          "call": "U2.5",
-          "odds": 1.82
-        },
-        {
-          "home": "NAN",
-          "away": "MON",
-          "call": "U2.5",
-          "odds": 1.82
-        }
-      ]
-    }
-  },
-  "Germany_W27": {
-    "league": "Germany",
-    "week": 27,
-    "ts": "2026-07-12 16:37",
-    "one": {
-      "total": 1.63,
-      "p": 57.5,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "LEV",
-          "away": "HOF",
-          "call": "O2.5",
-          "odds": 1.63
-        }
-      ]
-    },
-    "two": {
-      "total": 2.53,
-      "p": 35.9,
-      "provisional": true,
-      "legs": [
-        {
-          "home": "BRE",
-          "away": "BMU",
-          "call": "2",
-          "odds": 1.55
-        },
-        {
-          "home": "BVB",
-          "away": "RBL",
-          "call": "O2.5",
-          "odds": 1.63
-        }
-      ]
-    },
-    "three": {
-      "total": 3.11,
-      "p": 29.1,
-      "provisional": true,
-      "legs": [
         {
           "home": "MGB",
-          "away": "KOE",
-          "call": "U2.5",
-          "odds": 1.74
-        },
-        {
-          "home": "HAM",
-          "away": "WLF",
+          "away": "UBE",
           "call": "U2.5",
           "odds": 1.79
         }
@@ -1764,55 +388,113 @@
   "Italy_W5": {
     "league": "Italy",
     "week": 5,
-    "ts": "2026-07-12 16:37",
+    "ts": "2026-08-11 01:37",
     "one": {
-      "total": 1.6,
-      "p": 57.5,
+      "total": 1.69,
+      "p": 56.4,
       "provisional": false,
       "legs": [
         {
-          "home": "INT",
-          "away": "SAS",
-          "call": "O2.5",
-          "odds": 1.6
+          "home": "FRO",
+          "away": "GEN",
+          "call": "U2.5",
+          "odds": 1.69
         }
       ]
     },
     "two": {
-      "total": 2.12,
-      "p": 38.7,
-      "provisional": false,
-      "legs": [
-        {
-          "home": "NAP",
-          "away": "PIS",
-          "call": "1",
-          "odds": 1.28
-        },
-        {
-          "home": "TOR",
-          "away": "FIO",
-          "call": "U2.5",
-          "odds": 1.66
-        }
-      ]
-    },
-    "three": {
-      "total": 3.13,
-      "p": 28.9,
+      "total": 2.22,
+      "p": 40.9,
       "provisional": true,
       "legs": [
         {
-          "home": "UDI",
-          "away": "CRE",
-          "call": "U2.5",
-          "odds": 1.76
+          "home": "LAZ",
+          "away": "MNZ",
+          "call": "1",
+          "odds": 1.48
         },
         {
-          "home": "LEC",
-          "away": "COM",
+          "home": "NAP",
+          "away": "TOR",
+          "call": "1",
+          "odds": 1.5
+        }
+      ]
+    },
+    "three": null
+  },
+  "Spain_W6": {
+    "league": "Spain",
+    "week": 6,
+    "ts": "2026-08-11 01:37",
+    "one": {
+      "total": 1.73,
+      "p": 55.0,
+      "provisional": false,
+      "legs": [
+        {
+          "home": "GET",
+          "away": "VAL",
           "call": "U2.5",
-          "odds": 1.78
+          "odds": 1.73
+        }
+      ]
+    },
+    "two": {
+      "total": 2.19,
+      "p": 41.3,
+      "provisional": false,
+      "legs": [
+        {
+          "home": "ATM",
+          "away": "DEP",
+          "call": "1",
+          "odds": 1.42
+        },
+        {
+          "home": "RMA",
+          "away": "LEV",
+          "call": "O2.5",
+          "odds": 1.54
+        }
+      ]
+    },
+    "three": null
+  },
+  "Turkey_W6": {
+    "league": "Turkey",
+    "week": 6,
+    "ts": "2026-08-11 01:37",
+    "one": {
+      "total": 1.69,
+      "p": 56.4,
+      "provisional": true,
+      "legs": [
+        {
+          "home": "GAL",
+          "away": "TRA",
+          "call": "O2.5",
+          "odds": 1.69
+        }
+      ]
+    },
+    "two": null,
+    "three": {
+      "total": 3.11,
+      "p": 29.2,
+      "provisional": true,
+      "legs": [
+        {
+          "home": "FEN",
+          "away": "SAM",
+          "call": "1",
+          "odds": 1.7
+        },
+        {
+          "home": "KNY",
+          "away": "AME",
+          "call": "U2.5",
+          "odds": 1.83
         }
       ]
     }

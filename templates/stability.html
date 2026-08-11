@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+{% block title %}Pattern Stability — SportyPredict{% endblock %}
+
+{% block content %}
+<meta http-equiv="refresh" content="180">
+
+<div class="mb-2">
+    <h2 class="fw-bold mb-0"><i class="bi bi-activity" style="color:#4ade80;"></i> Pattern Stability Monitor</h2>
+    <small class="text-muted">
+        Every candidate pattern, tested the only way that matters: split the history in
+        <strong>half</strong> and check whether it says the same thing twice.
+        A real edge repeats. Noise flips. <em>Nothing here is applied automatically.</em>
+    </small>
+</div>
+
+{% if not rep.ready %}
+<div class="alert alert-info">
+    <small>Not enough settled singles yet ({{ rep.n }}). The board needs ~200+ — it fills in as bets resolve.</small>
+</div>
+{% else %}
+
+<div class="d-flex gap-3 mb-3 flex-wrap">
+    <div class="card p-2 px-3 text-center">
+        <div class="stat-value" style="font-size:1.3rem;">{{ "{:,}".format(rep.n) }}</div>
+        <div class="stat-label">singles analysed</div>
+    </div>
+    <div class="card p-2 px-3 text-center">
+        <div class="stat-value" style="font-size:1.3rem;">{{ rep.overall.win }}%</div>
+        <div class="stat-label">overall win rate</div>
+    </div>
+    <div class="card p-2 px-3 text-center">
+        <div class="stat-value" style="font-size:1.3rem; color: {% if rep.overall.roi > 0 %}#4ade80{% else %}#ff6b6b{% endif %};">{{ '%+.1f'|format(rep.overall.roi) }}%</div>
+        <div class="stat-label">overall ROI</div>
+    </div>
+    <div class="card p-2 px-3 text-center">
+        <div class="stat-value" style="font-size:1.0rem; padding-top:.35rem;">{{ rep.span[0] }} → {{ rep.span[1] }}</div>
+        <div class="stat-label">period covered</div>
+    </div>
+</div>
+
+<!-- DRIFT -->
+<h5 class="fw-bold mt-4 mb-2"><i class="bi bi-hourglass-split"></i> Is behaviour drifting?
+    <small class="text-muted">— history in 4 chronological quarters</small></h5>
+<div class="table-responsive mb-2">
+    <table class="table table-dark table-sm align-middle mb-0">
+        <thead><tr><th>Quarter</th><th>Period</th><th>n</th><th>Win%</th><th>ROI</th></tr></thead>
+        <tbody>
+            {% for q in rep.quarters %}
+            <tr>
+                <td class="fw-bold">Q{{ loop.index }}</td>
+                <td><small class="text-muted">{{ q.from }} → {{ q.to }}</small></td>
+                <td>{{ q.n }}</td>
+                <td>{{ q.win }}%</td>
+                <td style="color: {% if q.roi > 0 %}#4ade80{% else %}#ff6b6b{% endif %};">{{ '%+.1f'|format(q.roi) }}%</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<p><small class="text-muted">A <em>trend</em> across quarters would mean the games really are changing.
+Wobble with no direction = the same fixed process, sampled differently.</small></p>
+
+<!-- LEAGUE x HOUR MATRIX -->
+{% if matrix.ready %}
+<h5 class="fw-bold mt-4 mb-1"><i class="bi bi-grid-3x3"></i> League &times; Hour block
+    <small class="text-muted">— win% (n), coloured by ROI · your local clock</small></h5>
+<div class="mb-2">
+    {% if matrix.tested and matrix.held >= matrix.tested * 0.6 %}
+    <span class="badge bg-success"><i class="bi bi-check-circle"></i> {{ matrix.held }}/{{ matrix.tested }} cells held up across halves</span>
+    {% else %}
+    <span class="badge bg-secondary"><i class="bi bi-x-circle"></i> only {{ matrix.held }}/{{ matrix.tested }} cells held up across halves — this grid is mostly noise</span>
+    {% endif %}
+</div>
+<div class="table-responsive mb-2">
+    <table class="table table-dark table-sm align-middle mb-0" style="font-size:.85rem;">
+        <thead>
+            <tr>
+                <th>League</th>
+                {% for b in matrix.blocks %}<th class="text-center">{{ b }}</th>{% endfor %}
+                <th class="text-center">All hours</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in matrix.rows %}
+            <tr>
+                <td class="fw-bold">{{ r.league }}</td>
+                {% for c in r.cells %}
+                {% if c.thin %}
+                <td class="text-center text-muted"><small>— <span style="opacity:.5;">({{ c.n }})</span></small></td>
+                {% else %}
+                <td class="text-center" style="background: {% if c.full.roi > 0 %}rgba(74,222,128,.12){% elif c.full.roi > -8 %}rgba(255,213,74,.10){% else %}rgba(255,107,107,.10){% endif %};">
+                    <span class="fw-bold" style="color: {% if c.full.roi > 0 %}#4ade80{% elif c.full.roi > -8 %}#ffd54a{% else %}#ff6b6b{% endif %};">{{ c.full.win }}%</span>
+                    <small class="text-muted">({{ c.full.n }})</small><br>
+                    <small style="opacity:.85;">
+                        {{ '%+.1f'|format(c.full.roi) }}%
+                        {% if c.stab %}
+                            {% if c.stab.hold %}<span class="badge bg-success" style="font-size:.6rem;">HOLDS</span>
+                            {% elif c.stab.same %}<span class="badge bg-warning text-dark" style="font-size:.6rem;">swing {{ '%+.0f'|format(c.stab.swing) }}</span>
+                            {% else %}<span class="badge bg-danger" style="font-size:.6rem;">FLIP</span>{% endif %}
+                        {% endif %}
+                    </small>
+                </td>
+                {% endif %}
+                {% endfor %}
+                <td class="text-center">
+                    <span class="fw-bold">{{ r.total.win }}%</span>
+                    <small class="text-muted">({{ r.total.n }})</small><br>
+                    <small style="color: {% if r.total.roi > 0 %}#4ade80{% else %}#ff6b6b{% endif %};">{{ '%+.1f'|format(r.total.roi) }}%</small>
+                </td>
+            </tr>
+            {% endfor %}
+            <tr style="border-top:2px solid rgba(255,255,255,.2);">
+                <td class="fw-bold text-muted">All leagues</td>
+                {% for m in matrix.margins %}
+                <td class="text-center">
+                    {% if m.cell %}
+                    <span class="fw-bold">{{ m.cell.win }}%</span> <small class="text-muted">({{ m.cell.n }})</small><br>
+                    <small style="color: {% if m.cell.roi > 0 %}#4ade80{% else %}#ff6b6b{% endif %};">{{ '%+.1f'|format(m.cell.roi) }}%</small>
+                    {% else %}<small class="text-muted">—</small>{% endif %}
+                </td>
+                {% endfor %}
+                <td class="text-center">
+                    <span class="fw-bold">{{ matrix.overall.win }}%</span> <small class="text-muted">({{ matrix.overall.n }})</small><br>
+                    <small style="color:#ff6b6b;">{{ '%+.1f'|format(matrix.overall.roi) }}%</small>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<p><small class="text-muted">
+    Hours are merged into 4-hour blocks on purpose: a full league&times;24-hour grid would be
+    ~144 cells averaging ~45 bets each — small enough that several would look brilliant by luck alone.
+    A cell is only meaningful if it says <span class="badge bg-success" style="font-size:.6rem;">HOLDS</span>;
+    <span class="badge bg-danger" style="font-size:.6rem;">FLIP</span> means the two halves disagreed.
+    Cells with too little data show “—”.
+</small></p>
+{% endif %}
+
+<!-- PATTERN GROUPS -->
+{% for g in rep.groups %}
+<h5 class="fw-bold mt-4 mb-1"><i class="bi bi-diagram-3"></i> {{ g.title }}
+    <small class="text-muted">— {{ g.note }}</small></h5>
+{% if g.verdict %}
+<div class="mb-2">
+    {% if g.verdict.ok %}
+    <span class="badge bg-success"><i class="bi bi-check-circle"></i> {{ g.verdict.stable }}/{{ g.verdict.total }} buckets held up — worth a closer look</span>
+    {% else %}
+    <span class="badge bg-secondary"><i class="bi bi-x-circle"></i> only {{ g.verdict.stable }}/{{ g.verdict.total }} buckets held up — treat as noise</span>
+    {% endif %}
+</div>
+{% endif %}
+{% if g.rows %}
+<div class="table-responsive mb-3">
+    <table class="table table-dark table-sm align-middle mb-0">
+        <thead>
+            <tr>
+                <th>Bucket</th>
+                <th class="text-muted">1st half win% (n)</th>
+                <th class="text-muted">2nd half win% (n)</th>
+                <th>Swing</th>
+                <th>Full-sample</th>
+                <th>ROI</th>
+                <th>Holds up?</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in g.rows %}
+            <tr {% if r.stable %}style="background: rgba(74,222,128,0.07);"{% endif %}>
+                <td class="fw-bold">{{ r.label }}</td>
+                <td>{{ r.first.win }}% <small class="text-muted">({{ r.first.n }})</small></td>
+                <td>{{ r.second.win }}% <small class="text-muted">({{ r.second.n }})</small></td>
+                <td style="color: {% if r.swing|abs <= 3 %}#4ade80{% elif r.swing|abs <= 6 %}#ffd54a{% else %}#ff6b6b{% endif %};">
+                    {{ '%+.1f'|format(r.swing) }}
+                </td>
+                <td>{{ r.full.win }}% <small class="text-muted">(n={{ r.full.n }})</small></td>
+                <td style="color: {% if r.full.roi > 0 %}#4ade80{% elif r.full.roi > -8 %}#ffd54a{% else %}#ff6b6b{% endif %};">{{ '%+.1f'|format(r.full.roi) }}%</td>
+                <td>
+                    {% if r.stable %}
+                    <span class="badge bg-success">HOLDS</span>
+                    {% elif r.same_side %}
+                    <span class="badge bg-warning text-dark">same side, big swing</span>
+                    {% else %}
+                    <span class="badge bg-danger">FLIPPED</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p><small class="text-muted">Not enough data in this dimension yet.</small></p>
+{% endif %}
+{% endfor %}
+
+<div class="alert mt-4" style="background: rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.12); color:#bbb;">
+    <small>
+        <i class="bi bi-lightbulb"></i> <strong>How to use this board.</strong>
+        A bucket earns <span class="badge bg-success">HOLDS</span> only if both halves land on the
+        same side of profit <em>and</em> the win rate moved less than 3 points. Chasing anything
+        marked <span class="badge bg-danger">FLIPPED</span> is how you lose money to randomness —
+        it looked good in the first half and lied in the second.
+        <br><br>
+        If a bucket keeps showing <strong>HOLDS</strong> as the sample grows over the coming weeks,
+        that's when it's worth turning into a real filter (via <code>allowed_calls</code> /
+        <code>single_odds_min</code>/<code>max</code> in <code>bettor_config.json</code>) — not before.
+        Everything tested so far has flipped, which is exactly what a fixed RNG with a house margin
+        produces.
+    </small>
+</div>
+{% endif %}
+{% endblock %}

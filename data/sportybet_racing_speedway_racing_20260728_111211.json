@@ -1,0 +1,217 @@
+[
+  {
+    "race_id": "3303673",
+    "sport": "Speedway Racing",
+    "race_name": "Bristol",
+    "race_date": "28/07/2026",
+    "race_time": "19:14",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Malcolm Farnham"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Briscoe Logan"
+      }
+    ],
+    "winner": "Malcolm Farnham",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 4.15
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 8.86
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.65
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.75
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 4.16
+      }
+    }
+  },
+  {
+    "race_id": "3303671",
+    "sport": "Speedway Racing",
+    "race_name": "Bristol",
+    "race_date": "28/07/2026",
+    "race_time": "19:12",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Jarle Seward"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Briscoe Logan"
+      }
+    ],
+    "winner": "Jarle Seward",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 4.13
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 9.38
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 2.08
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.38
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 4.47
+      }
+    }
+  },
+  {
+    "race_id": "3303669",
+    "sport": "Speedway Racing",
+    "race_name": "Bristol",
+    "race_date": "28/07/2026",
+    "race_time": "19:10",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Magnus Smythe"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Andrzej Bosko"
+      }
+    ],
+    "winner": "Magnus Smythe",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.63
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 10.7
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.36
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.6
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 6.06
+      }
+    }
+  },
+  {
+    "race_id": "3303667",
+    "sport": "Speedway Racing",
+    "race_name": "Bristol",
+    "race_date": "28/07/2026",
+    "race_time": "19:08",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Mieszko Mckowen"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Andrzej Bosko"
+      }
+    ],
+    "winner": "Mieszko Mckowen",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.59
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 9.12
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.56
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.1
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 5.16
+      }
+    }
+  },
+  {
+    "race_id": "3303665",
+    "sport": "Speedway Racing",
+    "race_name": "Bristol",
+    "race_date": "28/07/2026",
+    "race_time": "19:06",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Briscoe Logan"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Jarle Seward"
+      }
+    ],
+    "winner": "Briscoe Logan",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 3.8
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 7.15
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.82
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.33
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 3.32
+      }
+    }
+  }
+]

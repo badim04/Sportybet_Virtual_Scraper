@@ -1,0 +1,780 @@
+[
+  {
+    "race_id": "3303875",
+    "sport": "Greyhound Racing",
+    "race_name": "Santa Monica",
+    "race_date": "29/07/2026",
+    "race_time": "17:46",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Santos"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Biagio"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Lallio"
+      }
+    ],
+    "winner": "Santos",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 6.48
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 22.2
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.94
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.75
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 10.5
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 74.6
+      }
+    }
+  },
+  {
+    "race_id": "3303873",
+    "sport": "Greyhound Racing",
+    "race_name": "Santa Monica",
+    "race_date": "29/07/2026",
+    "race_time": "17:44",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Mirra"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Lure Bane"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Nada"
+      }
+    ],
+    "winner": "Mirra",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 7.97
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 29.1
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.95
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.81
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 13.7
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3303871",
+    "sport": "Greyhound Racing",
+    "race_name": "Santa Monica",
+    "race_date": "29/07/2026",
+    "race_time": "17:42",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Euristeo"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Procruste"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Ismene"
+      }
+    ],
+    "winner": "Euristeo",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 3.59
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 15.1
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.48
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.9
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 7.92
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 35.1
+      }
+    }
+  },
+  {
+    "race_id": "3303869",
+    "sport": "Greyhound Racing",
+    "race_name": "Santa Monica",
+    "race_date": "29/07/2026",
+    "race_time": "17:40",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Iti"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Babba"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Dado"
+      }
+    ],
+    "winner": "Iti",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 3.0
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 12.6
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.57
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.5
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 6.84
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 61.4
+      }
+    }
+  },
+  {
+    "race_id": "3303867",
+    "sport": "Greyhound Racing",
+    "race_name": "Santa Monica",
+    "race_date": "29/07/2026",
+    "race_time": "17:38",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Sirene"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Polinice"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Bambola"
+      }
+    ],
+    "winner": "Sirene",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 3.38
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 9.89
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.37
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.91
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 5.05
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 28.8
+      }
+    }
+  },
+  {
+    "race_id": "3303865",
+    "sport": "Greyhound Racing",
+    "race_name": "Santa Monica",
+    "race_date": "29/07/2026",
+    "race_time": "17:36",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Better Run"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "New Morla"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Poseidone"
+      }
+    ],
+    "winner": "Better Run",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 4.62
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 10.8
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.45
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 2.25
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 4.93
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 33.9
+      }
+    }
+  },
+  {
+    "race_id": "3303863",
+    "sport": "Greyhound Racing",
+    "race_name": "Santa Monica",
+    "race_date": "29/07/2026",
+    "race_time": "17:34",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Metanira"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Landone"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Miniadi"
+      }
+    ],
+    "winner": "Metanira",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 6.11
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 32.3
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.65
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 2.51
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 16.2
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 98.9
+      }
+    }
+  },
+  {
+    "race_id": "3303861",
+    "sport": "Greyhound Racing",
+    "race_name": "Santa Monica",
+    "race_date": "29/07/2026",
+    "race_time": "17:32",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Lure Bane"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Ismene"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Numa Pompilio"
+      }
+    ],
+    "winner": "Lure Bane",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 4.8
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 15.9
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 2.03
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.45
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 7.76
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 86.9
+      }
+    }
+  },
+  {
+    "race_id": "3303859",
+    "sport": "Greyhound Racing",
+    "race_name": "Santa Monica",
+    "race_date": "29/07/2026",
+    "race_time": "17:30",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Achille"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Vela"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Quirino"
+      }
+    ],
+    "winner": "Achille",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 8.19
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 40.2
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 2.19
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.54
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 19.5
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 88.6
+      }
+    }
+  },
+  {
+    "race_id": "3303857",
+    "sport": "Greyhound Racing",
+    "race_name": "Santa Monica",
+    "race_date": "29/07/2026",
+    "race_time": "17:28",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Piramo"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Calogero"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Zulu"
+      }
+    ],
+    "winner": "Piramo",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 3.95
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 27.5
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.63
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 2.15
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 14.8
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 96.9
+      }
+    }
+  },
+  {
+    "race_id": "3303855",
+    "sport": "Greyhound Racing",
+    "race_name": "Santa Monica",
+    "race_date": "29/07/2026",
+    "race_time": "17:26",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Minerva"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Licomede"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Tempo"
+      }
+    ],
+    "winner": "Minerva",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.92
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 6.78
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.8
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.51
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 3.46
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 17.2
+      }
+    }
+  },
+  {
+    "race_id": "3303853",
+    "sport": "Greyhound Racing",
+    "race_name": "Santa Monica",
+    "race_date": "29/07/2026",
+    "race_time": "17:24",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Nike"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Gordio"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Metanira"
+      }
+    ],
+    "winner": "Nike",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 4.85
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 41.9
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 2.22
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.79
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 22.2
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3303851",
+    "sport": "Greyhound Racing",
+    "race_name": "Santa Monica",
+    "race_date": "29/07/2026",
+    "race_time": "17:22",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Mirra"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Devil"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Polidoro"
+      }
+    ],
+    "winner": "Mirra",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 9.34
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 39.4
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.87
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.47
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 18.7
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 86.8
+      }
+    }
+  },
+  {
+    "race_id": "3303849",
+    "sport": "Greyhound Racing",
+    "race_name": "Santa Monica",
+    "race_date": "29/07/2026",
+    "race_time": "17:20",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Io"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Foco"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Orion"
+      }
+    ],
+    "winner": "Io",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 5.79
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 15.8
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 2.28
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.9
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 7.24
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 57.2
+      }
+    }
+  },
+  {
+    "race_id": "3303847",
+    "sport": "Greyhound Racing",
+    "race_name": "Santa Monica",
+    "race_date": "29/07/2026",
+    "race_time": "17:18",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Munito"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Eurimedonte"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Pirra"
+      }
+    ],
+    "winner": "Munito",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 3.33
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 21.3
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.66
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 2.28
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 11.7
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 66.8
+      }
+    }
+  }
+]

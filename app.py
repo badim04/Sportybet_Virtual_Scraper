@@ -695,6 +695,20 @@ def predict_upcoming_with_model(model, upcoming_matches, league):
         pred["live_away_odds"] = match.get("away_odds")
         pred["live_over_25"] = match.get("over_2.5")
         pred["live_under_25"] = match.get("under_2.5")
+        pred["live_gg_odds"] = match.get("gg_odds")
+        pred["live_ng_odds"] = match.get("ng_odds")
+        # Every other goal line + Double Chance. These are scraped but were
+        # never persisted, so odds-pattern studies could only ever see the
+        # 2.5 line — carry them through to the snapshots/eval logs.
+        for _ln in ("1.5", "3.5", "4.5"):
+            pred[f"live_over_{_ln}"] = match.get(f"over_{_ln}")
+            pred[f"live_under_{_ln}"] = match.get(f"under_{_ln}")
+        for _dc in ("dc_1x_odds", "dc_12_odds", "dc_x2_odds"):
+            pred[f"live_{_dc}"] = match.get(_dc)
+        if pred.get("live_gg_odds") and pred["live_gg_odds"] > 1:
+            pred["gg_edge"] = round(pred.get("btts_pct", 0) - (1 / pred["live_gg_odds"] * 100), 1)
+        if pred.get("live_ng_odds") and pred["live_ng_odds"] > 1:
+            pred["ng_edge"] = round((100 - pred.get("btts_pct", 0)) - (1 / pred["live_ng_odds"] * 100), 1)
 
         for key_name, model_key in [("25", "over_2_5_pct")]:
             live_o = pred.get(f"live_over_{key_name}")
@@ -750,7 +764,8 @@ def _dedup_matches(matches):
     the most odds fields (scroll snapshots overlap, so dups are normal)."""
     def richness(m):
         return sum(1 for k in ("home_odds", "draw_odds", "away_odds",
-                               "over_2.5", "under_2.5") if m.get(k) is not None)
+                               "over_2.5", "under_2.5",
+                               "gg_odds", "ng_odds") if m.get(k) is not None)
     seen = {}
     for m in matches:
         key = (m.get("week"), m.get("home_team"), m.get("away_team"))
@@ -833,7 +848,9 @@ def load_upcoming_odds():
         league = None
         odds_keys = ("home_odds", "draw_odds", "away_odds",
                      "over_1.5", "under_1.5", "over_2.5", "under_2.5",
-                     "over_3.5", "under_3.5", "over_4.5", "under_4.5")
+                     "over_3.5", "under_3.5", "over_4.5", "under_4.5",
+                     "gg_odds", "ng_odds",
+                     "dc_1x_odds", "dc_12_odds", "dc_x2_odds")
         base_pairs = {}                 # (home, away) -> match dict
         week_teams = defaultdict(set)   # week -> teams already placed
         week_counts = defaultdict(int)  # week -> matches placed
@@ -954,6 +971,19 @@ def save_prediction_snapshots(league, predictions):
                 "away_odds": p.get("live_away_odds"),
                 "over_25_odds": p.get("live_over_25"),
                 "under_25_odds": p.get("live_under_25"),
+                "gg_odds": p.get("live_gg_odds"),
+                "ng_odds": p.get("live_ng_odds"),
+                # Other goal lines + Double Chance (added 2026-08-10) so the
+                # 1.5/3.5/4.5 and DC markets become testable from eval logs
+                "over_15_odds": p.get("live_over_1.5"),
+                "under_15_odds": p.get("live_under_1.5"),
+                "over_35_odds": p.get("live_over_3.5"),
+                "under_35_odds": p.get("live_under_3.5"),
+                "over_45_odds": p.get("live_over_4.5"),
+                "under_45_odds": p.get("live_under_4.5"),
+                "dc_1x_odds": p.get("live_dc_1x_odds"),
+                "dc_12_odds": p.get("live_dc_12_odds"),
+                "dc_x2_odds": p.get("live_dc_x2_odds"),
             }
 
     with open(fpath, "w", encoding="utf-8") as f:
@@ -2315,6 +2345,88 @@ def _scrape_league_odds_direct(frame, league_name, fast=False):
         except Exception as e:
             print(f"  [Odds] O/U tab error: {e}", flush=True)
 
+        # Step 6: MAIN > "1X2 + Double Chance + GG/NG" sub-tab — GG/NG odds
+        # (BTTS market; layout verified live 2026-07-26). Same virtualized
+        # scroll-capture as O/U; parse is label-driven so a no-op tab click
+        # just assigns 0 rows instead of garbage.
+        try:
+            # Scroll back up so the market-filter bar is at hand
+            try:
+                frame.evaluate("""() => {
+                    for (const el of document.querySelectorAll('div, main, section')) {
+                        if (el.scrollHeight > el.clientHeight + 80) el.scrollTop = 0;
+                    }
+                    window.scrollTo(0, 0);
+                }""")
+            except Exception:
+                pass
+            _pause(500, 900)
+            frame.evaluate("""() => {
+                for (const el of document.querySelectorAll('a, li, span, div, button')) {
+                    const t = el.textContent.trim();
+                    if (t === 'MAIN' && el.offsetParent !== null && el.offsetWidth > 0) {
+                        el.click(); return 'clicked_main';
+                    }
+                }
+                return 'not_found';
+            }""")
+            _pause(800, 1400)
+            clicked = frame.evaluate("""() => {
+                for (const el of document.querySelectorAll('div.item, div[class*="item"], a, li, span, button')) {
+                    const t = el.textContent.trim();
+                    if (t === '1X2 + Double Chance + GG/NG' && el.offsetParent !== null) {
+                        el.click(); return 'clicked_ggng';
+                    }
+                }
+                return 'not_found';
+            }""")
+            if clicked == 'clicked_ggng':
+                print(f"    GG/NG sub-tab: {clicked}", flush=True)
+                _pause(2000, 3000)
+                gg_texts = []
+                for _ in range(14):
+                    try:
+                        t = frame.evaluate("() => document.body.innerText")
+                    except Exception:
+                        break
+                    if t:
+                        gg_texts.append(t)
+                    try:
+                        moved = frame.evaluate("""() => {
+                            let scrolled = false;
+                            for (const el of document.querySelectorAll('div, main, section')) {
+                                if (el.scrollHeight > el.clientHeight + 80) {
+                                    const b = el.scrollTop;
+                                    el.scrollTop += el.clientHeight * 0.85;
+                                    if (el.scrollTop > b) scrolled = true;
+                                }
+                            }
+                            const by = window.scrollY;
+                            window.scrollBy(0, window.innerHeight * 0.85);
+                            return scrolled || window.scrollY > by;
+                        }""")
+                    except Exception:
+                        break
+                    _pause(500, 900)
+                    if not moved:
+                        break
+                gg_text = "\n===SNAPSHOT===\n".join(gg_texts)
+                if league_name == "England":
+                    try:
+                        with open("debug_ggng_page.txt", "w", encoding="utf-8") as df:
+                            df.write(gg_text)
+                    except Exception:
+                        pass
+                assigned = _assign_ggng_odds_per_row(league_name, matches, gg_text)
+                if assigned:
+                    print(f"    Assigned GG/NG odds to {assigned} matches (per-row)", flush=True)
+                else:
+                    print(f"    GG/NG per-row parse matched 0 rows", flush=True)
+            else:
+                print(f"    GG/NG sub-tab not found", flush=True)
+        except Exception as e:
+            print(f"  [Odds] GG/NG tab error: {e}", flush=True)
+
     # Merge multi-week fixtures from pre-click page (without odds)
     # with current week matches (with odds)
     if extra_matches:
@@ -2538,6 +2650,107 @@ def _assign_ou_odds_per_row(league_name, matches, body_text):
                         m[fo] = vo
                         m[fu] = vu
                     assigned.add(key3)
+            pos += 1
+            i = j
+            continue
+        i += 1
+    return len(assigned)
+
+
+# Labels carried by the "1X2 + Double Chance + GG/NG" view, in page order.
+# 1X/12/X2/GG/NG all match the team-code regex, so the row scanner must not
+# mistake them for the next fixture's HOME code.
+_GGNG_LABELS = ("1", "X", "2", "1X", "12", "X2", "GG", "NG")
+_GGNG_FIELDS = {"1": "mr_home_odds", "X": "mr_draw_odds", "2": "mr_away_odds",
+                "1X": "dc_1x_odds", "12": "dc_12_odds", "X2": "dc_x2_odds",
+                "GG": "gg_odds", "NG": "ng_odds"}
+
+
+def _assign_ggng_odds_per_row(league_name, matches, body_text):
+    """Parse the MAIN > '1X2 + Double Chance + GG/NG' market view per row and
+    attach Double Chance (1X/12/X2) + GG/NG odds to the already-parsed
+    matches, keyed by (week, home, away). Row anchor is the HOME / - / AWAY
+    triple; the block that follows is labeled pairs (verified live 2026-07-26):
+    1 x.xx X x.xx 2 x.xx 1X x.xx 12 x.xx X2 x.xx GG x.xx NG x.xx"""
+    index = {}
+    for m in matches:
+        index[(m.get("week"), m.get("home_team"), m.get("away_team"))] = m
+
+    lines = [l.strip() for l in body_text.split('\n') if l.strip()]
+    total_w = LEAGUE_WEEKS.get(league_name, 38)
+    team_re = re.compile(r'^[A-Z]{2,4}$')
+    val_re = re.compile(r'^(\d{1,2}\.\d{2})$')
+    week_label = ""
+    pos = 1
+    assigned = set()
+    i, n = 0, len(lines)
+    while i < n:
+        line = lines[i]
+        if line == '===SNAPSHOT===':
+            week_label = ""
+            pos = 1
+            i += 1
+            continue
+        wm = re.search(r'Week\s*(\d+)\s*[-–]\s*(\w+)', line)
+        if wm and wm.group(2).lower() == league_name.lower():
+            week_label = f"Week {wm.group(1)} - {wm.group(2)}"
+            pos = 1
+            i += 1
+            continue
+        wm2 = re.search(r'(?:Football League[:\s]*)?(\w+)\s+Week\s*(\d+)', line)
+        if wm2 and wm2.group(1).lower() == league_name.lower():
+            week_label = f"Week {wm2.group(2)} - {wm2.group(1)}"
+            pos = 1
+            i += 1
+            continue
+        rn = re.match(r'^(\d+)\.$', line)
+        if rn:
+            if int(rn.group(1)) == 1 and pos > 1 and week_label:
+                cw = re.search(r'Week\s*(\d+)', week_label)
+                if cw:
+                    week_label = f"Week {int(cw.group(1)) % total_w + 1} - {league_name}"
+                    pos = 1
+            i += 1
+            continue
+        # Row anchor: HOME / - / AWAY
+        if (week_label and team_re.match(line) and i + 2 < n
+                and lines[i + 1] == '-' and team_re.match(lines[i + 2])
+                and line not in _GGNG_LABELS):
+            home, away = line, lines[i + 2]
+            vals = {}
+            j = i + 3
+            while j < n:
+                l2 = lines[j]
+                if (l2 == '===SNAPSHOT===' or re.match(r'^\d+\.$', l2)
+                        or 'Week' in l2
+                        or (team_re.match(l2) and j + 2 < n and lines[j + 1] == '-'
+                            and l2 not in _GGNG_LABELS)):
+                    break
+                if l2 in _GGNG_LABELS and j + 1 < n:
+                    vm = val_re.match(lines[j + 1])
+                    if vm:
+                        vals.setdefault(l2, float(vm.group(1)))
+                        j += 2
+                        continue
+                j += 1
+            key3 = (week_label, home, away)
+            m = index.get(key3)
+            gg, ng = vals.get("GG"), vals.get("NG")
+            # Sanity: GG/NG implied probabilities must sum to ~1 plus margin,
+            # or the layout isn't what we assume and we skip the whole row.
+            # Double Chance is checked the same way against its complement
+            # (1X pairs with 2, 12 with X, X2 with 1).
+            if (m is not None and gg and ng and key3 not in assigned
+                    and 1.0 <= (1 / gg + 1 / ng) <= 1.45):
+                for lbl, field in _GGNG_FIELDS.items():
+                    v = vals.get(lbl)
+                    if v and 1.0 < v < 100:
+                        m[field] = v
+                for dc, comp in (("1X", "2"), ("12", "X"), ("X2", "1")):
+                    a, b = vals.get(dc), vals.get(comp)
+                    if not (a and b and 1.0 <= (1 / a + 1 / b) <= 1.45):
+                        m.pop(_GGNG_FIELDS[dc], None)   # implausible — drop it
+                assigned.add(key3)
             pos += 1
             i = j
             continue
@@ -3620,6 +3833,22 @@ def _leg_p(tier_hit_pct, odds):
     return round(min(tier_hit_pct / 100.0, implied), 4)
 
 
+def _over_signal_count(m):
+    """How many secondary signals agree that this match is a GOAL-FEST, for
+    an Over 2.5 pick: BTTS-yes, expected goals >=3.0, expected goals >=3.3.
+    0-3. Backtested (100k picks): a 2+ Over pick wins ~61% vs ~55% baseline —
+    a real WIN-RATE lift (shorter losing streaks), NOT a price edge."""
+    c = 0
+    if (m.get("btts_pct") or 0) > 50:
+        c += 1
+    lam = (m.get("lambda_home") or 0) + (m.get("lambda_away") or 0)
+    if lam >= 3.0:
+        c += 1
+    if lam >= 3.3:
+        c += 1
+    return c
+
+
 def _gw_banker_legs(matches):
     """Candidate legs from one GW's matches. 'verified' legs come from the
     play types with measured hit rates; 'market' legs are fallbacks so a
@@ -3648,6 +3877,8 @@ def _gw_banker_legs(matches):
         ou_p = m.get("over_2_5_pct", 50)
         conf = max(ou_p, 100 - ou_p)
         odds = m.get("live_over_25") if ou_p > 50 else m.get("live_under_25")
+        # signals only apply to OVER picks (goal-fest agreement)
+        sig = _over_signal_count(m) if ou_p > 50 else 0
         if odds and odds > 1:
             call = "O2.5" if ou_p > 50 else "U2.5"
             mkt = "Over/Under 2.5"
@@ -3655,10 +3886,11 @@ def _gw_banker_legs(matches):
             if tier and rates[tier]["n"] >= 50:
                 verified.append({"match": mk, "desc": desc, "call": call,
                                  "market": mkt, "conf": conf, "odds": odds,
+                                 "signals": sig,
                                  "p": _leg_p(rates[tier]["hit"], odds)})
             elif conf >= 52:
                 market.append({"match": mk, "desc": desc, "call": call,
-                               "market": mkt, "conf": conf,
+                               "market": mkt, "conf": conf, "signals": sig,
                                "odds": odds, "p": _leg_p(None, odds)})
     return verified, market
 
@@ -3683,14 +3915,21 @@ def _build_ticket(legs, lo, hi, exclude=frozenset()):
     return best
 
 
-def _gw_bankers(matches):
+def _gw_bankers(matches, single_lo=1.60, single_hi=2.04, allowed_calls=None,
+                min_signals=0):
     """Build three plays from ONE gameweek:
-    - single: the martingale-safe pick — one verified leg at ~1.6-2.04 odds
-      (highest measured win rate; losing streaks stay survivable),
+    - single: the martingale-safe pick — one verified leg in the single odds
+      window (default 1.60-2.04; narrow it to raise the win rate),
     - two: ~2-odds ticket (2.05-2.90), strongest legs first,
     - three: ~3-odds ticket (3.05-3.90) from DIFFERENT matches.
     Falls back to market-priced legs so tickets exist nearly every GW
-    (marked provisional)."""
+    (marked provisional).
+
+    allowed_calls: optional whitelist for the SINGLE's call, e.g. {"O2.5"}.
+    min_signals: if >0, an Over-2.5 single must have at least this many
+      secondary signals agreeing (BTTS + expected goals) — the "upgraded
+      single" (higher win rate, fewer bets). 0 = off.
+    """
     verified, market = _gw_banker_legs(matches)
 
     def build(lo, hi, exclude):
@@ -3704,11 +3943,23 @@ def _gw_bankers(matches):
             best["provisional"] = provisional
         return best
 
-    # Martingale-safe single: best verified leg in the 1.6-2.04 window
+    # Martingale-safe single: best verified leg in the single odds window,
+    # optionally restricted to certain calls and to goal-fest agreement
+    def _ok(l):
+        if not (single_lo <= l["odds"] <= single_hi):
+            return False
+        if allowed_calls and l["call"] not in allowed_calls:
+            return False
+        # signal filter only constrains OVER picks (it is a goal-fest test)
+        if min_signals > 0 and l["call"] == "O2.5" \
+                and l.get("signals", 0) < min_signals:
+            return False
+        return True
+
     single = None
-    pool = [l for l in verified if 1.6 <= l["odds"] <= 2.04]
+    pool = [l for l in verified if _ok(l)]
     if not pool:
-        pool = [l for l in market if 1.6 <= l["odds"] <= 2.04]
+        pool = [l for l in market if _ok(l)]
     if pool:
         leg = max(pool, key=lambda l: l["p"])
         single = {"legs": [leg], "total": leg["odds"],
@@ -3720,6 +3971,44 @@ def _gw_bankers(matches):
     used = used_s | (frozenset(l["match"] for l in two["legs"]) if two else frozenset())
     three = build(3.05, 3.90, used)
     return single, two, three
+
+
+def _gw_ng_pick(matches, min_odds=1.90):
+    """ONE No-Goal (BTTS-No) candidate per gameweek — the match least likely
+    to see both teams score.
+
+    Backtest (110k evals, 2026-07-26): ranking a GW's matches by the model's
+    own BTTS% and taking the single lowest gives 49.3% NG pooled — BELOW the
+    ~48-51% break-even once real NG prices are applied, so it is NOT a
+    league-wide edge. It held only in ITALY (53.0%, n=1,960; split-half
+    H1 51.7 / H2 54.3 — did not decay), so callers should restrict leagues.
+
+    Pricing matters more than the pick here: live NG prices run 1.82-2.25 and
+    the most NG-likely match carries the SHORTEST price, so a pick is only
+    worth taking when the live NG odds clear `min_odds`. Returns None when
+    the market prices the pick too short to beat.
+    """
+    best = None
+    for m in matches:
+        btts = m.get("btts_pct")
+        if btts is None:
+            continue
+        if best is None or btts < best.get("btts_pct", 100):
+            best = m
+    if best is None:
+        return None
+    ng_odds = best.get("live_ng_odds")
+    if not ng_odds or ng_odds < min_odds:
+        return None   # priced too short (or GG/NG not scraped for this GW yet)
+    return {
+        "legs": [{"match": (best.get("home_team"), best.get("away_team")),
+                  "market": "GG/NG", "call": "NG", "odds": ng_odds,
+                  "conf": round(100 - (best.get("btts_pct") or 50), 1),
+                  "signals": 0}],
+        "total": ng_odds,
+        "p": round(100 - (best.get("btts_pct") or 50), 1),
+        "provisional": False,
+    }
 
 
 BANKERS_PENDING_PATH = os.path.join(ACCURACY_DIR, "bankers_pending.json")
@@ -3937,6 +4226,356 @@ def compute_banker_streaks(league=None):
     return out
 
 
+def _reconstruct_singles(min_odds=1.60, max_odds=2.04, min_signals=0):
+    """Rebuild the banker SINGLE each GW cycle actually offered, from the eval
+    logs — same construction as _gw_bankers — tagged with its call, odds band,
+    league, hour and gameweek. This is the raw material for the stability
+    monitor (bankers_outcomes.jsonl doesn't record the call/market).
+
+    min_signals>0 reconstructs the UPGRADED single instead: only Over 2.5 legs
+    with at least this many goal-fest signals qualify (empty GWs are skipped).
+    """
+    rates = _banker_verified_rates()
+    out = []
+    for path in glob.glob(os.path.join(ACCURACY_DIR, "eval_log_*.jsonl")):
+        league = os.path.basename(path)[9:-6].title()
+        groups = defaultdict(list)
+        try:
+            with open(path, encoding="utf-8") as f:
+                for line in f:
+                    try:
+                        r = json.loads(line)
+                        t = datetime.strptime(r["evaluated_at"], "%Y-%m-%d %H:%M")
+                    except Exception:
+                        continue
+                    if r.get("actual_home") is None:
+                        continue
+                    key = (r.get("week"), t.strftime("%Y-%m-%d"), t.hour * 60 // 45)
+                    groups[key].append((t, r))
+        except Exception:
+            continue
+
+        for key, items in groups.items():
+            verified, market = [], []
+            for _, r in items:
+                hs, aws = r["actual_home"], r["actual_away"]
+                co = {"Home Win": r.get("home_odds"),
+                      "Away Win": r.get("away_odds")}.get(r.get("prediction"))
+                if co and co > 1:
+                    call = "1" if r["prediction"] == "Home Win" else "2"
+                    won = (hs > aws) if call == "1" else (aws > hs)
+                    leg = {"call": call, "odds": co, "won": won}
+                    if co <= 1.45 and rates["fav145"]["n"] >= 50:
+                        verified.append({**leg, "p": _leg_p(rates["fav145"]["hit"], co)})
+                    elif co <= 1.75:
+                        market.append({**leg, "p": _leg_p(None, co)})
+                p = r.get("over_2_5_pct")
+                if p:
+                    conf = max(p, 100 - p)
+                    call = "O2.5" if p > 50 else "U2.5"
+                    odds = r.get("over_25_odds") if p > 50 else r.get("under_25_odds")
+                    if odds and odds > 1:
+                        tot = hs + aws
+                        won = (tot > 2.5) if p > 50 else (tot <= 2.5)
+                        sig = _over_signal_count(r) if p > 50 else 0
+                        leg = {"call": call, "odds": odds, "won": won, "signals": sig}
+                        tier = "ou60" if conf >= 60 else ("ou55" if conf >= 55 else None)
+                        if tier and rates[tier]["n"] >= 50:
+                            verified.append({**leg, "p": _leg_p(rates[tier]["hit"], odds)})
+                        elif conf >= 52:
+                            market.append({**leg, "p": _leg_p(None, odds)})
+
+            def _in_window(l):
+                if not (min_odds <= l["odds"] <= max_odds):
+                    return False
+                if min_signals > 0 and (l["call"] != "O2.5"
+                                        or l.get("signals", 0) < min_signals):
+                    return False
+                return True
+
+            pool = [l for l in verified if _in_window(l)] \
+                or [l for l in market if _in_window(l)]
+            if not pool:
+                continue
+            best = max(pool, key=lambda l: l["p"])
+            t0 = min(t for t, _ in items)
+            out.append({**best, "league": league, "t": t0,
+                        "week": key[0] or 0, "hour": t0.hour})
+    out.sort(key=lambda l: l["t"])
+    return out
+
+
+def _cell(rs):
+    n = len(rs)
+    if not n:
+        return None
+    w = sum(1 for l in rs if l["won"])
+    impl = sum(1.0 / l["odds"] for l in rs) / n * 100
+    ret = sum(l["odds"] for l in rs if l["won"])
+    return {"n": n, "win": round(w / n * 100, 1), "impl": round(impl, 1),
+            "roi": round((ret - n) / n * 100, 1)}
+
+
+def compute_stability_report(min_n=60, singles=None):
+    """For every candidate pattern, split the history in HALF and report both
+    halves side by side. A real edge repeats; noise flips. Nothing here is
+    applied automatically — it is an early-warning board."""
+    if singles is None:
+        singles = _reconstruct_singles()
+    if len(singles) < 200:
+        return {"ready": False, "n": len(singles), "groups": []}
+
+    half = len(singles) // 2
+    first, second = singles[:half], singles[half:]
+
+    def dim(title, note, labeller, order=None):
+        labels = order or sorted(set(labeller(l) for l in singles
+                                     if labeller(l) is not None))
+        rows = []
+        for lab in labels:
+            a = _cell([l for l in first if labeller(l) == lab])
+            b = _cell([l for l in second if labeller(l) == lab])
+            full = _cell([l for l in singles if labeller(l) == lab])
+            if not full or full["n"] < min_n or not a or not b:
+                continue
+            if a["n"] < 20 or b["n"] < 20:
+                continue
+            same_side = (a["roi"] > 0) == (b["roi"] > 0)
+            swing = round(b["win"] - a["win"], 1)
+            rows.append({"label": str(lab), "first": a, "second": b,
+                         "full": full, "stable": same_side and abs(swing) <= 3.0,
+                         "swing": swing, "same_side": same_side})
+        verdict = None
+        if rows:
+            n_stable = sum(1 for r in rows if r["stable"])
+            verdict = {"stable": n_stable, "total": len(rows),
+                       "ok": n_stable >= max(2, len(rows) * 0.6)}
+        return {"title": title, "note": note, "rows": rows, "verdict": verdict}
+
+    def band(l):
+        o = l["odds"]
+        if o < 1.65:
+            return "1.60-1.64"
+        if o < 1.70:
+            return "1.65-1.69"
+        if o < 1.76:
+            return "1.70-1.75"
+        if o < 1.86:
+            return "1.76-1.85"
+        return "1.86-2.04"
+
+    def gwband(l):
+        w = l["week"]
+        if not w:
+            return None
+        lo = ((w - 1) // 8) * 8 + 1
+        return "GW %d-%d" % (lo, lo + 7)
+
+    groups = [
+        dim("Call type", "Which selection the banker used",
+            lambda l: l["call"], ["1", "2", "O2.5", "U2.5"]),
+        dim("Odds band", "Does a price range really win more?", band,
+            ["1.60-1.64", "1.65-1.69", "1.70-1.75", "1.76-1.85", "1.86-2.04"]),
+        dim("League", "Is any league genuinely better?", lambda l: l["league"]),
+        dim("Hour of day", "Local time the GW settled", lambda l: "%02d:00" % l["hour"]),
+        dim("Gameweek band", "Any part of the season to avoid?", gwband),
+    ]
+
+    q = len(singles) // 4
+    quarters = []
+    for i in range(4):
+        seg = singles[i * q:(i + 1) * q] if i < 3 else singles[3 * q:]
+        c = _cell(seg)
+        if c:
+            c["from"] = seg[0]["t"].strftime("%m-%d %H:%M")
+            c["to"] = seg[-1]["t"].strftime("%m-%d %H:%M")
+            quarters.append(c)
+
+    return {"ready": True, "n": len(singles), "groups": groups,
+            "quarters": quarters, "overall": _cell(singles),
+            "span": (singles[0]["t"].strftime("%Y-%m-%d"),
+                     singles[-1]["t"].strftime("%Y-%m-%d"))}
+
+
+HOUR_BLOCKS = [("00-03", 0, 4), ("04-07", 4, 8), ("08-11", 8, 12),
+               ("12-15", 12, 16), ("16-19", 16, 20), ("20-23", 20, 24)]
+
+
+def compute_hour_league_matrix(min_n=40, singles=None):
+    """League x hour-block matrix for banker SINGLES.
+
+    Hours are merged into 4-hour blocks: a per-league per-hour grid would be
+    ~144 cells of n~45 — far too thin to read. Each cell also carries its
+    split-half verdict, so a cell that looks good but FLIPPED is visible.
+    Times are your local clock (when the GW settled).
+    """
+    if singles is None:
+        singles = _reconstruct_singles()
+    if len(singles) < 200:
+        return {"ready": False, "n": len(singles)}
+
+    half = len(singles) // 2
+    first, second = singles[:half], singles[half:]
+    leagues = sorted(set(l["league"] for l in singles))
+
+    rows = []
+    for lg in leagues:
+        cells = []
+        for lab, lo, hi in HOUR_BLOCKS:
+            pick = lambda src: [l for l in src
+                                if l["league"] == lg and lo <= l["hour"] < hi]
+            full = _cell(pick(singles))
+            if not full or full["n"] < min_n:
+                cells.append({"label": lab, "thin": True,
+                              "n": full["n"] if full else 0})
+                continue
+            a, b = _cell(pick(first)), _cell(pick(second))
+            stab = None
+            if a and b and a["n"] >= 15 and b["n"] >= 15:
+                same = (a["roi"] > 0) == (b["roi"] > 0)
+                swing = round(b["win"] - a["win"], 1)
+                stab = {"a": a, "b": b, "swing": swing, "same": same,
+                        "hold": same and abs(swing) <= 3.0}
+            cells.append({"label": lab, "thin": False, "full": full, "stab": stab})
+        rows.append({"league": lg, "cells": cells,
+                     "total": _cell([l for l in singles if l["league"] == lg])})
+
+    margins = [{"label": lab,
+                "cell": _cell([l for l in singles if lo <= l["hour"] < hi])}
+               for lab, lo, hi in HOUR_BLOCKS]
+
+    # how many cells in the whole grid actually hold up?
+    all_cells = [c for r in rows for c in r["cells"]
+                 if not c["thin"] and c.get("stab")]
+    held = sum(1 for c in all_cells if c["stab"]["hold"])
+    return {"ready": True, "blocks": [b[0] for b in HOUR_BLOCKS],
+            "rows": rows, "margins": margins, "overall": _cell(singles),
+            "held": held, "tested": len(all_cells)}
+
+
+def _single_streak_table(min_signals=0, min_odds=None):
+    """Per-league win% + REAL streaks for the (upgraded) SINGLE, reconstructed
+    from the eval logs. Streaks are within-league (what a martingale feels).
+
+    The UPGRADED single must use the LOWER floor (upgraded_odds_min, 1.50):
+    goal-fest Overs are priced ~1.50-1.60, so reading them through the plain
+    single's 1.60 floor doesn't measure the strategy — it measures which
+    league happens to price its goal-fests above 1.60 (that alone made
+    Germany look like n=65 instead of ~480, and hid France/Spain/Turkey
+    entirely). This must match what the bettor's upgraded_single preset bets.
+    """
+    if min_odds is None:
+        min_odds = 1.50 if min_signals > 0 else 1.60
+    singles = _reconstruct_singles(min_odds=min_odds, min_signals=min_signals)
+
+    def streak_info(seq):
+        worst = cur = 0
+        runs = defaultdict(int)
+        for won in seq:
+            if won:
+                if cur:
+                    runs[cur] += 1
+                cur = 0
+            else:
+                cur += 1
+                worst = max(worst, cur)
+        if cur:
+            runs[cur] += 1
+        return worst, dict(sorted(runs.items()))
+
+    rows = []
+    for lg in sorted(set(l["league"] for l in singles)):
+        rs = sorted([l for l in singles if l["league"] == lg], key=lambda l: l["t"])
+        n = len(rs)
+        if n < 25:
+            continue
+        w = sum(1 for l in rs if l["won"])
+        ret = sum(l["odds"] for l in rs if l["won"])
+        impl = sum(1.0 / l["odds"] for l in rs) / n * 100
+        mx, runs = streak_info([l["won"] for l in rs])
+        four = sum(v for k, v in runs.items() if k >= 4)
+        rows.append({
+            "league": lg, "n": n,
+            "win_pct": round(w / n * 100, 1),
+            "impl_pct": round(impl, 1),
+            "edge": round(w / n * 100 - impl, 1),
+            "roi": round((ret - n) / n * 100, 1),
+            "avg_odds": round(sum(l["odds"] for l in rs) / n, 2),
+            "max_streak": mx, "four_plus": four,
+            "per_freq": int(n / four) if four else None,
+            "runs": runs,
+        })
+    rows.sort(key=lambda d: (d["max_streak"], -d["win_pct"]))
+    return rows
+
+
+def compute_league_type_table():
+    """Per-league x per-type banker performance with REAL streaks.
+
+    Streaks are computed within each league separately — a martingale runs
+    inside one league, so merging leagues into one sequence would invent
+    streaks nobody ever experienced.
+    """
+    rows = []
+    try:
+        with open(BANKERS_OUTCOMES_PATH, encoding="utf-8") as f:
+            for i, line in enumerate(f):
+                try:
+                    r = json.loads(line)
+                    r["_t"] = datetime.strptime(r["ts"], "%Y-%m-%d %H:%M")
+                except Exception:
+                    continue
+                if r.get("odds") is None or r.get("won") is None:
+                    continue
+                r["_line"] = i
+                rows.append(r)
+    except FileNotFoundError:
+        return []
+    except Exception:
+        return []
+
+    def streak_info(seq):
+        worst = cur = 0
+        runs = defaultdict(int)
+        for won in seq:
+            if won:
+                if cur:
+                    runs[cur] += 1
+                cur = 0
+            else:
+                cur += 1
+                worst = max(worst, cur)
+        if cur:
+            runs[cur] += 1
+        return worst, dict(sorted(runs.items()))
+
+    out = []
+    leagues = sorted(set(r["league"] for r in rows))
+    for kind, label in (("one", "SINGLE"), ("two", "2-ODDS"), ("three", "3-ODDS")):
+        for lg in leagues:
+            rs = sorted([r for r in rows if r["kind"] == kind and r["league"] == lg],
+                        key=lambda r: (r["_t"], r["_line"]))
+            n = len(rs)
+            if n < 40:
+                continue
+            w = sum(1 for r in rs if r["won"])
+            ret = sum(r["odds"] for r in rs if r["won"])
+            mx, runs = streak_info([r["won"] for r in rs])
+            four_plus = sum(v for k, v in runs.items() if k >= 4)
+            out.append({
+                "kind": kind, "type": label, "league": lg, "n": n,
+                "win_pct": round(w / n * 100, 1),
+                "avg_odds": round(sum(r["odds"] for r in rs) / n, 2),
+                "max_streak": mx,
+                "four_plus": four_plus,
+                "per_freq": int(n / four_plus) if four_plus else None,
+                "roi": round((ret - n) / n * 100, 1),
+                "runs": runs,
+            })
+    out.sort(key=lambda d: -d["roi"])
+    return out
+
+
 def load_banker_record():
     totals = _load_json(BANKERS_TOTALS_PATH, {})
     rec = {}
@@ -4058,13 +4697,22 @@ def football_league(league):
         upcoming_by_week[w].append(p)
     upcoming_weeks = sorted(upcoming_by_week.items(), key=lambda kv: _week_order(kv[0]))
 
-    # Per-GW banker plays (martingale-safe single + ~2 odds + ~3 odds)
+    # Per-GW banker plays (martingale-safe single + ~2 odds + ~3 odds), plus
+    # the UPGRADED single (Over 2.5 with 2+ goal-fest signals: ~61% win vs
+    # ~55%). Upgraded fires only some GWs — that is the point.
     gw_bankers = {}
     for w, ms in upcoming_by_week.items():
         try:
             single, two, three = _gw_bankers(ms)
+            # Goal-fests are priced ~1.50-1.60, BELOW the plain single's
+            # floor — building the upgraded pick at 1.60 silently drops most
+            # of them (and all of France/Spain/Turkey's). Use the upgraded
+            # floor, same as the bettor's upgraded_single preset.
+            up_single, _, _ = _gw_bankers(ms, single_lo=1.50,
+                                          allowed_calls={"O2.5"}, min_signals=2)
             if single or two or three:
-                gw_bankers[w] = {"one": single, "two": two, "three": three}
+                gw_bankers[w] = {"one": single, "two": two, "three": three,
+                                 "upgraded": up_single}
         except Exception:
             pass
 
@@ -4199,6 +4847,28 @@ _HEALTH_COMPONENTS = [
 ]
 
 
+@app.route("/stability")
+def stability_page():
+    singles = _reconstruct_singles()
+    return render_template("stability.html",
+                           rep=compute_stability_report(singles=singles),
+                           matrix=compute_hour_league_matrix(singles=singles),
+                           last_update=state.get("last_update"))
+
+
+@app.route("/performance")
+def performance_page():
+    table = compute_league_type_table()
+    singles = sorted([t for t in table if t["kind"] == "one"],
+                     key=lambda t: (t["max_streak"], -t["win_pct"]))
+    return render_template("performance.html",
+                           best=table[:6], worst=table[-4:][::-1],
+                           table=table, singles=singles,
+                           upgraded=_single_streak_table(min_signals=2),
+                           total=sum(t["n"] for t in table),
+                           last_update=state.get("last_update"))
+
+
 @app.route("/status")
 def status_page():
     with state_lock:
@@ -4227,30 +4897,201 @@ def status_page():
                            last_update=last_update)
 
 
+@app.route("/api/banker_pick")
+def api_banker_pick():
+    """The EXACT banker ticket (single/two/three) for one specific
+    league + gameweek — same construction as the Bankers page. The bettor
+    reads the live page for which GW is next, then asks here for that GW's
+    banker games; it clicks them on the live page at live odds.
+    Returns {legs:[{home,away,market,call,odds,conf}], total, provisional}
+    or {} if no ticket for that GW/type."""
+    from flask import request as _rq
+    league = (_rq.args.get("league") or "").title()
+    btype = (_rq.args.get("type") or "single").lower()
+    try:
+        week = int(_rq.args.get("week") or 0)
+    except ValueError:
+        week = 0
+
+    # Optional caller overrides (the auto-bettor passes these from its config):
+    #   smin/smax  – narrow the SINGLE's odds window (default 1.60-2.04)
+    #   calls      – whitelist of calls for the SINGLE, e.g. "O2.5" or "O2.5,1"
+    def _f(name, default):
+        try:
+            return float(_rq.args.get(name))
+        except (TypeError, ValueError):
+            return default
+    smin = _f("smin", 1.60)
+    smax = _f("smax", 2.04)
+    calls = {c.strip() for c in (_rq.args.get("calls") or "").split(",") if c.strip()}
+    try:
+        minsig = int(_rq.args.get("minsig") or 0)
+    except ValueError:
+        minsig = 0
+
+    with state_lock:
+        preds = list(state.get("football_upcoming", {}).get(league, []))
+    matches = [p for p in preds if p.get("week") == week]
+    if not matches:
+        return jsonify({})
+    if btype == "ng":
+        # One NG candidate for this GW, only if the live NG price clears the
+        # floor (see _gw_ng_pick — short prices are what kill this market)
+        try:
+            ticket = _gw_ng_pick(matches, min_odds=_f("ngmin", 1.90))
+        except Exception:
+            return jsonify({})
+        if not ticket:
+            return jsonify({})
+        return jsonify({"league": league, "week": week, "type": "ng",
+                        "legs": [{"home": l["match"][0], "away": l["match"][1],
+                                  "market": l["market"], "call": l["call"],
+                                  "odds": l["odds"], "conf": l["conf"],
+                                  "signals": 0} for l in ticket["legs"]],
+                        "total": ticket["total"], "provisional": False,
+                        "est_win_pct": ticket["p"]})
+    try:
+        single, two, three = _gw_bankers(matches, single_lo=smin, single_hi=smax,
+                                         allowed_calls=calls or None,
+                                         min_signals=minsig)
+    except Exception:
+        return jsonify({})
+    ticket = {"single": single, "two": two, "three": three}.get(btype)
+    if not ticket:
+        return jsonify({})
+    legs = [{"home": l["match"][0], "away": l["match"][1],
+             "market": l.get("market", "Over/Under 2.5"),
+             "call": l["call"], "odds": l.get("odds"),
+             "conf": l.get("conf"), "signals": l.get("signals", 0)}
+            for l in ticket["legs"]]
+    return jsonify({"league": league, "week": week, "type": btype,
+                    "legs": legs, "total": ticket.get("total"),
+                    "provisional": ticket.get("provisional", False),
+                    "est_win_pct": ticket.get("p")})
+
+
 @app.route("/api/bet_pick")
 def api_bet_pick():
-    """The auto-bettor's pick feed: best verified SINGLE from the next
-    not-yet-playing wave. Returns {} when nothing qualifies."""
+    """The auto-bettor's pick feed.
+    ?type=single|two|three  -> football banker ticket from the next
+                               not-yet-playing wave (legs list)
+    ?type=racing_place&sport=...&venue=... -> rank-calibrated 2nd and 3rd
+                               picks of the next bettable race (PLACE market)
+    Returns {} when nothing qualifies."""
+    from flask import request as _rq
+    btype = (_rq.args.get("type") or "single").lower()
+
+    if btype == "racing_place":
+        sport = _rq.args.get("sport") or "Greyhound Racing"
+        venue = _rq.args.get("venue") or "Santa Monica"
+        key = f"{sport} — {venue}"
+        with state_lock:
+            data = state.get("racing_predictions", {}).get(key, {})
+            races = list(data.get("races", []))
+        for rp in races:
+            cd = str(rp.get("countdown") or "")
+            m = re.match(r"(\d{1,2}):(\d{2})", cd)
+            secs = (int(m.group(1)) * 60 + int(m.group(2))) if m else 0
+            if secs < 50:
+                continue  # too close to start — next race
+            # rank-calibrated picks when learned, else model ranks 2 and 3
+            runners = rp.get("imp_runners") or rp.get("runners") or []
+            if len(runners) < 3:
+                continue
+            picks = [{"name": r.get("name", ""), "badge": r.get("badge"),
+                      "win_prob": r.get("win_prob"),
+                      "win_odds": r.get("win_odds"),
+                      "place_odds": r.get("place_odds"),
+                      "show_odds": r.get("show_odds")}
+                     for r in runners[1:3]]
+            return jsonify({
+                "type": "racing_place", "sport": sport, "venue": venue,
+                "race_id": rp.get("race_id"), "countdown": cd,
+                "market": "PLACE", "picks": picks,
+                "rank_learned": bool(rp.get("imp_ready")),
+                "fetched_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            })
+        return jsonify({})
+
+    kind = {"single": "singles", "two": "twos", "three": "threes"}.get(btype)
+    if not kind:
+        return jsonify({})
     try:
-        waves = _collect_banker_waves(max_waves=3)
+        min_wave = max(1, int(_rq.args.get("min_wave") or 1))
+    except ValueError:
+        min_wave = 1
+    leagues_f = [l.strip().title()
+                 for l in (_rq.args.get("leagues") or "").split(",") if l.strip()]
+    try:
+        waves = _collect_banker_waves(max_waves=4)
     except Exception:
         waves = []
     for w in waves:
-        if w["idx"] == 0:
-            continue  # current wave is already playing — too late to bet
-        for s in w["singles"]:
+        if w["idx"] < min_wave:
+            continue  # wave 0 is already playing; caller may skip further ahead
+        for s in w[kind]:
+            if leagues_f and s["league"] not in leagues_f:
+                continue
             if s.get("provisional"):
                 continue  # only verified-tier plays for real money
-            leg = s["legs"][0]
             return jsonify({
+                "type": btype,
                 "league": s["league"], "week": s["gw"],
-                "home": leg["match"][0], "away": leg["match"][1],
-                "market": leg.get("market", ""), "call": leg["call"],
-                "odds": leg["odds"], "est_win_pct": s["p"],
+                "legs": [{"home": l["match"][0], "away": l["match"][1],
+                          "market": l.get("market", ""), "call": l["call"],
+                          "odds": l["odds"]} for l in s["legs"]],
+                "total_odds": s["total"], "est_win_pct": s["p"],
                 "wave": w["idx"],
                 "fetched_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             })
     return jsonify({})
+
+
+@app.route("/api/racing_result")
+def api_racing_result():
+    """Dry-run settlement for racing PLACE bets: did this runner finish in
+    the top 2 of the given race?"""
+    from flask import request as _rq
+    sport = _rq.args.get("sport") or "Greyhound Racing"
+    venue = _rq.args.get("venue") or "Santa Monica"
+    race_id = str(_rq.args.get("race_id") or "")
+    name = _rq.args.get("name") or ""
+    market = (_rq.args.get("market") or "show").lower()
+    need_pos = {"win": 1, "place": 2, "show": 3}.get(market, 3)
+    key = f"{sport} — {venue}"
+    with state_lock:
+        model = state.get("racing_models", {}).get(key, {})
+        recent = list(model.get("recent_races", []))
+    for r in recent:
+        if str(r.get("race_id")) != race_id:
+            continue
+        pos = (r.get("positions") or {}).get(name)
+        if not pos:
+            return jsonify({"status": "missed", "pos": None})
+        return jsonify({"status": "placed" if pos <= need_pos else "missed",
+                        "pos": pos})
+    return jsonify({"status": "pending"})
+
+
+@app.route("/api/model_call")
+def api_model_call():
+    """Stateless model call for one fixture — used by the auto-bettor,
+    which reads fixtures/odds from the live page (never lags) and only
+    needs the model's opinion."""
+    from flask import request as _rq
+    league = (_rq.args.get("league") or "").title()
+    home = _rq.args.get("home") or ""
+    away = _rq.args.get("away") or ""
+    with state_lock:
+        model = state.get("football_models", {}).get(league)
+    if not model:
+        return jsonify({})
+    pred = predict_match(model, home, away)
+    if not pred:
+        return jsonify({})
+    return jsonify({k: pred[k] for k in
+                    ("prediction", "confidence", "over_2_5_pct",
+                     "ou25_call", "btts_pct")})
 
 
 @app.route("/api/bet_result")

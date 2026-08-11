@@ -1,11 +1,51 @@
 {
-  "dry_run": true,
-  "base_stake": 10,
-  "max_stake": 500,
-  "daily_loss_limit": 1000,
-  "daily_profit_target": 500,
-  "betting_windows": [["07:00", "10:00"], ["22:00", "23:59"]],
+  "dry_run": false,
+  "bet_type": "single",
+  "racing_market": "show",
+  "leagues": "turkey",
+  "skip_odds": [
+    1.1
+  ],
+  "allow_provisional": true,
+  "sim_mode": false,
+  "martingale": true,
+  "martingale_type": "flat",
+  "base_stake": 50,
+  "max_stake": 50000,
+  "daily_loss_limit": 50000,
+  "daily_profit_target": 50000,
+  "betting_windows": [
+    [
+      "03:30",
+      "06:30"
+    ],
+    [
+      "07:30",
+      "10:50"
+    ],
+    [
+      "11:00",
+      "14:00"
+    ],
+    [
+      "14:00",
+      "18:00"
+    ],
+    [
+      "18:00",
+      "02:00"
+    ]
+  ],
+  "single_odds_min": 1.6,
+  "single_odds_max": 2.04,
+  "allowed_calls": [
+    "O2.5"
+  ],
+  "max_martingale_steps": 17,
+  "min_place_seconds": 12,
   "odds_tolerance": 0.15,
   "min_odds": 1.35,
-  "max_odds": 2.10
+  "max_odds": 2.1,
+  "racing_sport": "Greyhound Racing",
+  "racing_venue": "Santa Monica"
 }

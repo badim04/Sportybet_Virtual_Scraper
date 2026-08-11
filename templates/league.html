@@ -235,6 +235,20 @@
                     <small class="text-muted ms-1">≈{{ bk.one.p }}% win</small>
                 </span>
                 {% endif %}
+                {% if bk.upgraded %}
+                <span class="w-100 d-block"></span>
+                <span title="Over 2.5 only when 2+ goal-fest signals agree (BTTS + expected goals). ~61% win vs ~55% — shorter losing streaks. Fires only some GWs.">
+                    <span class="badge" style="background:#22d3ee; color:#000;"><i class="bi bi-stars"></i> UPGRADED SINGLE {{ bk.upgraded.total }}</span>
+                    {% for l in bk.upgraded.legs %}
+                    <small class="ms-1"><strong>{{ l.desc }}</strong> <span class="badge bg-info text-dark">{{ l.call }}</span> @{{ l.odds }}
+                        <span class="badge bg-secondary" title="secondary signals agreeing">{{ l.signals }}/3 signals</span></small>
+                    {% endfor %}
+                    <small class="text-muted ms-1">≈{{ bk.upgraded.p }}% (banker est.) · ~61% observed</small>
+                </span>
+                {% else %}
+                <span class="w-100 d-block"></span>
+                <small class="text-muted"><i class="bi bi-stars"></i> No upgraded single this GW (no Over 2.5 with 2+ signals) — that's expected.</small>
+                {% endif %}
                 {% if bk.two %}
                 <span>
                     <span class="badge" style="background:#ffd54a; color:#000;">BANKER {{ bk.two.total }} odds</span>

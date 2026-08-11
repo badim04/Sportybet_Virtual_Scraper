@@ -1,0 +1,778 @@
+[
+  {
+    "race_id": "3306738",
+    "sport": "Greyhound Racing",
+    "race_name": "London",
+    "race_date": "31/07/2026",
+    "race_time": "17:44",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Birba"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Gordio"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Icaro"
+      }
+    ],
+    "winner": "Birba",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 5.84
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 86.2
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.89
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.81
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 46.2
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3306736",
+    "sport": "Greyhound Racing",
+    "race_name": "London",
+    "race_date": "31/07/2026",
+    "race_time": "17:42",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Ippodamia"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Yugo"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Ubaldo"
+      }
+    ],
+    "winner": "Ippodamia",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 5.13
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 34.2
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 2.81
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.94
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 17.9
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3306734",
+    "sport": "Greyhound Racing",
+    "race_name": "London",
+    "race_date": "31/07/2026",
+    "race_time": "17:40",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Zazza"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Toto"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Nesso"
+      }
+    ],
+    "winner": "Zazza",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 4.15
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 23.6
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 2.55
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 2.09
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 12.5
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3306732",
+    "sport": "Greyhound Racing",
+    "race_name": "London",
+    "race_date": "31/07/2026",
+    "race_time": "17:38",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Priapo"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Evadne"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Sir Quillo"
+      }
+    ],
+    "winner": "Priapo",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 3.7
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 12.9
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.13
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 2.23
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 6.68
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 20.1
+      }
+    }
+  },
+  {
+    "race_id": "3306730",
+    "sport": "Greyhound Racing",
+    "race_name": "London",
+    "race_date": "31/07/2026",
+    "race_time": "17:36",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Lolly Basilisk"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Psiche"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Sir Quillo"
+      }
+    ],
+    "winner": "Lolly Basilisk",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 6.17
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 20.7
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.52
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.73
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 9.83
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 42.2
+      }
+    }
+  },
+  {
+    "race_id": "3306728",
+    "sport": "Greyhound Racing",
+    "race_name": "London",
+    "race_date": "31/07/2026",
+    "race_time": "17:34",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Frasio"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Mercurio"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Rana"
+      }
+    ],
+    "winner": "Frasio",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.08
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 3.33
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.69
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.05
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 1.81
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 8.59
+      }
+    }
+  },
+  {
+    "race_id": "3306726",
+    "sport": "Greyhound Racing",
+    "race_name": "London",
+    "race_date": "31/07/2026",
+    "race_time": "17:32",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Foco"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Zoran"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Track Burns"
+      }
+    ],
+    "winner": "Foco",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 3.24
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 14.2
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.74
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.38
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 7.75
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 30.1
+      }
+    }
+  },
+  {
+    "race_id": "3306724",
+    "sport": "Greyhound Racing",
+    "race_name": "London",
+    "race_date": "31/07/2026",
+    "race_time": "17:30",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Piramo"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "No Flinching"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Track Tricks"
+      }
+    ],
+    "winner": "Piramo",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.69
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 7.13
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.45
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.25
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 3.85
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 19.9
+      }
+    }
+  },
+  {
+    "race_id": "3306722",
+    "sport": "Greyhound Racing",
+    "race_name": "London",
+    "race_date": "31/07/2026",
+    "race_time": "17:28",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Fiocco"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Adelina"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Sigaretta"
+      }
+    ],
+    "winner": "Fiocco",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 6.48
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 25.7
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 2.48
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 2.07
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 12.4
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 56.7
+      }
+    }
+  },
+  {
+    "race_id": "3306720",
+    "sport": "Greyhound Racing",
+    "race_name": "London",
+    "race_date": "31/07/2026",
+    "race_time": "17:26",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Euripilo"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Podalirio"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Miscelo"
+      }
+    ],
+    "winner": "Euripilo",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 3.25
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 8.06
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.73
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.39
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 4.07
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 50.5
+      }
+    }
+  },
+  {
+    "race_id": "3306718",
+    "sport": "Greyhound Racing",
+    "race_name": "London",
+    "race_date": "31/07/2026",
+    "race_time": "17:24",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Munito"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Ropalo"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Zucca"
+      }
+    ],
+    "winner": "Munito",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.63
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 5.81
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.62
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.23
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 3.06
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 19.6
+      }
+    }
+  },
+  {
+    "race_id": "3306716",
+    "sport": "Greyhound Racing",
+    "race_name": "London",
+    "race_date": "31/07/2026",
+    "race_time": "17:22",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Nike"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Zucca"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Rita"
+      }
+    ],
+    "winner": "Nike",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.7
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 10.6
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 2.26
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.76
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 5.99
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 17.3
+      }
+    }
+  },
+  {
+    "race_id": "3306714",
+    "sport": "Greyhound Racing",
+    "race_name": "London",
+    "race_date": "31/07/2026",
+    "race_time": "17:20",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Libero"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Reo"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Mnemosine"
+      }
+    ],
+    "winner": "Libero",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 4.06
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 15.4
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 2.37
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.42
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 7.94
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 64.8
+      }
+    }
+  },
+  {
+    "race_id": "3306712",
+    "sport": "Greyhound Racing",
+    "race_name": "London",
+    "race_date": "31/07/2026",
+    "race_time": "17:18",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Nack"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Fabione"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Mopso"
+      }
+    ],
+    "winner": "Nack",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.81
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 6.76
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 2.2
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.62
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 3.55
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 18.3
+      }
+    }
+  },
+  {
+    "race_id": "3306710",
+    "sport": "Greyhound Racing",
+    "race_name": "London",
+    "race_date": "31/07/2026",
+    "race_time": "17:16",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Pleiadi"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Pigmalione"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Minerva"
+      }
+    ],
+    "winner": "Pleiadi",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 7.69
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 61.9
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.71
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.38
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 31.6
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  }
+]
