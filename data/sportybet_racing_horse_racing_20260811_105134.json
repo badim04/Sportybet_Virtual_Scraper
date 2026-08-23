@@ -1,0 +1,778 @@
+[
+  {
+    "race_id": "3294069",
+    "sport": "Horse Racing",
+    "race_name": "Royal Meadow",
+    "race_date": "11/08/2026",
+    "race_time": "18:52",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Archimede"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Reef"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Pegaso"
+      }
+    ],
+    "winner": "Archimede",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 6.35
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 23.1
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.89
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.61
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 11.1
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3294067",
+    "sport": "Horse Racing",
+    "race_name": "Royal Meadow",
+    "race_date": "11/08/2026",
+    "race_time": "18:50",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "O Khendo"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Rex"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Temeno"
+      }
+    ],
+    "winner": "O Khendo",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 3.02
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 16.5
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.65
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.39
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 9.14
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 39.2
+      }
+    }
+  },
+  {
+    "race_id": "3294065",
+    "sport": "Horse Racing",
+    "race_name": "Royal Meadow",
+    "race_date": "11/08/2026",
+    "race_time": "18:48",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Giraffa"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Paccopostale"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Servio Tullio"
+      }
+    ],
+    "winner": "Giraffa",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 3.12
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 41.5
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 2.12
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 2.06
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 23.7
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 93.2
+      }
+    }
+  },
+  {
+    "race_id": "3294063",
+    "sport": "Horse Racing",
+    "race_name": "Royal Meadow",
+    "race_date": "11/08/2026",
+    "race_time": "18:46",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Bufaletto"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Rich"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Sanlucar"
+      }
+    ],
+    "winner": "Bufaletto",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 9.58
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 25.5
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.41
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 3.7
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 11.1
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 62.0
+      }
+    }
+  },
+  {
+    "race_id": "3294061",
+    "sport": "Horse Racing",
+    "race_name": "Royal Meadow",
+    "race_date": "11/08/2026",
+    "race_time": "18:44",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Zacinto"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Tamiri"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Mensa"
+      }
+    ],
+    "winner": "Zacinto",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 14.7
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 64.0
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.92
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.56
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 29.7
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3294059",
+    "sport": "Horse Racing",
+    "race_name": "Royal Meadow",
+    "race_date": "11/08/2026",
+    "race_time": "18:42",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Uccello Del Paradiso"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Tarassippo"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Rama"
+      }
+    ],
+    "winner": "Uccello Del Paradiso",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.64
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 15.7
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.79
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.96
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 8.94
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 26.7
+      }
+    }
+  },
+  {
+    "race_id": "3294057",
+    "sport": "Horse Racing",
+    "race_name": "Royal Meadow",
+    "race_date": "11/08/2026",
+    "race_time": "18:40",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Arcobaleno"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Tanatos"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Oleandro"
+      }
+    ],
+    "winner": "Arcobaleno",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 6.89
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 16.7
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 2.01
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.76
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 7.27
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 72.5
+      }
+    }
+  },
+  {
+    "race_id": "3294055",
+    "sport": "Horse Racing",
+    "race_name": "Royal Meadow",
+    "race_date": "11/08/2026",
+    "race_time": "18:38",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Telescopio"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Kenitra"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Perseo"
+      }
+    ],
+    "winner": "Telescopio",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 3.0
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 6.31
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.99
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 2.01
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 3.14
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 24.9
+      }
+    }
+  },
+  {
+    "race_id": "3294053",
+    "sport": "Horse Racing",
+    "race_name": "Royal Meadow",
+    "race_date": "11/08/2026",
+    "race_time": "18:36",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Coccode"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Raksha"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Racer"
+      }
+    ],
+    "winner": "Coccode",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.79
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 9.02
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.6
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 2.17
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 4.88
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 17.9
+      }
+    }
+  },
+  {
+    "race_id": "3294051",
+    "sport": "Horse Racing",
+    "race_name": "Royal Meadow",
+    "race_date": "11/08/2026",
+    "race_time": "18:34",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Scorpione"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Immacolato"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Reve"
+      }
+    ],
+    "winner": "Scorpione",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 4.02
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 14.4
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.23
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 2.04
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 7.28
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3294049",
+    "sport": "Horse Racing",
+    "race_name": "Royal Meadow",
+    "race_date": "11/08/2026",
+    "race_time": "18:32",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Ofiuco"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Porfiry"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Toro"
+      }
+    ],
+    "winner": "Ofiuco",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 5.25
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 20.2
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.42
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.84
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 9.94
+      },
+      "trifecta": {
+        "runners": []
+      }
+    }
+  },
+  {
+    "race_id": "3294047",
+    "sport": "Horse Racing",
+    "race_name": "Royal Meadow",
+    "race_date": "11/08/2026",
+    "race_time": "18:30",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Regina"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Freight Train"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Scirone"
+      }
+    ],
+    "winner": "Regina",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 7.58
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 19.8
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.75
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 2.88
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 8.75
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 40.9
+      }
+    }
+  },
+  {
+    "race_id": "3294045",
+    "sport": "Horse Racing",
+    "race_name": "Royal Meadow",
+    "race_date": "11/08/2026",
+    "race_time": "18:28",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Tecmessa"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Sicheo"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Pegaso"
+      }
+    ],
+    "winner": "Tecmessa",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.96
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 14.9
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.51
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.7
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 8.22
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 48.1
+      }
+    }
+  },
+  {
+    "race_id": "3294043",
+    "sport": "Horse Racing",
+    "race_name": "Royal Meadow",
+    "race_date": "11/08/2026",
+    "race_time": "18:26",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Recital"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Scorpione"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Raggio"
+      }
+    ],
+    "winner": "Recital",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 2.86
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 12.0
+      },
+      "even_odd": {
+        "result": "O",
+        "odds": 1.45
+      },
+      "over_under": {
+        "result": "U",
+        "odds": 1.5
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 6.58
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 37.8
+      }
+    }
+  },
+  {
+    "race_id": "3294041",
+    "sport": "Horse Racing",
+    "race_name": "Royal Meadow",
+    "race_date": "11/08/2026",
+    "race_time": "18:24",
+    "runners": [
+      {
+        "finish_pos": 1,
+        "badge": null,
+        "name": "Argo"
+      },
+      {
+        "finish_pos": 2,
+        "badge": null,
+        "name": "Mensa"
+      },
+      {
+        "finish_pos": 3,
+        "badge": null,
+        "name": "Paride"
+      }
+    ],
+    "winner": "Argo",
+    "winner_badge": null,
+    "markets": {
+      "win": {
+        "runner_badge": null,
+        "odds": 5.81
+      },
+      "exacta": {
+        "runners": [],
+        "odds": 15.4
+      },
+      "even_odd": {
+        "result": "E",
+        "odds": 1.83
+      },
+      "over_under": {
+        "result": "O",
+        "odds": 1.64
+      },
+      "quinella": {
+        "runners": [],
+        "odds": 7.02
+      },
+      "trifecta": {
+        "runners": [],
+        "odds": 32.6
+      }
+    }
+  }
+]

@@ -3,3 +3,13 @@ config.txt
 __pycache__/
 *.pyc
 .api_cache/
+
+# --- added by github_auto_sync ---
+.env.*
+*.pem
+*.key
+node_modules/
+.DS_Store
+*_profile/
+*.rar
+*.zip

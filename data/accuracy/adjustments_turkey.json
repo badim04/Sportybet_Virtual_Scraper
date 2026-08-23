@@ -1,8 +1,8 @@
 {
   "BES": {
-    "attack_adj": 1.1888,
-    "defense_adj": 1.1085,
-    "samples": 23835
+    "attack_adj": 1.1439,
+    "defense_adj": 0.9143,
+    "samples": 23864
   },
   "KAY": {
     "attack_adj": 1.1688,
@@ -10,29 +10,29 @@
     "samples": 21125
   },
   "FEN": {
-    "attack_adj": 1.0117,
-    "defense_adj": 1.0832,
-    "samples": 22549
+    "attack_adj": 1.0047,
+    "defense_adj": 1.1021,
+    "samples": 22581
   },
   "GCL": {
-    "attack_adj": 1.0404,
-    "defense_adj": 0.8768,
-    "samples": 24049
+    "attack_adj": 1.0665,
+    "defense_adj": 1.1238,
+    "samples": 24080
   },
   "GAL": {
-    "attack_adj": 0.9913,
-    "defense_adj": 0.9731,
-    "samples": 20032
+    "attack_adj": 1.0888,
+    "defense_adj": 1.0016,
+    "samples": 20065
   },
   "GAZ": {
-    "attack_adj": 0.9693,
-    "defense_adj": 1.1458,
-    "samples": 23073
+    "attack_adj": 1.0037,
+    "defense_adj": 1.0175,
+    "samples": 23107
   },
   "EYU": {
-    "attack_adj": 0.8829,
-    "defense_adj": 1.0698,
-    "samples": 21711
+    "attack_adj": 0.8993,
+    "defense_adj": 1.218,
+    "samples": 21742
   },
   "FAT": {
     "attack_adj": 1.2162,
@@ -40,14 +40,14 @@
     "samples": 21406
   },
   "SAM": {
-    "attack_adj": 0.8761,
-    "defense_adj": 0.8957,
-    "samples": 22275
+    "attack_adj": 1.0614,
+    "defense_adj": 1.0372,
+    "samples": 22304
   },
   "KNY": {
-    "attack_adj": 1.129,
-    "defense_adj": 1.2201,
-    "samples": 24085
+    "attack_adj": 1.1811,
+    "defense_adj": 1.0825,
+    "samples": 24118
   },
   "ANT": {
     "attack_adj": 0.9861,
@@ -55,53 +55,53 @@
     "samples": 21363
   },
   "ALA": {
-    "attack_adj": 1.1679,
-    "defense_adj": 1.0847,
-    "samples": 23198
+    "attack_adj": 0.9122,
+    "defense_adj": 0.9329,
+    "samples": 23229
   },
   "CAY": {
-    "attack_adj": 1.0805,
-    "defense_adj": 0.8785,
-    "samples": 21110
+    "attack_adj": 1.3332,
+    "defense_adj": 1.0024,
+    "samples": 21141
   },
   "KAS": {
-    "attack_adj": 1.1146,
-    "defense_adj": 0.8409,
-    "samples": 22210
+    "attack_adj": 0.9624,
+    "defense_adj": 1.005,
+    "samples": 22243
   },
   "IST": {
-    "attack_adj": 0.9339,
-    "defense_adj": 0.914,
-    "samples": 20855
+    "attack_adj": 0.8211,
+    "defense_adj": 1.1145,
+    "samples": 20885
   },
   "TRA": {
-    "attack_adj": 0.9755,
-    "defense_adj": 1.0208,
-    "samples": 21232
+    "attack_adj": 1.0352,
+    "defense_adj": 1.0321,
+    "samples": 21263
   },
   "GOZ": {
-    "attack_adj": 1.1164,
-    "defense_adj": 0.9766,
-    "samples": 21169
+    "attack_adj": 1.1194,
+    "defense_adj": 1.0192,
+    "samples": 21200
   },
   "KOC": {
-    "attack_adj": 1.1306,
-    "defense_adj": 1.0755,
-    "samples": 20076
+    "attack_adj": 1.1989,
+    "defense_adj": 1.1206,
+    "samples": 20107
   },
   "ERZ": {
-    "attack_adj": 1.1592,
-    "defense_adj": 1.2464,
-    "samples": 287
+    "attack_adj": 1.0018,
+    "defense_adj": 1.1496,
+    "samples": 319
   },
   "AME": {
-    "attack_adj": 1.023,
-    "defense_adj": 1.0919,
-    "samples": 289
+    "attack_adj": 1.1242,
+    "defense_adj": 1.0701,
+    "samples": 321
   },
   "COR": {
-    "attack_adj": 1.0565,
-    "defense_adj": 1.3407,
-    "samples": 287
+    "attack_adj": 1.0185,
+    "defense_adj": 1.0423,
+    "samples": 319
   }
 }
