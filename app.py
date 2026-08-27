@@ -4869,6 +4869,33 @@ def performance_page():
                            last_update=state.get("last_update"))
 
 
+@app.route("/patternlab")
+def patternlab_page():
+    """Pattern Lab — the ChatGPT/DeepSeek framework as a separate research +
+    live-read surface (short rolling window, cycle-by-cycle standalone scoring,
+    regime detection, walk-forward, ACTIVE/WEAK/DEAD monitor)."""
+    try:
+        import pattern_lab
+        data = pattern_lab.compute_overview()
+    except Exception as e:
+        data = {"leagues": [], "error": str(e), "window": 10,
+                "n_patterns": 0, "total_bets": 0, "grand_best": None,
+                "any_edge": False}
+    return render_template("patternlab.html", d=data,
+                           last_update=state.get("last_update"))
+
+
+@app.route("/api/pattern_live")
+def api_pattern_live():
+    """Currently-open cycles across all leagues, hottest first — the live
+    ride-and-switch board (also consumable by the bettor if wired later)."""
+    try:
+        import pattern_lab
+        return jsonify({"board": pattern_lab.compute_live_board()})
+    except Exception as e:
+        return jsonify({"board": [], "error": str(e)})
+
+
 @app.route("/status")
 def status_page():
     with state_lock:

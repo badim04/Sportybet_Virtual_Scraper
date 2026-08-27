@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+{% block title %}Pattern Lab — SportyPredict{% endblock %}
+
+{% block content %}
+<meta http-equiv="refresh" content="60">
+
+<div class="d-flex align-items-center mb-2 flex-wrap gap-3">
+    <div>
+        <h2 class="fw-bold mb-0"><i class="bi bi-cpu" style="color:#7fd1ff;"></i> Pattern Lab</h2>
+        <small class="text-muted">
+            Short rolling window (<strong>last {{ d.window }}</strong>) · {{ d.n_patterns }} ride/fade patterns ·
+            each scored <strong>cycle&nbsp;by&nbsp;cycle, standalone</strong> (never pooled) ·
+            regime / change-point detection · walk-forward tested ·
+            live ACTIVE&nbsp;/&nbsp;WEAK&nbsp;/&nbsp;DEAD monitor.
+            Recomputes each load; refreshes every 60s.
+        </small>
+    </div>
+</div>
+
+{% if d.error %}
+<div class="alert alert-warning"><small>Engine error: {{ d.error }}</small></div>
+{% endif %}
+
+{% if not d.leagues %}
+<div class="alert alert-info"><small>Not enough evaluated matches yet — this fills in as results settle.</small></div>
+{% else %}
+
+<!-- Honest headline -->
+<div class="card mb-4" style="border-color:{% if d.any_edge %}#4ade80{% else %}#ff6b6b{% endif %};">
+  <div class="card-body py-3">
+    {% if d.any_edge %}
+      <span class="fw-bold" style="color:#4ade80;">A pattern currently makes money AND persists across both halves.</span>
+      Treat with caution and watch its walk-forward (OOS) column.
+    {% else %}
+      <span class="fw-bold" style="color:#ff6b6b;">No pattern makes money end-to-end.</span>
+      <span class="text-muted">
+        Across {{ "{:,}".format(d.total_bets) }} pattern-bets, the best net anywhere is
+        {% if d.grand_best %}<strong>{{ d.grand_best.label }}</strong> in {{ d.grand_best.league }}
+        at <strong style="color:{% if d.grand_best.net>=0 %}#4ade80{% else %}#ff6b6b{% endif %};">{{ d.grand_best.net }}u</strong>
+        (cycles green {{ d.grand_best.pct_green }}%){% endif %}.
+        The <em>cycle-green%</em> and <em>net</em> columns disagree on purpose — that gap is the illusion.
+      </span>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Live engine predictions -->
+<h5 class="fw-bold mb-2"><i class="bi bi-robot" style="color:#7fd1ff;"></i> Live engine predictions — the call for each league's NEXT match</h5>
+<p class="text-muted small mb-2">
+  Two engines from the docs, different personalities on purpose.
+  <strong style="color:#ff9d5c;">DeepSeek</strong> = aggressive: always fires the strongest last-{{ d.window }} streak signal (fade a 3+ run, else ride a 7+/10 skew) with a confidence; its own <em>STRONG</em> = confidence&nbsp;&gt;&nbsp;75.
+  <strong style="color:#7fd1ff;">ChatGPT</strong> = disciplined: fires only when a walk-forward-validated pattern is currently active, else <em>HOLD</em>.
+  Calls are sequence-based (virtual teams are avatars) so they apply to whatever the next fixture is. <em>Track</em> = the engine run causally over all history — its real forward record.
+</p>
+<div class="table-responsive mb-4">
+  <table class="table table-dark table-sm align-middle mb-0">
+    <thead><tr>
+      <th>League</th>
+      <th style="color:#ff9d5c;">DeepSeek call</th>
+      <th>Why</th>
+      <th class="text-end" style="color:#ff9d5c;">DS track (all / STRONG)</th>
+      <th style="color:#7fd1ff;">ChatGPT call</th>
+      <th class="text-end" style="color:#7fd1ff;">CG track</th>
+    </tr></thead>
+    <tbody>
+    {% for l in d.leagues %}
+      {% set ds = l.deepseek %}{% set cg = l.chatgpt %}
+      <tr>
+        <td class="fw-bold">{{ l.league }}<div class="text-muted" style="font-size:.7rem;">to {{ l.last_at }}</div></td>
+        <!-- DeepSeek pick -->
+        <td>
+          {% if ds.pick %}
+            <span class="badge bg-dark border fs-6">{{ ds.pick.call }}</span>
+            <span class="small text-muted">conf {{ ds.pick.conf }}</span>
+            {% if ds.pick.strong %}<span class="badge bg-warning text-dark">STRONG</span>{% endif %}
+          {% else %}<span class="text-muted small">no signal</span>{% endif %}
+        </td>
+        <td class="small text-muted">{% if ds.pick %}{{ ds.pick.reason }}{% else %}—{% endif %}</td>
+        <td class="text-end small">
+          {% if ds.track_all %}
+            <span style="color:{% if ds.track_all.net>=0 %}#4ade80{% else %}#ff6b6b{% endif %};">{{ ds.track_all.win_pct }}% · {{ "%+.0f"|format(ds.track_all.net) }}u</span>
+            <span class="text-muted">/</span>
+            {% if ds.track_strong %}<span style="color:{% if ds.track_strong.net>=0 %}#4ade80{% else %}#ff6b6b{% endif %};">{{ ds.track_strong.win_pct }}% · {{ "%+.0f"|format(ds.track_strong.net) }}u</span>{% else %}<span class="text-muted">no STRONG</span>{% endif %}
+          {% else %}—{% endif %}
+        </td>
+        <!-- ChatGPT pick -->
+        <td>
+          {% if cg.pick %}
+            <span class="badge bg-dark border fs-6">{{ cg.pick.call }}</span>
+            {% if cg.pick.provisional %}<span class="badge bg-warning text-dark">prov</span>{% else %}<span class="badge bg-success">valid</span>{% endif %}
+            <div class="text-muted" style="font-size:.72rem;">{{ cg.pick.label }}{% if cg.pick.cooling %} · <span style="color:#ff9d5c;">cooling</span>{% endif %}</div>
+          {% else %}
+            <span class="badge bg-secondary">HOLD</span>
+            <div class="text-muted" style="font-size:.72rem;">{{ cg.reason }}</div>
+          {% endif %}
+        </td>
+        <td class="text-end small">
+          {% if cg.pick and cg.track %}
+            <span style="color:{% if cg.track.net_oos>=0 %}#4ade80{% else %}#ff6b6b{% endif %};">OOS {{ "%+.0f"|format(cg.track.net_oos) }}u</span>
+            <div class="text-muted" style="font-size:.72rem;">net {{ "%+.0f"|format(cg.track.net) }}u · {{ cg.track.status }}</div>
+          {% else %}<span class="text-muted">—</span>{% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+<div class="alert alert-dark py-2 mb-4"><small class="text-muted">
+  <i class="bi bi-info-circle"></i> Reality check, shown on purpose: DeepSeek's history track (win% · net units) is negative in every league — its confident calls don't beat the price, and even the STRONG subset stays red. ChatGPT holds because nothing walk-forward-validates. These are the docs' own methods, run honestly. Treat the picks as a live read to watch, not a green light.
+</small></div>
+
+<!-- Live ride board -->
+<h5 class="fw-bold mb-2"><i class="bi bi-broadcast" style="color:#ffd54a;"></i> Live cycles right now</h5>
+<p class="text-muted small mb-2">Patterns whose short window is currently hot — an open cycle you could ride. <em>Running</em> = this cycle's P/L so far (flat 1u/bet). <span style="color:#ff9d5c;">Cooling</span> = window just dropped below trigger → the exit signal.</p>
+<div class="table-responsive mb-4">
+  <table class="table table-dark table-sm align-middle mb-0">
+    <thead><tr>
+      <th>League</th><th>Pattern</th><th>Bet</th><th>Open since</th>
+      <th class="text-end">In cycle</th><th class="text-end">Running (u)</th>
+      <th class="text-center">Window</th><th class="text-center">State</th>
+    </tr></thead>
+    <tbody>
+    {% set any_live = [] %}
+    {% for l in d.leagues %}{% for c in l.live %}
+      {% set _ = any_live.append(1) %}
+      <tr>
+        <td class="fw-bold">{{ l.league }}</td>
+        <td><span class="badge {% if c.kind=='ride' %}bg-info text-dark{% else %}bg-secondary{% endif %}">{{ c.kind }}</span> {{ c.label }}</td>
+        <td><span class="badge bg-dark border">{{ c.call }}</span></td>
+        <td class="small text-muted">{{ c.since }}</td>
+        <td class="text-end">{{ c.len }}</td>
+        <td class="text-end fw-bold" style="color:{% if c.running>=0 %}#4ade80{% else %}#ff6b6b{% endif %};">{{ "%+.1f"|format(c.running) }}</td>
+        <td class="text-center small">{{ c.window_rate }}</td>
+        <td class="text-center">
+          {% if c.cooling %}<span style="color:#ff9d5c;">cooling ▼</span>{% else %}<span style="color:#4ade80;">hot ●</span>{% endif %}
+        </td>
+      </tr>
+    {% endfor %}{% endfor %}
+    {% if not any_live %}
+      <tr><td colspan="8" class="text-center text-muted small py-3">No pattern is in an open hot cycle right now.</td></tr>
+    {% endif %}
+    </tbody>
+  </table>
+</div>
+
+<!-- Per-league scorecards -->
+{% for l in d.leagues %}
+<div class="card mb-3">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <span class="fw-bold">{{ l.league }}</span>
+    <span class="small text-muted">{{ "{:,}".format(l.n) }} matches · ~{{ l.regimes }} regimes detected (CUSUM)</span>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-dark table-sm align-middle mb-0">
+      <thead><tr>
+        <th>Pattern</th>
+        <th class="text-end">Cycles</th>
+        <th class="text-end" title="Share of standalone cycles that closed in profit — the 'feeling'">Cycles green</th>
+        <th class="text-end">Bets</th>
+        <th class="text-end">Win%</th>
+        <th class="text-end" title="Total units, flat 1/bet — the 'ledger'">Net (u)</th>
+        <th class="text-end" title="First half / second half net — does it persist?">H1 / H2</th>
+        <th class="text-end" title="Last 30% out-of-sample (walk-forward)">OOS</th>
+        <th class="text-center">Status</th>
+      </tr></thead>
+      <tbody>
+      {% for p in l.patterns[:8] %}
+        <tr>
+          <td><span class="badge {% if p.kind=='ride' %}bg-info text-dark{% else %}bg-secondary{% endif %}">{{ p.kind }}</span> {{ p.label }}</td>
+          <td class="text-end">{{ p.cycles }}</td>
+          <td class="text-end" style="color:{% if p.pct_green>=50 %}#4ade80{% else %}#aaa{% endif %};">{{ p.pct_green }}%</td>
+          <td class="text-end">{{ p.bets }}</td>
+          <td class="text-end">{{ p.win_pct }}%</td>
+          <td class="text-end fw-bold" style="color:{% if p.net>=0 %}#4ade80{% else %}#ff6b6b{% endif %};">{{ "%+.1f"|format(p.net) }}</td>
+          <td class="text-end small">
+            <span style="color:{% if p.net_h1>=0 %}#4ade80{% else %}#ff6b6b{% endif %};">{{ "%+.0f"|format(p.net_h1) }}</span> /
+            <span style="color:{% if p.net_h2>=0 %}#4ade80{% else %}#ff6b6b{% endif %};">{{ "%+.0f"|format(p.net_h2) }}</span>
+          </td>
+          <td class="text-end small">
+            {% if p.net_oos is not none %}<span style="color:{% if p.net_oos>=0 %}#4ade80{% else %}#ff6b6b{% endif %};">{{ "%+.0f"|format(p.net_oos) }}</span>{% else %}—{% endif %}
+          </td>
+          <td class="text-center">
+            <span class="badge {% if p.status=='ACTIVE' %}bg-success{% elif p.status=='WEAK' %}bg-warning text-dark{% else %}bg-danger{% endif %}">{{ p.status }}</span>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endfor %}
+
+<div class="text-muted small mt-3">
+  <i class="bi bi-info-circle"></i>
+  Method: normalize eval logs into one chronological stream (ChatGPT) · rolling window of the last {{ d.window }} only (DeepSeek) ·
+  a cycle opens when the window turns hot and closes when it cools; its P/L is judged alone · CUSUM change-points mark regime shifts ·
+  H1/H2 + OOS are the walk-forward validation both notes insist on · Status is the live ACTIVE→WEAK→DEAD monitor.
+  <strong>Read the Net and OOS columns, not Cycles-green</strong> — a pattern can win most cycles and still lose money.
+</div>
+
+{% endif %}
+{% endblock %}

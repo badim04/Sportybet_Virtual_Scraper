@@ -144,6 +144,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {% if '/patternlab' in request.path %}active{% endif %}" href="/patternlab" style="color:#7fd1ff !important;">
+                            <i class="bi bi-cpu"></i> Pattern Lab
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {% if request.path == '/status' %}active{% endif %}" href="/status">
                             <i class="bi bi-heart-pulse"></i> Status
                         </a>
