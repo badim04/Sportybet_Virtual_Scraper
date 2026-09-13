@@ -111,7 +111,7 @@ DEFAULT_CONFIG = {
 }
 
 BET_TYPES = ("single", "upgraded_single", "two_odds_single",
-             "two", "three", "racing_place")
+             "confident_call", "two", "three", "racing_place")
 
 # Selectable strategies. Each preset is just a named bundle of the knobs
 # below, so switching strategy at startup is one answer instead of four.
@@ -142,6 +142,14 @@ BET_TYPE_PRESETS = {
         "desc": "single priced ~2.00 (odds 1.90-2.04) — no verified edge",
         "cfg": {"require_signal_agreement": 0, "single_odds_min": 1.90,
                 "single_odds_max": 2.04, "allowed_calls": ["O2.5"]},
+    },
+    # Confident Call: the Pattern Lab's single best match pick each GW, ANY
+    # market (O/U 2.5, GG/NG, 1X2, Double Chance), within your odds range.
+    # Page-driven, nearest bettable GW. No verified edge — see the tab's note.
+    "confident_call": {
+        "api_type": "confident_call",
+        "desc": "Pattern-Lab Confident Call (auto-places any market, your odds range)",
+        "cfg": {"cc_min_odds": 1.40, "cc_max_odds": 3.00, "cc_mode": "nextup"},
     },
     # Two independent legs. Margin multiplies (~-13% EV) — kept for choice.
     "two": {"api_type": "two", "desc": "2-leg ticket (margin paid twice)", "cfg": {}},
@@ -244,6 +252,25 @@ def startup_prompts(cfg):
         print(f"    {name:16s} — {p['desc']}")
     cfg["bet_type"] = _ask("Bet type", cfg["bet_type"], str, BET_TYPES)
     apply_bet_type_preset(cfg)
+    if cfg["bet_type"] == "confident_call":
+        cfg["leagues"] = _ask("Leagues to scan (comma list, blank = all 6)",
+                              cfg.get("leagues", ""))
+        cfg["cc_min_odds"] = _ask("  confident-call odds MIN",
+                                  cfg.get("cc_min_odds", 1.40), float)
+        cfg["cc_max_odds"] = _ask("  confident-call odds MAX",
+                                  cfg.get("cc_max_odds", 3.00), float)
+
+        def _ccmode(raw):
+            r = str(raw).strip().lower()
+            if r in ("global", "g", "1"):
+                return "global"
+            if r in ("nextup", "next", "n", "2"):
+                return "nextup"
+            raise ValueError(raw)
+        cfg["cc_mode"] = _ask(
+            "  pick mode — 'global' (highest confidence across all leagues) or "
+            "'nextup' (the match kicking off soonest; shorter losing streaks)",
+            cfg.get("cc_mode", "nextup"), _ccmode)
     if cfg["bet_type"] in ("single", "upgraded_single", "two_odds_single"):
         # Show (and allow tweaking) the window the preset just set
         lo_key = ("upgraded_odds_min" if cfg["bet_type"] == "upgraded_single"
@@ -745,6 +772,14 @@ def _sel_label(call):
             "O2.5": "Over 2.5", "U2.5": "Under 2.5"}.get(call, call)
 
 
+# Exact betslip wording for Confident-Call selections (verified live 2026-08-24)
+_CC_SLIP_LABEL = {
+    "GG": "Goal Goal", "NG": "No Goal",
+    "1X": "Home Draw", "X2": "Draw Away", "12": "Home Away",
+    "1": "Home", "2": "Away", "O2.5": "Over 2.5", "U2.5": "Under 2.5",
+}
+
+
 def verify_football_slip(slip_text, legs, tolerance):
     """All legs present, nothing extra, market+selection+odds all right.
     Returns list of problems, or the slip's total odds (float) if clean."""
@@ -757,6 +792,15 @@ def verify_football_slip(slip_text, legs, tolerance):
     for leg in legs:
         if leg["home"] not in slip_text or leg["away"] not in slip_text:
             problems.append(f"{leg['home']}-{leg['away']} not on slip")
+            continue
+        # Dedicated-grid selections (GG/NG, Double Chance): verify the exact
+        # slip wording (captured live) plus the odds-match guard below. The
+        # market-name line varies, so we check the SELECTION label, which is
+        # unambiguous ("No Goal", "Draw Away", ...).
+        if leg.get("tab") in ("COMBINED", "DC", "GGNG"):
+            lbl = _CC_SLIP_LABEL.get(leg.get("odd_name", ""))
+            if lbl and lbl.lower() not in slip_text.lower():
+                problems.append(f"selection '{lbl}' missing")
             continue
         want_market = "Match result" if leg["market"] == "1X2" else "Over/Under"
         if want_market.lower() not in slip_text.lower():
@@ -989,10 +1033,118 @@ def nav_to_league_upcoming(frame, league):
         return False
 
 
+def _select_combined_tab(frame):
+    """Switch to MAIN > '1X2 + Double Chance + GG/NG' and verify the grid shows
+    the GG/NG + Double Chance columns. This one sub-tab carries 1/X/2, 1X/12/X2
+    and GG/NG, so the Confident-Call bettor can place any of those from here."""
+    def body():
+        try:
+            return frame.evaluate("() => (document.body.innerText || '').slice(0, 9000)") or ""
+        except Exception:
+            return ""
+    for _ in range(20):
+        t = body()
+        if "Market filter" in t or "MAIN" in t or "GG" in t:
+            break
+        time.sleep(0.5)
+    for attempt in range(4):
+        b = body()
+        # grid ready when it shows the combined columns
+        if "GG" in b and "X2" in b and ("1X" in b or "NG" in b):
+            return True
+        try:
+            frame.evaluate(r"""() => {
+                for (const el of document.querySelectorAll('a, li, span, div, button')) {
+                    if (el.textContent.trim() === 'MAIN' && el.offsetParent !== null
+                            && el.offsetWidth > 0) { el.click(); return; }
+                }
+            }""")
+            time.sleep(0.8)
+            frame.evaluate(r"""() => {
+                for (const el of document.querySelectorAll('div.item, div[class*="item"], a, li, span, button')) {
+                    if (el.textContent.trim() === '1X2 + Double Chance + GG/NG'
+                            && el.offsetParent !== null) { el.click(); return; }
+                }
+            }""")
+        except Exception:
+            pass
+        for _ in range(16):
+            time.sleep(0.5)
+            b = body()
+            if "GG" in b and "X2" in b and ("1X" in b or "NG" in b):
+                log("Market tab 'COMBINED (1X2+DC+GG/NG)' selected.")
+                return True
+    log("Could not switch to the combined 1X2+DC+GG/NG tab.")
+    return False
+
+
+def _count_odd_names(frame, names):
+    """How many app-odd cells currently render with an .odd-name in `names` —
+    the real signal that a market grid has loaded."""
+    try:
+        return frame.evaluate(r"""(names) => {
+            let n = 0;
+            for (const o of document.querySelectorAll('app-odd')) {
+                const t = ((o.querySelector('.odd-name')||{}).textContent||'').trim();
+                if (names.includes(t)) n++;
+            }
+            return n;
+        }""", names)
+    except Exception:
+        return 0
+
+
+def _select_dedicated_tab(frame, top_label, sub_label, need_names):
+    """Two-step market nav to a dedicated grid: click the top filter
+    (MAIN / Others), then the sub-tab (e.g. 'Double Chance',
+    'Goal Goal/No Goal'), and verify by the grid's own cells rendering."""
+    def _click_exact(text):
+        return frame.evaluate(r"""(text) => {
+            for (const el of document.querySelectorAll('a, li, span, div, button')) {
+                if (el.textContent.trim() === text && el.offsetParent !== null
+                        && el.offsetWidth > 0 && el.textContent.length < 40) {
+                    el.click(); return true;
+                }
+            }
+            return false;
+        }""", text)
+    # wait for the filter bar to exist
+    for _ in range(20):
+        try:
+            b = frame.evaluate("() => (document.body.innerText||'').slice(0,9000)") or ""
+        except Exception:
+            b = ""
+        if "Market filter" in b or "MAIN" in b or "Others" in b:
+            break
+        time.sleep(0.5)
+    for attempt in range(4):
+        if _count_odd_names(frame, need_names) >= 2:
+            return True
+        try:
+            _click_exact(top_label)
+            time.sleep(0.7)
+            _click_exact(sub_label)
+        except Exception:
+            pass
+        for _ in range(16):
+            time.sleep(0.5)
+            if _count_odd_names(frame, need_names) >= 2:
+                log(f"Market tab '{sub_label}' selected.")
+                return True
+    log(f"Could not switch to '{sub_label}' (cells {need_names} never rendered).")
+    return False
+
+
 def select_market_tab(frame, market):
     """Switch the market filter and VERIFY the grid actually changed —
     a plain click on the tab text doesn't always trigger the SPA handler,
     so escalate strategies until the right columns are visible."""
+    if market == "COMBINED":
+        return _select_combined_tab(frame)
+    if market == "DC":            # MAIN > Double Chance  (1X / 12 / X2)
+        return _select_dedicated_tab(frame, "MAIN", "Double Chance", ["1X", "X2", "12"])
+    if market == "GGNG":          # Others > Goal Goal/No Goal  (GG / NG)
+        return _select_dedicated_tab(frame, "Others", "Goal Goal/No Goal", ["GG", "NG"])
     if market == "1X2":
         label, marker = "MAIN", "DRAW"
     else:
@@ -1092,11 +1244,16 @@ def click_leg_odds(frame, leg):
         time.sleep(0.6)
     except Exception:
         pass
+    # Dedicated Double-Chance / GG-NG grids keep the odds cells in a container
+    # separate from the team codes — use the climb-to-row matcher for those.
+    clicker = (_try_click_named if leg.get("tab") in ("DC", "GGNG", "COMBINED")
+               else _try_click_leg)
     for step in range(10):
-        res = _try_click_leg(frame, leg)
+        res = clicker(frame, leg)
         if res and not res.get("err"):
             return res
-        if res and res.get("err") not in ("row_not_found", "no_cells"):
+        if res and res.get("err") not in ("row_not_found", "no_cells",
+                                          "no_named", "no_rows"):
             return res  # real failure, not a rendering issue
         try:
             moved = frame.evaluate(_SCROLL_JS, "down")
@@ -1113,11 +1270,8 @@ def _try_click_leg(frame, leg):
     ('1  2.05', 'X 3.76', 'OV 2.5 1.76', 'UN 2.5 2.06'), so we match the
     exact market label and never count positions."""
     js = r"""(args) => {
-        const { home, away, call } = args;
-        const wanted = { '1': '1', 'X': 'X', '2': '2',
-                         'O2.5': 'OV 2.5', 'U2.5': 'UN 2.5' }[call];
+        const { home, away, wanted, expected } = args;
         if (!wanted) return { err: 'bad_call' };
-        const expected = (call === 'O2.5' || call === 'U2.5') ? 8 : 3;
 
         const readCell = (odd) => {
             const nameEl = odd.querySelector('.odd-name');
@@ -1170,9 +1324,18 @@ def _try_click_leg(frame, leg):
             .map(o => (readCell(o) || {}).name).filter(Boolean);
         return { err: 'label_not_found', want: wanted, saw: seen };
     }"""
+    # Resolve the exact odds-cell label + how many cells a row holds. An
+    # explicit odd_name (Confident-Call picks: GG/NG, 1X/12/X2, 1/2 on the
+    # combined tab) is placed straight; legacy O/U + 1X2 singles map by call.
+    if leg.get("odd_name"):
+        wanted, expected = leg["odd_name"], leg.get("cells", 8)
+    else:
+        wanted = {"1": "1", "X": "X", "2": "2",
+                  "O2.5": "OV 2.5", "U2.5": "UN 2.5"}.get(leg["call"])
+        expected = 8 if leg["call"] in ("O2.5", "U2.5") else 3
     try:
         res = frame.evaluate(js, {"home": leg["home"], "away": leg["away"],
-                                  "call": leg["call"]})
+                                  "wanted": wanted, "expected": expected})
     except Exception as e:
         return {"err": str(e)[:100]}
     if not res.get("tagged"):
@@ -1180,6 +1343,78 @@ def _try_click_leg(frame, leg):
     # Real click via Playwright. Retry: the virtualised list can scroll the
     # cell out from under the click, which times out and used to cost the
     # whole gameweek.
+    loc = frame.locator("[data-bot-pick='1']").first
+    last = ""
+    for attempt in range(3):
+        try:
+            if attempt:
+                loc.scroll_into_view_if_needed(timeout=3000)
+                time.sleep(0.4)
+            loc.click(timeout=6000)
+            return {"clicked": res["val"]}
+        except Exception as e:
+            last = str(e)[:70]
+            time.sleep(0.5)
+    return {"err": "locator_click after 3 tries: " + last}
+
+
+def _try_click_named(frame, leg):
+    """Click an odds cell by its .odd-name on grids where the cells DON'T share
+    a container with the team codes (dedicated Double Chance / GG-NG grids).
+    Strategy: among app-odd whose name matches, pick the one whose smallest
+    ancestor also contains BOTH team codes (= this fixture's row), then click
+    it. Robust to whatever the row nesting is."""
+    wanted = leg.get("odd_name")
+    # Geometric row alignment: the team codes sit in a separate left column from
+    # the odds cells, so match by vertical position — find the fixture's name
+    # cell, then click the `wanted` odds cell whose row lines up with it.
+    js = r"""(args) => {
+        const { home, away, wanted } = args;
+        const reH = new RegExp('\\b' + home + '\\b');
+        const reA = new RegExp('\\b' + away + '\\b');
+        // fixture NAME cell = smallest element with both codes and no app-odd
+        let fx = null, fxLen = 1e9;
+        for (const el of document.querySelectorAll('div, span, td, li, a')) {
+            const txt = el.textContent || '';
+            if (!reH.test(txt) || !reA.test(txt)) continue;
+            if (el.querySelector('app-odd')) continue;
+            const r = el.getBoundingClientRect();
+            if (r.height === 0 || r.width === 0) continue;
+            if (txt.length < fxLen) { fxLen = txt.length; fx = el; }
+        }
+        if (!fx) return { err: 'no_fixture', wanted };
+        const fr = fx.getBoundingClientRect();
+        const cy = fr.top + fr.height / 2;
+        // among the `wanted` odds cells, the one whose row aligns vertically
+        let best = null, bestDy = 1e9, bestVal = null;
+        for (const o of document.querySelectorAll('app-odd')) {
+            const nm = (((o.querySelector('.odd-name') || {}).textContent) || '').trim();
+            if (nm !== wanted) continue;
+            const r = o.getBoundingClientRect();
+            if (r.height === 0) continue;
+            const dy = Math.abs((r.top + r.height / 2) - cy);
+            if (dy < bestDy) {
+                bestDy = dy; best = o;
+                const vm = (((o.querySelector('.odd-value') || {}).textContent) || '')
+                    .match(/(\d+\.\d{2})/);
+                bestVal = vm ? parseFloat(vm[1]) : null;
+            }
+        }
+        if (!best) return { err: 'no_named', wanted };
+        if (bestDy > 40) return { err: 'row_not_found', wanted, dy: Math.round(bestDy) };
+        if (best.offsetParent === null) return { err: 'cell_hidden' };
+        document.querySelectorAll('[data-bot-pick]')
+            .forEach(e => e.removeAttribute('data-bot-pick'));
+        (best.querySelector('.odd-value') || best).setAttribute('data-bot-pick', '1');
+        return { tagged: true, val: bestVal };
+    }"""
+    try:
+        res = frame.evaluate(js, {"home": leg["home"], "away": leg["away"],
+                                  "wanted": wanted})
+    except Exception as e:
+        return {"err": str(e)[:100]}
+    if not res.get("tagged"):
+        return res
     loc = frame.locator("[data-bot-pick='1']").first
     last = ""
     for attempt in range(3):
@@ -1228,12 +1463,21 @@ def build_football_slip(frame, pick, cfg):
         set_fast_mode(left < 60)
         log(f"GW{pick['week']} kicks off in {left}s — proceeding"
             + ("  [FAST MODE]" if left < 60 else "") + ".")
-    # group legs by market so we only switch tabs when needed
-    for market in ("1X2", "Over/Under 2.5"):
-        legs = [l for l in pick["legs"] if l["market"] == market]
+    # group legs by the live-page TAB so we only switch tabs when needed.
+    # tab is explicit on Confident-Call legs; legacy legs derive it from market.
+    def _leg_tab(l):
+        return l.get("tab") or ("OU" if str(l.get("market", "")).startswith("Over/Under")
+                                else "1X2")
+    tabs_order = []
+    for l in pick["legs"]:
+        t = _leg_tab(l)
+        if t not in tabs_order:
+            tabs_order.append(t)
+    for tab in tabs_order:
+        legs = [l for l in pick["legs"] if _leg_tab(l) == tab]
         if not legs:
             continue
-        if not select_market_tab(frame, "1X2" if market == "1X2" else "OU"):
+        if not select_market_tab(frame, tab):
             clear_betslip(frame)
             return None
         for leg in legs:
@@ -1727,17 +1971,110 @@ def reconcile_unfinished(frame, st, cfg):
 #  Cycle handlers per bet type
 # ─────────────────────────────────────────────────────────────
 
+_CC_LEAGUES = ["England", "France", "Germany", "Italy", "Spain", "Turkey"]
+
+
+def _oddname_to_call(odd_name):
+    """Map a live odds-cell label to a settlement code (_leg_won)."""
+    return {"OV 2.5": "O2.5", "UN 2.5": "U2.5"}.get(odd_name, odd_name)
+
+
+def page_pick_confident(frame, cfg):
+    """Confident-Call source: for each configured league, read the live next
+    bettable GW, ask the app for that GW's best pattern-model pick within the
+    user's odds range, and return the first that maps onto the live page. The
+    pick can be ANY market (O/U 2.5, GG/NG, 1X2, Double Chance) — its tab +
+    odd_name tell build_football_slip exactly what to click. Page-driven, so
+    the GW is always the one about to play (fixes the far/stale-GW issue)."""
+    set_fast_mode(False)
+    leagues = [l.strip().title() for l in (cfg.get("leagues") or "").split(",")
+               if l.strip()] or _CC_LEAGUES
+    lo = cfg.get("cc_min_odds", cfg.get("single_odds_min", 1.40))
+    hi = cfg.get("cc_max_odds", cfg.get("single_odds_max", 3.00))
+    mode = cfg.get("cc_mode", "nextup")
+
+    # Gather each league's best pick for its next bettable GW, then choose:
+    #   global = highest confidence anywhere;  nextup = soonest to kick off.
+    cands = []
+    for league in leagues:
+        ready = False
+        for _ in (1, 2):
+            if nav_to_league_upcoming(frame, league) and select_market_tab(frame, "OU"):
+                ready = True
+                break
+            time.sleep(6)
+        if not ready:
+            continue
+        parsed = parse_league_page(read_page_text(frame), league)
+        section = next((s for s in parsed["sections"]
+                        if s["countdown_s"] >= MIN_COUNTDOWN_S), None)
+        if section is None:
+            continue
+        week = section["week"]
+        q = (f"/api/pattern_call?league={urllib.parse.quote(league)}&week={week}"
+             f"&min_odds={lo}&max_odds={hi}")
+        tk = api_get(q)
+        if not tk or not tk.get("odd_name"):
+            continue
+        row = next((r for r in section["rows"]
+                    if {r["home"], r["away"]} == {tk["home"], tk["away"]}), None)
+        if not row:
+            log(f"{league} GW{week}: confident pick {tk['home']}-{tk['away']} "
+                f"not on the live page yet — skipping this league.")
+            continue
+        if tk["tab"] not in ("OU", "1X2", "DC", "GGNG"):
+            log(f"{league} GW{week}: confident pick is {tk['sel']} (tab "
+                f"{tk['tab']} not placeable) — skipping.")
+            continue
+        cands.append((league, week, section, tk))
+        # In nextup mode, a pick this imminent can't be beaten on kickoff time —
+        # take it without navigating the rest (saves the clock).
+        if mode == "nextup" and section["countdown_s"] <= MIN_COUNTDOWN_S + 45:
+            break
+
+    if not cands:
+        return None
+    if mode == "global":
+        league, week, section, tk = max(cands, key=lambda c: (c[3].get("conf") or 0))
+    else:  # nextup — soonest kickoff
+        league, week, section, tk = min(cands, key=lambda c: c[2]["countdown_s"])
+
+    # Re-navigate to the chosen league so the live page shows its grid for
+    # placement (we may have moved on while scanning others).
+    if len(cands) > 1:
+        nav_to_league_upcoming(frame, league)
+        select_market_tab(frame, "OU")
+        time.sleep(1)
+
+    call = _oddname_to_call(tk["odd_name"])
+    market = {"OU": "Over/Under 2.5", "1X2": "1X2",
+              "DC": "Double Chance", "GGNG": "GG/NG"}[tk["tab"]]
+    leg = {"home": tk["home"], "away": tk["away"], "call": call,
+           "market": market, "tab": tk["tab"], "odd_name": tk["odd_name"],
+           "cells": tk.get("cells", 8), "odds": tk["odds"]}
+    log(f"Confident Call [{mode}]: {league} GW{week}  {tk['home']}-{tk['away']} "
+        f"[{tk['sel']}] @{tk['odds']}  conf {tk.get('conf')}%  ({tk.get('reason','')})")
+    return {"league": league, "week": week,
+            "countdown_s": section["countdown_s"], "legs": [leg],
+            "total_odds": tk["odds"], "provisional": False,
+            "sel": tk["sel"], "conf": tk.get("conf")}
+
+
 def football_cycle(frame, st, cfg):
-    """One football bet (single / two / three), fully PAGE-DRIVEN: the live
-    page supplies the next bettable GW + fixtures + O/U odds + countdown; the
-    predictor supplies each fixture's call. All legs are O/U 2.5 in one GW, so
-    the ticket settles from that GW's final scores."""
-    league = (cfg.get("leagues") or "England").split(",")[0].strip().title()
+    """One football bet (single / two / three / confident_call), fully
+    PAGE-DRIVEN: the live page supplies the next bettable GW + fixtures + odds +
+    countdown; the predictor supplies the call. All legs settle from that GW's
+    final scores."""
     btype = cfg["bet_type"]
-    pick = page_pick_ticket(frame, cfg, league, btype)
+    if btype == "confident_call":
+        pick = page_pick_confident(frame, cfg)
+    else:
+        league = (cfg.get("leagues") or "England").split(",")[0].strip().title()
+        pick = page_pick_ticket(frame, cfg, league, btype)
     if not pick:
         time.sleep(15)
         return False
+    league = pick["league"]
     legs = pick["legs"]
     slip_target = pick["total_odds"]
 
@@ -2186,6 +2523,12 @@ def _leg_won(call, hs, as_):
         return not (hs > 0 and as_ > 0)
     if call == "X":
         return hs == as_
+    if call == "1X":            # double chance: home or draw
+        return hs >= as_
+    if call == "X2":            # double chance: away or draw
+        return as_ >= hs
+    if call == "12":            # double chance: no draw
+        return hs != as_
     return False
 
 
@@ -2227,11 +2570,15 @@ def sim_cycle(frame, st, cfg):
     """Betting brain against the LIVE PAGE, no bets placed — identical pick +
     settlement logic to live (single/two/three via page_pick_ticket), just no
     placement. Returns True if an outcome was booked."""
-    league = (cfg.get("leagues") or "England").split(",")[0].strip().title()
-    pick = page_pick_ticket(frame, cfg, league, cfg["bet_type"])
+    if cfg["bet_type"] == "confident_call":
+        pick = page_pick_confident(frame, cfg)
+    else:
+        league = (cfg.get("leagues") or "England").split(",")[0].strip().title()
+        pick = page_pick_ticket(frame, cfg, league, cfg["bet_type"])
     if not pick:
         time.sleep(15)
         return False
+    league = pick["league"]
     legs = pick["legs"]
     total = pick["total_odds"]
 

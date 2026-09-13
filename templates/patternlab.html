@@ -2,7 +2,7 @@
 {% block title %}Pattern Lab — SportyPredict{% endblock %}
 
 {% block content %}
-<meta http-equiv="refresh" content="60">
+{% if d.warming %}<meta http-equiv="refresh" content="10">{% else %}<meta http-equiv="refresh" content="300">{% endif %}
 
 <div class="d-flex align-items-center mb-2 flex-wrap gap-3">
     <div>
@@ -12,7 +12,7 @@
             each scored <strong>cycle&nbsp;by&nbsp;cycle, standalone</strong> (never pooled) ·
             regime / change-point detection · walk-forward tested ·
             live ACTIVE&nbsp;/&nbsp;WEAK&nbsp;/&nbsp;DEAD monitor.
-            Recomputes each load; refreshes every 60s.
+            Computed in the background; page refreshes every 5&nbsp;min.
         </small>
     </div>
 </div>
@@ -21,7 +21,12 @@
 <div class="alert alert-warning"><small>Engine error: {{ d.error }}</small></div>
 {% endif %}
 
-{% if not d.leagues %}
+{% if d.warming %}
+<div class="alert alert-info d-flex align-items-center gap-2">
+  <div class="spinner-border spinner-border-sm" role="status"></div>
+  <small>Pattern Lab is computing the first pass in the background — this page loads instantly and will fill in automatically in a few seconds. No need to refresh.</small>
+</div>
+{% elif not d.leagues %}
 <div class="alert alert-info"><small>Not enough evaluated matches yet — this fills in as results settle.</small></div>
 {% else %}
 

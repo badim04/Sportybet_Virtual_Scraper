@@ -22,6 +22,7 @@ import os
 import json
 import glob
 import time
+import threading
 from collections import defaultdict
 from datetime import datetime
 
@@ -257,29 +258,66 @@ _ENGINE_OKEY = {"O": "over_25_odds", "U": "under_25_odds",
 _OPP = {"O": "U", "U": "O", "GG": "NG", "NG": "GG"}
 
 
-def _deepseek_decide(runs, pf, i, n):
-    """DeepSeek's rule for the call at match index i, using ONLY results
-    before i. `runs` = current tail streak length per feature (results[..i-1]);
-    `pf` = prefix sums per feature. Returns (conf, call, reason, kind) or None."""
-    best = None
-    # 1) reversal: fade any 3+ streak (the doc's headline move)
-    for feat in ("O", "U", "GG", "NG"):
-        s = runs[feat]
-        if s >= 3:
-            conf = min(96, 50 + s * 8)
-            cand = (conf, _OPP[feat], f"{s} {feat} in a row → fade to {_OPP[feat]}", "fade")
-            if best is None or conf > best[0]:
-                best = cand
-    # 2) else continuation: ride a lopsided last-10 window
-    if best is None and i >= WINDOW:
-        for feat in ("O", "U", "GG", "NG"):
-            cnt = pf[feat][i] - pf[feat][i - WINDOW]
-            if cnt >= 7:
-                conf = min(90, 50 + (cnt - 6) * 7)
-                cand = (conf, feat, f"{cnt}/{WINDOW} {feat} → ride {feat}", "ride")
-                if best is None or conf > best[0]:
-                    best = cand
-    return best
+def _deepseek_decide(runs, pf, i, n, recent_calls=(), recent_results=()):
+    """DeepSeek's call at match index i, thinking like a punter, not a
+    calculator. Short memory only (last {WINDOW}). Uses ONLY results before i.
+      · a SMALL streak (2-3) is hot  → stay on it (ride)
+      · a LONG streak (5+) is tired  → it's due to break (fade)
+      · 4 is the turn — lean to the break
+      · no streak but the last 10 are very one-way (8+/10) → bet the turn
+      · a call that's been absent lately is "overdue" → small nudge
+      · don't keep hammering the SAME call (a human gets wary)
+      · if the read's gone cold (last 3 picks lost) → flip the stance
+    Returns (conf, call, reason, kind) or None.
+    """
+    # strongest current tail streak
+    feat = max(("O", "U", "GG", "NG"), key=lambda f: runs[f])
+    slen = runs[feat]
+    call = conf = reason = kind = None
+
+    if slen >= 5:
+        call, kind = _OPP[feat], "fade"
+        conf = min(92, 60 + slen * 5)
+        reason = f"{slen} {feat} on the bounce — tired, due to break → {call}"
+    elif slen in (2, 3):
+        call, kind = feat, "ride"
+        conf = 52 + slen * 6
+        reason = f"{slen} {feat} in a row — hot, stay on → {call}"
+    elif slen == 4:
+        call, kind = _OPP[feat], "fade"
+        conf = 62
+        reason = f"4 {feat} in a row — leaning the break → {call}"
+
+    # no streak: only act if the last 10 are strongly one-way
+    if call is None and i >= WINDOW:
+        for f in ("O", "U", "GG", "NG"):
+            cnt = pf[f][i] - pf[f][i - WINDOW]
+            if cnt >= 8:
+                call, kind = _OPP[f], "fade"
+                conf = 56 + (cnt - 8) * 6
+                reason = f"{cnt}/10 {f} lately — one-way, betting the turn → {call}"
+                break
+    if call is None:
+        return None
+
+    # overdue nudge: the call has barely shown up in the last 10
+    if i >= WINDOW and (pf[call][i] - pf[call][i - WINDOW]) <= 2:
+        conf = min(95, conf + 6)
+        reason += " · overdue"
+
+    # anti-robot: a punter won't keep backing the identical call forever
+    if len(recent_calls) >= 3 and all(c == call for c in recent_calls[-3:]):
+        conf = max(45, conf - 15)
+        reason += " · eased (same call running)"
+
+    # cold switch: if the last 3 actual picks all lost, this read is backwards
+    if len(recent_results) >= 3 and not any(recent_results[-3:]):
+        call = _OPP[call]
+        kind = "fade" if kind == "ride" else "ride"
+        conf = max(48, conf - 8)
+        reason = f"read's been cold — flipping to → {call}"
+
+    return (int(conf), call, reason, kind)
 
 
 def _deepseek_engine(stream, pf):
@@ -287,17 +325,24 @@ def _deepseek_engine(stream, pf):
     LIVE pick for the next match (applying the rule at the tail)."""
     n = len(stream)
     runs = {"O": 0, "U": 0, "GG": 0, "NG": 0}
-    bets = []          # (won, odds, conf)
+    bets = []              # (won, odds, conf)
+    recent_calls = []      # the engine's own last few picks (for anti-robot)
+    recent_results = []    # the engine's own last few win/loss (for cold-switch)
     for i in range(n):
-        d = _deepseek_decide(runs, pf, i, n)
+        d = _deepseek_decide(runs, pf, i, n, recent_calls, recent_results)
         if d:
             conf, call, _, _ = d
             o = stream[i].get(_ENGINE_OKEY[call])
             if o and o > 1:
-                bets.append((stream[i]["_o"][call], o, conf))
+                won = stream[i]["_o"][call]
+                bets.append((won, o, conf))
+                recent_calls.append(call)
+                recent_results.append(won)
+                recent_calls = recent_calls[-5:]
+                recent_results = recent_results[-5:]
         for f in runs:
             runs[f] = runs[f] + 1 if stream[i]["_o"][f] else 0
-    live = _deepseek_decide(runs, pf, n, n)   # pick for the next (unplayed) match
+    live = _deepseek_decide(runs, pf, n, n, recent_calls, recent_results)
 
     def rec(sub):
         if not sub:
@@ -353,18 +398,243 @@ def _chatgpt_engine(scored, live):
             "reason": "validated & active" if s["persists"] else "active, not both-half validated"}
 
 
+# ═══════════════════════════════════════════════════════════════════════
+#  BET PICKS — the actionable layer. Ties the DeepSeek short-memory read to
+#  the LIVE upcoming fixtures so every prediction is a concrete MATCH +
+#  SELECTION + ODDS you can stake. Confidence is a blend (model probability +
+#  the streak read + the price's value); the DeepSeek read is surfaced as the
+#  human reason. Direction is whichever side the blend favours (never forced
+#  against the model). One best selection per match; ranked into a headline
+#  Confident Call + a global Top-N + per-league groups.
+# ═══════════════════════════════════════════════════════════════════════
+
+def _tail_runs(stream):
+    """Current tail streak length per outcome (how many in a row, right now)."""
+    runs = {}
+    for k in ("O", "U", "GG", "NG", "H", "D", "A"):
+        c = 0
+        for r in reversed(stream):
+            if r["_o"][k]:
+                c += 1
+            else:
+                break
+        runs[k] = c
+    return runs
+
+
+def _win_counts(stream):
+    """Counts in the last WINDOW matches (short memory)."""
+    w = stream[-WINDOW:] if len(stream) >= WINDOW else stream
+    c = {k: 0 for k in ("O", "U", "GG", "NG", "H", "D", "A")}
+    for r in w:
+        for k in c:
+            if r["_o"][k]:
+                c[k] += 1
+    return c
+
+
+def _pair_lean(runs, cnt, a, b):
+    """Human read for a complementary pair (O/U or GG/NG): ride a small streak,
+    fade a long one, else lean the lopsided last-10. Returns (call, strength,
+    note)."""
+    for x, y in ((a, b), (b, a)):
+        if runs[x] >= 5:
+            return (y, min(90, 60 + runs[x] * 5),
+                    f"{runs[x]} {x} on the bounce — due a turn")
+    for x, y in ((a, b), (b, a)):
+        if runs[x] in (2, 3):
+            return (x, 52 + runs[x] * 6, f"{runs[x]} {x} in a row — hot, stay on")
+    if cnt[a] >= 8:
+        return (b, 56 + (cnt[a] - 8) * 6, f"{cnt[a]}/10 {a} lately — betting the turn")
+    if cnt[b] >= 8:
+        return (a, 56 + (cnt[b] - 8) * 6, f"{cnt[b]}/10 {b} lately — betting the turn")
+    if cnt[a] - cnt[b] >= 3:
+        return (a, 52, f"{cnt[a]}/10 {a} lately — leaning {a}")
+    if cnt[b] - cnt[a] >= 3:
+        return (b, 52, f"{cnt[b]}/10 {b} lately — leaning {b}")
+    return (None, 0, "no strong run")
+
+
+def _res_lean(runs):
+    """Human read for match result (only rides a hot side; a long run is a
+    caution, not a fade — fading a 3-way is ambiguous)."""
+    for x in ("H", "A"):
+        if runs[x] in (2, 3):
+            return (x, 52 + runs[x] * 6, f"{runs[x]} {x} on the trot — hot")
+        if runs[x] >= 4:
+            return (None, 0, f"{runs[x]} {x} in a row — could turn, wary")
+    return (None, 0, "no strong run")
+
+
+def _clamp(v, lo, hi):
+    return max(lo, min(hi, v))
+
+
+def _league_leans(stream):
+    """The three family reads for a league, from its short memory."""
+    runs, cnt = _tail_runs(stream), _win_counts(stream)
+    return {
+        "OU": _pair_lean(runs, cnt, "O", "U"),
+        "GGNG": _pair_lean(runs, cnt, "GG", "NG"),
+        "RES": _res_lean(runs),
+    }
+
+
+# selection code -> (display, model-prob getter, live-odds key, family, opp)
+def _candidates(f, leans):
+    """Every bettable selection for one upcoming fixture, each scored by the
+    blend. Returns list of pick dicts (best-per-fixture chosen by caller)."""
+    hw = f.get("home_win_pct") or 0
+    dw = f.get("draw_pct") or 0
+    aw = f.get("away_win_pct") or 0
+    ov = f.get("over_2_5_pct")
+    bt = f.get("btts_pct")
+    # spec = (display, model%, odds, family, code, opp, odd_name, tab, cells, placeable)
+    # odd_name/tab/cells are exactly what the auto-bettor clicks. `placeable`
+    # marks markets the bettor can reliably place on the live page today:
+    # O/U 2.5 (O/U tab, 8 cells) and 1X2 Home/Away (MAIN tab, 3 cells) — both
+    # proven. GG/NG + Double Chance are shown for MANUAL betting but their live
+    # cells don't render reliably for automation (verified 2026-08-24), so they
+    # are NOT auto-placeable yet (the bettor skips them rather than misbet).
+    specs = []
+    if ov is not None:
+        specs.append(("Over 2.5", ov, f.get("live_over_25"), "OU", "O", "U", "OV 2.5", "OU", 8, True))
+        specs.append(("Under 2.5", 100 - ov, f.get("live_under_25"), "OU", "U", "O", "UN 2.5", "OU", 8, True))
+    specs.append(("Home win", hw, f.get("live_home_odds"), "RES", "H", None, "1", "1X2", 3, True))
+    specs.append(("Away win", aw, f.get("live_away_odds"), "RES", "A", None, "2", "1X2", 3, True))
+    # GG/NG (Others > Goal Goal/No Goal, 2 cells) and Double Chance (MAIN >
+    # Double Chance, 3 cells) each have a DEDICATED live grid, so they ARE
+    # auto-placeable (verified 2026-08-24).
+    if bt is not None:
+        specs.append(("GG (both score)", bt, f.get("live_gg_odds"), "GGNG", "GG", "NG", "GG", "GGNG", 2, True))
+        specs.append(("NG (no-goal)", 100 - bt, f.get("live_ng_odds"), "GGNG", "NG", "GG", "NG", "GGNG", 2, True))
+    specs.append(("1X (dbl chance)", hw + dw, f.get("live_dc_1x_odds"), "RES", "H", None, "1X", "DC", 3, True))
+    specs.append(("X2 (dbl chance)", aw + dw, f.get("live_dc_x2_odds"), "RES", "A", None, "X2", "DC", 3, True))
+    specs.append(("12 (dbl chance)", hw + aw, f.get("live_dc_12_odds"), "RES", None, None, "12", "DC", 3, True))
+
+    out = []
+    for disp, prob, odds, fam, code, opp, odd_name, tab, cells, placeable in specs:
+        if not odds or odds <= 1 or prob is None:
+            continue
+        implied = 100.0 / odds
+        value = prob - implied
+        lcall, lstr, lnote = leans[fam]
+        agree = 0.0
+        agreed = None
+        if code and lcall == code:
+            agree = min(10.0, lstr / 9.0)
+            agreed = True
+        elif code and lcall is not None and lcall == opp:
+            agree = -8.0
+            agreed = False
+        conf = _clamp(prob + agree + _clamp(value * 0.4, -8, 8), 1, 97)
+        # human reason
+        if agreed is True:
+            streak = lnote
+        elif agreed is False:
+            streak = f"against the run ({lnote})"
+        else:
+            streak = lnote
+        price = ("value" if value >= 2 else "fair price" if value >= -3 else "thin price")
+        reason = f"{streak}; model {prob:.0f}%, {price} @ {odds:.2f}"
+        out.append({
+            "sel": disp, "market": fam, "code": code, "odds": round(odds, 2),
+            "odd_name": odd_name, "tab": tab, "cells": cells,
+            "placeable": placeable,
+            "model_prob": round(prob), "value": round(value, 1),
+            "conf": round(conf), "agree": agreed, "reason": reason,
+        })
+    return out
+
+
+def build_bet_picks(upcoming_by_league, gw_window=3, top_n=10, min_odds=1.40,
+                    placeable_only=False):
+    """Turn live upcoming fixtures into concrete, stakeable match picks.
+    `upcoming_by_league` = {LeagueTitle: [fixture-prediction dicts]} from the
+    app's state (each fixture carries model %s + live odds). Returns the
+    headline Confident Call, a global Top-N, and per-league groups.
+    `min_odds` keeps the boards to stakeable prices (ultra-short doubles stay
+    visible only as per-match alternatives). `placeable_only` (auto-bettor)
+    restricts each fixture's chosen selection to markets the bettor can reliably
+    click on the live page (O/U 2.5 + 1X2 Home/Away)."""
+    streams = load_streams()
+    all_picks = []
+    had_fixtures = False
+    for league, fixtures in (upcoming_by_league or {}).items():
+        stream = streams.get(league.lower(), [])
+        if len(stream) < WINDOW:
+            continue
+        leans = _league_leans(stream)
+        # keep only the next `gw_window` distinct gameweeks (bettable soon).
+        # `fixtures` is already ordered current-week-first, so the position of
+        # a week in weeks_seen IS its distance from now (0 = nearest).
+        weeks_seen, keep = [], []
+        for f in fixtures:
+            w = f.get("week")
+            if w not in weeks_seen:
+                if len(weeks_seen) >= gw_window:
+                    continue
+                weeks_seen.append(w)
+            keep.append(f)
+        for f in keep:
+            gw_order = weeks_seen.index(f.get("week"))
+            cands = _candidates(f, leans)
+            if not cands:
+                continue
+            had_fixtures = True
+            if placeable_only:
+                cands = [c for c in cands if c.get("placeable")]
+                if not cands:
+                    continue
+            # boards honour the odds floor; if nothing on this match clears it,
+            # the match drops out (don't show a sub-floor pick)
+            bettable = [c for c in cands if c["odds"] >= min_odds]
+            if not bettable:
+                continue
+            best = max(bettable, key=lambda c: c["conf"])
+            alts = sorted([c for c in cands if c is not best],
+                          key=lambda c: -c["conf"])[:3]
+            all_picks.append({
+                "league": league,
+                "week": f.get("week"),
+                "gw_order": gw_order,
+                "match": f"{f.get('home_team')} v {f.get('away_team')}",
+                "home": f.get("home_team"), "away": f.get("away_team"),
+                **best, "alts": alts,
+            })
+    # Top board = global highest confidence (unchanged). Per-league / All =
+    # gameweek-first, then confidence within the GW (#4). Confident Call is
+    # still the global highest-confidence pick — the nearest-GW fix for #1 is
+    # held pending confirmation; `nearest_call` is computed alongside so it can
+    # be swapped in trivially once approved.
+    by_conf = sorted(all_picks, key=lambda p: -p["conf"])
+    by_gw = sorted(all_picks, key=lambda p: (p["gw_order"], -p["conf"]))
+    nearest = [p for p in all_picks if p["gw_order"] == 0]
+    per_league = {}
+    for p in by_gw:
+        per_league.setdefault(p["league"], []).append(p)
+    return {
+        "confident_call": by_conf[0] if by_conf else None,
+        "nearest_call": (max(nearest, key=lambda p: p["conf"]) if nearest else None),
+        "top": by_conf[:top_n],
+        "per_league": per_league,
+        "all": by_gw,
+        "n": len(all_picks),
+        "window": WINDOW,
+        "gw_window": gw_window,
+        "min_odds": min_odds,
+        "had_fixtures": had_fixtures,
+    }
+
+
 _OVERVIEW_CACHE = {"t": 0, "data": None}
 _BOARD_CACHE = {"t": 0, "data": None}
 _RESULT_TTL = 55   # cycle scan is O(patterns·leagues·matches); cache the result
 
 
-def compute_overview():
-    """Everything the Pattern Lab tab renders: per-league scorecards
-    (best patterns by honest net, with the cycle-win% shown beside it) and the
-    live ride board of currently-open cycles. Result cached (see _RESULT_TTL)."""
-    now = time.time()
-    if _OVERVIEW_CACHE["data"] is not None and now - _OVERVIEW_CACHE["t"] < _RESULT_TTL:
-        return _OVERVIEW_CACHE["data"]
+def _compute_overview_impl():
+    """The heavy compute (cycle scan + engines) — run OFF the request path by
+    a background thread; see compute_overview()."""
     streams = load_streams()
     lib = _pattern_library()
     leagues_out = []
@@ -410,16 +680,12 @@ def compute_overview():
         "grand_best": grand_best_net,
         "any_edge": any(l["any_persist"] for l in leagues_out),
     }
-    _OVERVIEW_CACHE.update(t=now, data=out)
     return out
 
 
-def compute_live_board():
-    """Just the currently-open cycles across all leagues, hottest first —
-    the ride-and-switch board. Result cached (see _RESULT_TTL)."""
-    now = time.time()
-    if _BOARD_CACHE["data"] is not None and now - _BOARD_CACHE["t"] < _RESULT_TTL:
-        return _BOARD_CACHE["data"]
+def _compute_live_board_impl():
+    """The currently-open cycles across all leagues, hottest first — computed
+    off the request path (see compute_live_board())."""
     streams = load_streams()
     lib = _pattern_library()
     board = []
@@ -434,5 +700,55 @@ def compute_live_board():
                 c["league"] = lg.title()
                 board.append(c)
     board.sort(key=lambda c: (c["cooling"], -c["running"]))
-    _BOARD_CACHE.update(t=now, data=board)
     return board
+
+
+# ── background compute: keep Pattern Lab results warm so page loads never
+#    block on the heavy scan (this was the /patternlab "spins forever" bug) ──
+_LATEST = {"overview": None, "board": None, "at": 0}
+_BG_STARTED = False
+_BG_LOCK = threading.Lock()
+_BG_INTERVAL = 180
+
+
+def _refresh_caches():
+    _LATEST["overview"] = _compute_overview_impl()
+    _LATEST["board"] = _compute_live_board_impl()
+    _LATEST["at"] = time.time()
+
+
+def _bg_loop():
+    while True:
+        try:
+            _refresh_caches()
+        except Exception:
+            pass
+        time.sleep(_BG_INTERVAL)
+
+
+def start_background(interval=_BG_INTERVAL):
+    global _BG_STARTED, _BG_INTERVAL
+    with _BG_LOCK:
+        if _BG_STARTED:
+            return
+        _BG_STARTED = True
+        _BG_INTERVAL = interval
+    threading.Thread(target=_bg_loop, daemon=True).start()
+
+
+def compute_overview():
+    """Route-facing: return the last background-computed overview instantly
+    (never blocks). Returns a 'warming' shell until the first pass finishes."""
+    start_background()
+    ov = _LATEST["overview"]
+    if ov is None:
+        return {"warming": True, "leagues": [], "total_bets": 0,
+                "window": WINDOW, "n_patterns": len(_pattern_library()),
+                "grand_best": None, "any_edge": False}
+    return {**ov, "warming": False, "computed_at": _LATEST["at"]}
+
+
+def compute_live_board():
+    """Route-facing: last background-computed board (never blocks)."""
+    start_background()
+    return _LATEST["board"] or []

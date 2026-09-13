@@ -1,43 +1,43 @@
 {
   "ATH": {
-    "attack_adj": 0.8506,
-    "defense_adj": 1.0286,
-    "samples": 20352
+    "attack_adj": 0.9481,
+    "defense_adj": 1.1666,
+    "samples": 20732
   },
   "VAL": {
-    "attack_adj": 0.9964,
-    "defense_adj": 1.0888,
-    "samples": 24818
+    "attack_adj": 1.0579,
+    "defense_adj": 1.067,
+    "samples": 25200
   },
   "CEL": {
-    "attack_adj": 0.9576,
-    "defense_adj": 1.1441,
-    "samples": 23933
+    "attack_adj": 1.0015,
+    "defense_adj": 1.1623,
+    "samples": 24314
   },
   "RAY": {
-    "attack_adj": 1.1649,
-    "defense_adj": 0.8756,
-    "samples": 25855
+    "attack_adj": 1.1994,
+    "defense_adj": 1.0667,
+    "samples": 26237
   },
   "BAR": {
-    "attack_adj": 1.0478,
-    "defense_adj": 1.2213,
-    "samples": 22285
+    "attack_adj": 1.0332,
+    "defense_adj": 1.1246,
+    "samples": 22665
   },
   "VIL": {
-    "attack_adj": 0.933,
-    "defense_adj": 0.9955,
-    "samples": 23640
+    "attack_adj": 0.9899,
+    "defense_adj": 1.0728,
+    "samples": 24019
   },
   "RMA": {
-    "attack_adj": 1.1201,
-    "defense_adj": 0.9202,
-    "samples": 23985
+    "attack_adj": 1.2157,
+    "defense_adj": 1.0803,
+    "samples": 24365
   },
   "ELC": {
-    "attack_adj": 1.0095,
-    "defense_adj": 1.0192,
-    "samples": 24341
+    "attack_adj": 0.9628,
+    "defense_adj": 1.1986,
+    "samples": 24722
   },
   "GIR": {
     "attack_adj": 1.0465,
@@ -45,19 +45,19 @@
     "samples": 23093
   },
   "ESP": {
-    "attack_adj": 0.9679,
-    "defense_adj": 0.9993,
-    "samples": 24447
+    "attack_adj": 1.1048,
+    "defense_adj": 1.0912,
+    "samples": 24830
   },
   "GET": {
-    "attack_adj": 1.1741,
-    "defense_adj": 1.2464,
-    "samples": 25422
+    "attack_adj": 1.0664,
+    "defense_adj": 0.8758,
+    "samples": 25802
   },
   "ATM": {
-    "attack_adj": 1.122,
-    "defense_adj": 1.0574,
-    "samples": 23791
+    "attack_adj": 1.077,
+    "defense_adj": 0.9383,
+    "samples": 24173
   },
   "OVI": {
     "attack_adj": 0.9324,
@@ -65,24 +65,24 @@
     "samples": 25031
   },
   "BET": {
-    "attack_adj": 1.0721,
-    "defense_adj": 1.0039,
-    "samples": 23257
+    "attack_adj": 1.0726,
+    "defense_adj": 1.1125,
+    "samples": 23636
   },
   "RSO": {
-    "attack_adj": 1.0302,
-    "defense_adj": 0.9022,
-    "samples": 23333
+    "attack_adj": 1.1676,
+    "defense_adj": 1.0719,
+    "samples": 23714
   },
   "LEV": {
-    "attack_adj": 1.1214,
-    "defense_adj": 0.9668,
-    "samples": 23937
+    "attack_adj": 1.0353,
+    "defense_adj": 1.0421,
+    "samples": 24317
   },
   "ALA": {
-    "attack_adj": 1.031,
-    "defense_adj": 0.9677,
-    "samples": 26269
+    "attack_adj": 1.0921,
+    "defense_adj": 0.949,
+    "samples": 26650
   },
   "MLL": {
     "attack_adj": 1.0466,
@@ -90,28 +90,28 @@
     "samples": 22532
   },
   "SEV": {
-    "attack_adj": 0.9867,
-    "defense_adj": 1.1079,
-    "samples": 20295
+    "attack_adj": 1.0389,
+    "defense_adj": 1.0967,
+    "samples": 20677
   },
   "OSA": {
-    "attack_adj": 1.125,
-    "defense_adj": 1.0105,
-    "samples": 21819
+    "attack_adj": 1.0564,
+    "defense_adj": 1.1007,
+    "samples": 22204
   },
   "DEP": {
-    "attack_adj": 0.9882,
-    "defense_adj": 1.1722,
-    "samples": 318
+    "attack_adj": 1.053,
+    "defense_adj": 1.1108,
+    "samples": 698
   },
   "RAC": {
-    "attack_adj": 1.2556,
-    "defense_adj": 1.1054,
-    "samples": 323
+    "attack_adj": 1.0498,
+    "defense_adj": 0.9957,
+    "samples": 703
   },
   "MAL": {
-    "attack_adj": 1.0995,
-    "defense_adj": 1.1666,
-    "samples": 318
+    "attack_adj": 1.0204,
+    "defense_adj": 0.9417,
+    "samples": 702
   }
 }

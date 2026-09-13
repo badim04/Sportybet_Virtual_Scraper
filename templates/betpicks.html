@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+{% block title %}Bet Picks — SportyPredict{% endblock %}
+
+{% block content %}
+<meta http-equiv="refresh" content="30;url=/bets?min_odds={{ '%.2f'|format(min_odds|default(1.40)) }}">
+
+{% macro pick_badge(p) %}
+<span class="badge {% if p.agree %}bg-success{% elif p.agree == false %}bg-danger{% else %}bg-secondary{% endif %}"
+      title="{% if p.agree %}streak agrees{% elif p.agree == false %}against the run{% else %}no strong run{% endif %}">
+  {{ p.conf }}%
+</span>
+{% endmacro %}
+
+{% macro conf_color(c) %}{% if c >= 65 %}#4ade80{% elif c >= 55 %}#ffd54a{% else %}#ff9d5c{% endif %}{% endmacro %}
+
+<div class="d-flex align-items-center mb-3 flex-wrap gap-3">
+  <div>
+    <h2 class="fw-bold mb-0"><i class="bi bi-cash-coin" style="color:#4ade80;"></i> Bet Picks</h2>
+    <small class="text-muted">
+      Concrete <strong>match + selection + odds</strong> you can stake — next {{ d.gw_window }} gameweeks,
+      any market. Direction &amp; confidence from a blend (model % + the short-memory streak read + price value);
+      the streak read is the <em>human reason</em>. Refreshes every 30s.
+    </small>
+  </div>
+</div>
+
+{% if d.error %}<div class="alert alert-warning"><small>Engine error: {{ d.error }}</small></div>{% endif %}
+
+<!-- MIN-ODDS FLOOR CONTROL -->
+<div class="card mb-3" style="background:#0d1117;">
+  <div class="card-body py-2 d-flex align-items-center flex-wrap gap-2">
+    <span class="small fw-bold me-1"><i class="bi bi-sliders"></i> Min odds:</span>
+    {% set presets = [1.4,1.5,1.6,1.7,1.8,1.9,2.0,2.1,2.2,2.5,3.0,5.0,7.0] %}
+    {% for v in presets %}
+      <a href="/bets?min_odds={{ '%.2f'|format(v) }}"
+         class="btn btn-sm {% if min_odds == v %}btn-success{% else %}btn-outline-secondary{% endif %} px-2 py-0">
+        {{ '%.1f'|format(v) }}
+      </a>
+    {% endfor %}
+    <form method="get" action="/bets" class="d-inline-flex align-items-center gap-1 ms-2">
+      <input type="number" step="0.1" min="1" max="20" name="min_odds"
+             value="{{ '%.2f'|format(min_odds) }}"
+             class="form-control form-control-sm bg-dark text-light border-secondary"
+             style="width:90px;">
+      <button class="btn btn-sm btn-primary px-2 py-0">Set</button>
+    </form>
+    <span class="small text-muted ms-2">only selections priced <strong>{{ '%.2f'|format(min_odds) }}+</strong> shown</span>
+  </div>
+</div>
+
+
+{% if not d.confident_call %}
+  {% if d.had_fixtures %}
+  <div class="alert alert-warning">
+    <small>No selection priced <strong>{{ '%.2f'|format(min_odds) }}+</strong> in the next {{ d.gw_window }} gameweeks.
+    Lower the min-odds floor above (try 1.4–1.8).</small>
+  </div>
+  {% else %}
+  <div class="alert alert-info">
+    <small>No upcoming fixtures with odds loaded yet. This fills in once the app has scraped the next gameweeks
+    (the scraper must be running). Come back in a minute.</small>
+  </div>
+  {% endif %}
+{% else %}
+
+<!-- THE CONFIDENT CALL -->
+{% set c = d.confident_call %}
+<div class="card mb-4" style="border:2px solid #4ade80; background:linear-gradient(180deg,#12261a,#0d1117);">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+      <div>
+        <div class="text-uppercase small fw-bold" style="color:#4ade80; letter-spacing:1px;">
+          <i class="bi bi-star-fill"></i> The Confident Call
+        </div>
+        <div class="fs-4 fw-bold mt-1">{{ c.match }}
+          <span class="text-muted fs-6">· {{ c.league }} · GW{{ c.week }}
+            {% if c.gw_order == 0 %}<span class="badge bg-success">next up</span>
+            {% else %}<span class="badge bg-warning text-dark">{{ c.gw_order }} GW ahead</span>{% endif %}
+          </span>
+        </div>
+        <div class="mt-2">
+          <span class="fs-5">Bet:</span>
+          <span class="badge bg-dark border fs-6">{{ c.sel }}</span>
+          <span class="fs-5">@ <strong style="color:#4ade80;">{{ c.odds }}</strong></span>
+          {% if c.placeable %}<span class="badge bg-success" title="the auto-bettor can place this">auto ✓</span>
+          {% else %}<span class="badge bg-secondary" title="auto-bettor skips this market for now — place manually">manual only</span>{% endif %}
+        </div>
+        <div class="text-muted mt-2" style="max-width:640px;">
+          <i class="bi bi-chat-left-quote"></i> {{ c.reason }}
+        </div>
+      </div>
+      <div class="text-center">
+        <div class="display-6 fw-bold" style="color:{{ conf_color(c.conf) }};">{{ c.conf }}%</div>
+        <div class="small text-muted">confidence</div>
+        <div class="small mt-1">model {{ c.model_prob }}% · value {{ "%+.1f"|format(c.value) }}</div>
+      </div>
+    </div>
+    {% if c.alts %}
+    <div class="mt-3 pt-2 border-top border-secondary">
+      <small class="text-muted">Same match, other markets:
+        {% for a in c.alts %}<span class="badge bg-dark border me-1">{{ a.sel }} @{{ a.odds }} · {{ a.conf }}%</span>{% endfor %}
+      </small>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+{# NEXT UP — the nearest playable GW's best pick, shown when it differs from the #}
+{# global Confident Call (which can sit 1-2 GWs ahead). This is the one about to play. #}
+{% set nu = d.nearest_call %}
+{% if nu and (nu.match != c.match or nu.sel != c.sel) %}
+<div class="card mb-4" style="border:1px solid #ffd54a; background:#161613;">
+  <div class="card-body py-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
+    <div>
+      <span class="text-uppercase small fw-bold" style="color:#ffd54a;"><i class="bi bi-lightning-charge-fill"></i> Next up (about to play)</span>
+      <span class="badge bg-success ms-1">next GW</span>
+      <div class="fw-bold mt-1">{{ nu.match }} <span class="text-muted small">· {{ nu.league }} · GW{{ nu.week }}</span></div>
+      <div class="mt-1">Bet <span class="badge bg-dark border">{{ nu.sel }}</span> @ <strong style="color:#ffd54a;">{{ nu.odds }}</strong>
+        <span class="text-muted small ms-2">{{ nu.reason }}</span></div>
+    </div>
+    <div class="text-center">
+      <div class="fs-3 fw-bold" style="color:{{ conf_color(nu.conf) }};">{{ nu.conf }}%</div>
+      <div class="small text-muted">confidence</div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<!-- LIVE FORWARD RECORD (accumulates from when the app started) -->
+{% set fw = d.forward %}
+{% if fw and (fw.global or fw.nextup or fw._pending) %}
+<div class="card mb-4" style="background:#0d1117;">
+  <div class="card-header py-2">
+    <i class="bi bi-record-circle" style="color:#ff6b6b;"></i>
+    <strong>Live forward record</strong>
+    <span class="small text-muted">— real results since the app started tracking, no bets placed. One row per match, no double-counting.
+    {% if fw._pending %}<span class="badge bg-secondary">{{ fw._pending }} awaiting result</span>{% endif %}</span>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-dark table-sm align-middle mb-0">
+      <thead><tr><th>Mode</th><th class="text-end">Settled</th><th class="text-end">Win%</th>
+        <th class="text-end">ROI</th><th class="text-end">Net (u)</th><th class="text-end">Max streak</th>
+        <th class="text-end">Avg odds</th><th>Since</th></tr></thead>
+      <tbody>
+      {% for mode, label in [('global','Global (highest conf)'), ('nextup','Next-Up (soonest GW)')] %}
+        {% set m = fw[mode] %}
+        <tr>
+          <td class="fw-bold">{{ label }}</td>
+          {% if m %}
+            <td class="text-end">{{ m.n }}</td>
+            <td class="text-end">{{ m.win_pct }}%</td>
+            <td class="text-end fw-bold" style="color:{% if m.roi>=0 %}#4ade80{% else %}#ff6b6b{% endif %};">{{ "%+.1f"|format(m.roi) }}%</td>
+            <td class="text-end" style="color:{% if m.net>=0 %}#4ade80{% else %}#ff6b6b{% endif %};">{{ "%+.1f"|format(m.net) }}</td>
+            <td class="text-end">{{ m.max_streak }}</td>
+            <td class="text-end small">{{ m.avg_odds }}</td>
+            <td class="small text-muted">{{ m.since }}</td>
+          {% else %}
+            <td colspan="7" class="text-muted small">no settled picks yet — fills in as results land (first ones ~a few minutes after start)</td>
+          {% endif %}
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+
+<!-- THREE TABS -->
+<ul class="nav nav-tabs mb-3" role="tablist">
+  <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#top10">Top 10</button></li>
+  <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#perleague">Per League</button></li>
+  <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#allp">All ({{ d.n }})</button></li>
+</ul>
+
+{% macro pick_table(rows, show_league=true) %}
+<div class="table-responsive">
+  <table class="table table-dark table-sm align-middle mb-0">
+    <thead><tr>
+      <th class="text-center">Conf</th>
+      {% if show_league %}<th>League</th>{% endif %}
+      <th>GW</th><th>When</th><th>Match</th><th>Bet</th><th class="text-end">Odds</th>
+      <th class="text-end">Model%</th><th class="text-end">Value</th><th>Human reason</th>
+    </tr></thead>
+    <tbody>
+    {% for p in rows %}
+      <tr>
+        <td class="text-center fw-bold" style="color:{{ conf_color(p.conf) }};">{{ p.conf }}%</td>
+        {% if show_league %}<td class="small">{{ p.league }}</td>{% endif %}
+        <td class="small text-muted">{{ p.week }}</td>
+        <td>{% if p.gw_order == 0 %}<span class="badge bg-success">next</span>{% else %}<span class="badge bg-secondary">+{{ p.gw_order }}</span>{% endif %}</td>
+        <td class="fw-bold">{{ p.match }}</td>
+        <td><span class="badge bg-dark border">{{ p.sel }}</span></td>
+        <td class="text-end fw-bold">{{ p.odds }}</td>
+        <td class="text-end small">{{ p.model_prob }}%</td>
+        <td class="text-end small" style="color:{% if p.value >= 2 %}#4ade80{% elif p.value >= -3 %}#aaa{% else %}#ff6b6b{% endif %};">{{ "%+.1f"|format(p.value) }}</td>
+        <td class="small text-muted">{{ p.reason }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endmacro %}
+
+<div class="tab-content">
+  <div class="tab-pane fade show active" id="top10">
+    <p class="small text-muted">The 10 highest-confidence stakeable picks across every league.</p>
+    {{ pick_table(d.top) }}
+  </div>
+
+  <div class="tab-pane fade" id="perleague">
+    {% for league, rows in d.per_league.items() %}
+      <h6 class="fw-bold mt-3 mb-1">{{ league }} <span class="text-muted small">({{ rows|length }})</span></h6>
+      {{ pick_table(rows, show_league=false) }}
+    {% endfor %}
+  </div>
+
+  <div class="tab-pane fade" id="allp">
+    <p class="small text-muted">Every match in the next {{ d.gw_window }} gameweeks, its best stakeable selection.</p>
+    {{ pick_table(d.all) }}
+  </div>
+</div>
+
+<div class="alert alert-dark py-2 mt-4"><small class="text-muted">
+  <i class="bi bi-info-circle"></i>
+  <strong>Confidence</strong> = the model's probability the selection lands, nudged by whether the short-memory
+  streak agrees and whether the price offers value. <strong>Value</strong> = model% − odds-implied%
+  (positive = the price is generous). Picks stay at stakeable odds (~1.40+); ultra-short doubles show only as
+  per-match alternatives (floor currently {{ '%.2f'|format(min_odds) }}, change it above).
+  <br><strong>Auto-bettor:</strong> the <code>confident_call</code> mode stakes these picks and places <strong>any</strong> of them — Over/Under 2.5, 1X2 (Home/Away), GG/NG, and Double Chance — each from its own live market tab (all verified <span class="badge bg-success">auto ✓</span>). Honest note: backtests show no market beats the ~7-8% house margin long-run —
+  these are the best-reasoned calls, not a promise.
+</small></div>
+
+{% endif %}
+{% endblock %}

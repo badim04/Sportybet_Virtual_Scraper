@@ -144,6 +144,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {% if '/bets' in request.path %}active{% endif %}" href="/bets" style="color:#4ade80 !important;">
+                            <i class="bi bi-cash-coin"></i> Bet Picks
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {% if '/patternlab' in request.path %}active{% endif %}" href="/patternlab" style="color:#7fd1ff !important;">
                             <i class="bi bi-cpu"></i> Pattern Lab
                         </a>

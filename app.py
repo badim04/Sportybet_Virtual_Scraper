@@ -1072,6 +1072,15 @@ def evaluate_accuracy(league, league_data):
         total += 1
         hs, aws = int(hs), int(aws)
 
+        # Live forward-test: grade any pending Confident-Call picks for this
+        # now-resolved fixture (records both GLOBAL and NEXTUP modes).
+        try:
+            import cc_forward
+            cc_forward.grade(league, snap.get("week"), snap.get("home_team"),
+                             snap.get("away_team"), hs, aws)
+        except Exception:
+            pass
+
         # 1X2 accuracy
         if hs > aws:
             actual_outcome = "Home Win"
@@ -3391,6 +3400,16 @@ def refresh_odds_and_predictions():
         upcoming_count = sum(len(v) for v in football_upcoming.values())
         print(f"  [OddsPoll] Predictions refreshed: {upcoming_count} total", flush=True)
 
+    # Live forward-test: snapshot what GLOBAL and NEXTUP would bet right now, so
+    # the record accumulates from the moment the app runs (deduped by match).
+    try:
+        import pattern_lab, cc_forward
+        d = pattern_lab.build_bet_picks(football_upcoming, gw_window=3, top_n=1)
+        cc_forward.record({"global": d.get("confident_call"),
+                           "nextup": d.get("nearest_call")})
+    except Exception:
+        pass
+
 
 def refresh_racing_predictions(racing_upcoming):
     """Recompute racing predictions from freshly scraped upcoming races and
@@ -3495,9 +3514,13 @@ def watchdog_thread():
             _unregister_driver(owner)
 
 
+_RESPAWN = {"n": 0}
+
+
 def background_odds_poller():
     """Separate thread: keeps browser open, polls football odds and racing
-    upcoming races continuously."""
+    upcoming races continuously. On asyncio-poisoning after a killed browser it
+    respawns itself in a fresh thread (see the create_stealth_browser guard)."""
     time.sleep(10)
     print("  [OddsPoll] Odds poller thread started", flush=True)
 
@@ -3508,9 +3531,27 @@ def background_odds_poller():
             os.makedirs(DATA_DIR, exist_ok=True)
 
             _fresh_event_loop()
-            pw, browser, ctx, page = results_mod.create_stealth_browser(
-                headless=True, proxy_server=None, stealth_mode="advanced"
-            )
+            try:
+                pw, browser, ctx, page = results_mod.create_stealth_browser(
+                    headless=True, proxy_server=None, stealth_mode="advanced"
+                )
+            except Exception as ce:
+                if "asyncio loop" in str(ce) or "Sync API" in str(ce):
+                    # This thread's asyncio state was poisoned by a watchdog-
+                    # killed driver and _fresh_event_loop couldn't clear it —
+                    # the exact bug that freezes the poller at a stale gameweek.
+                    # A BRAND-NEW thread has clean asyncio state, so hand off to
+                    # one and let this poisoned thread die.
+                    print("  [OddsPoll] asyncio-poisoned thread after a killed "
+                          "browser — respawning poller in a fresh thread", flush=True)
+                    _safe_cleanup(pw, browser)
+                    _RESPAWN["n"] += 1
+                    delay = 60 if _RESPAWN["n"] % 6 == 0 else 8
+                    threading.Thread(
+                        target=lambda: (time.sleep(delay), background_odds_poller()),
+                        daemon=True).start()
+                    return
+                raise
             _register_driver("poller", pw)
             try:
                 page.goto(results_mod.SITE_URL, timeout=60000, wait_until="domcontentloaded")
@@ -3547,6 +3588,7 @@ def background_odds_poller():
                     break
 
                 ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+                _prune_old_odds_files()   # self-throttled to every ~10 min
 
                 # Alternate which half goes first so neither football nor
                 # racing is always a full sweep (~several minutes) stale
@@ -3622,9 +3664,18 @@ def background_odds_poller():
         time.sleep(5)
 
 
-def _prune_old_odds_files(max_age_hours=24):
-    """Delete odds snapshot files older than max_age_hours. They're written
-    every poll cycle and only the last ~15 minutes are ever read."""
+_PRUNE = {"t": 0}
+
+
+def _prune_old_odds_files(max_age_hours=2, min_interval=600):
+    """Delete odds snapshot files older than max_age_hours. Only the last ~15
+    minutes are ever read, so a 2h window is ample; letting these pile up (826
+    were found once) slows every page load that globs them. Self-throttles so
+    it can be called cheaply from the poll loop."""
+    now = time.time()
+    if now - _PRUNE["t"] < min_interval:
+        return
+    _PRUNE["t"] = now
     cutoff = datetime.now() - timedelta(hours=max_age_hours)
     removed = 0
     for f in glob.glob(os.path.join(DATA_DIR, "sportybet_odds_*.json")):
@@ -4883,6 +4934,94 @@ def patternlab_page():
                 "any_edge": False}
     return render_template("patternlab.html", d=data,
                            last_update=state.get("last_update"))
+
+
+@app.route("/bets")
+def bets_page():
+    """Bet Picks — the actionable DeepSeek layer: concrete match + selection +
+    odds you can stake, a headline Confident Call, a global Top 10, and
+    per-league groups (three tabs). Built from live upcoming fixtures + the
+    short-memory streak read."""
+    from flask import request as _rq
+    try:
+        min_odds = float(_rq.args.get("min_odds", 1.40))
+    except (TypeError, ValueError):
+        min_odds = 1.40
+    min_odds = max(1.0, min(20.0, round(min_odds, 2)))
+    with state_lock:
+        upcoming = {lg: list(v) for lg, v in
+                    state.get("football_upcoming", {}).items()}
+    try:
+        import pattern_lab
+        d = pattern_lab.build_bet_picks(upcoming, gw_window=3, top_n=10,
+                                        min_odds=min_odds)
+    except Exception as e:
+        d = {"error": str(e), "confident_call": None, "top": [],
+             "per_league": {}, "all": [], "n": 0, "window": 10, "gw_window": 3}
+    d["min_odds"] = min_odds
+    try:
+        import cc_forward
+        d["forward"] = cc_forward.summary()
+    except Exception:
+        d["forward"] = {}
+    return render_template("betpicks.html", d=d, min_odds=min_odds,
+                           last_update=state.get("last_update"))
+
+
+@app.route("/api/pattern_call")
+def api_pattern_call():
+    """The auto-bettor's Confident-Call feed. Given the league + the exact GW
+    the bettor read off the LIVE page (page-driven timing, so never a stale/far
+    GW) + an odds range, return the single best stakeable pick for that GW as a
+    placeable spec {home, away, code, odd_name, tab, sel, odds, conf, reason}
+    or {} if none qualifies."""
+    from flask import request as _rq
+    league = (_rq.args.get("league") or "").title()
+    try:
+        week = int(_rq.args.get("week") or 0)
+    except ValueError:
+        week = 0
+
+    def _f(name, default):
+        try:
+            return float(_rq.args.get(name))
+        except (TypeError, ValueError):
+            return default
+    min_odds = max(1.0, _f("min_odds", 1.40))
+    max_odds = _f("max_odds", 100.0)
+    # Auto-bettor asks for placeable-only (markets we can reliably click on the
+    # live page: O/U 2.5 + 1X2 Home/Away). The Bet Picks page passes all=1.
+    placeable_only = (_rq.args.get("placeable_only", "1") != "0")
+
+    with state_lock:
+        preds = list(state.get("football_upcoming", {}).get(league, []))
+    if not preds:
+        return jsonify({})
+    try:
+        import pattern_lab
+        # build over a wide window so the requested week is covered, floored at
+        # the caller's min_odds; per-fixture best is chosen from PLACEABLE
+        # markets only when placeable_only, so the auto-bettor never gets a
+        # pick it cannot click.
+        d = pattern_lab.build_bet_picks({league: preds}, gw_window=6,
+                                        top_n=50, min_odds=min_odds,
+                                        placeable_only=placeable_only)
+    except Exception as e:
+        return jsonify({"error": str(e)})
+    cands = [p for p in d.get("all", [])
+             if p.get("week") == week and p.get("odds", 0) <= max_odds]
+    if not cands:
+        return jsonify({})
+    p = max(cands, key=lambda x: x["conf"])
+    return jsonify({
+        "league": league, "week": week,
+        "home": p["home"], "away": p["away"], "match": p["match"],
+        "code": p["code"], "odd_name": p["odd_name"], "tab": p["tab"],
+        "cells": p.get("cells", 8), "market": p.get("market"),
+        "sel": p["sel"], "odds": p["odds"], "conf": p["conf"],
+        "model_prob": p["model_prob"], "reason": p["reason"],
+        "placeable": p.get("placeable", False),
+    })
 
 
 @app.route("/api/pattern_live")

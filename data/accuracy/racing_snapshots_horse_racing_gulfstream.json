@@ -1,31 +1,172 @@
 {
-  "2066599": {
-    "race_id": "2066599",
-    "predicted_at": "2026-08-11 01:13",
-    "winner": "Ram",
+  "2106106": {
+    "race_id": "2106106",
+    "predicted_at": "2026-09-07 11:40",
+    "winner": "Servio Tullio",
     "top3": [
-      "Ram",
-      "Pallino",
-      "Revival"
+      "Servio Tullio",
+      "Garante",
+      "Vincoio"
     ],
     "ranked": [
-      "Ram",
-      "Pallino",
-      "Revival",
-      "Matched II",
-      "Vele",
-      "Fiammante",
-      "Balena",
-      "Telegono"
+      "Servio Tullio",
+      "Garante",
+      "Vincoio",
+      "Telefo",
+      "Riche",
+      "Bulletto",
+      "Refrain",
+      "Regle"
     ],
     "win_probs": [
-      22.9,
-      18.5,
-      14.8,
-      11.9,
-      8.9,
+      22.5,
+      15.0,
+      14.7,
+      11.4,
+      11.3,
+      9.7,
+      8.2,
+      7.2
+    ],
+    "imp_winner": "",
+    "imp_top3": [],
+    "eo": "O",
+    "ou": "O",
+    "exacta": [
+      "Servio Tullio",
+      "Garante"
+    ],
+    "quinella": [
+      "Garante",
+      "Servio Tullio"
+    ],
+    "trifecta": [
+      "Servio Tullio",
+      "Garante",
+      "Vincoio"
+    ]
+  },
+  "2106109": {
+    "race_id": "2106109",
+    "predicted_at": "2026-09-07 11:40",
+    "winner": "Germinario",
+    "top3": [
+      "Germinario",
+      "Poker",
+      "Scorpione"
+    ],
+    "ranked": [
+      "Germinario",
+      "Poker",
+      "Scorpione",
+      "Telescopio",
+      "Sidero",
+      "Accoccolato",
+      "Taigeta",
+      "Cane Maggiore"
+    ],
+    "win_probs": [
+      21.1,
+      15.1,
+      15.0,
+      12.9,
+      12.3,
+      8.1,
       7.9,
-      7.8,
+      7.5
+    ],
+    "imp_winner": "",
+    "imp_top3": [],
+    "eo": "E",
+    "ou": "O",
+    "exacta": [
+      "Germinario",
+      "Poker"
+    ],
+    "quinella": [
+      "Poker",
+      "Germinario"
+    ],
+    "trifecta": [
+      "Germinario",
+      "Poker",
+      "Scorpione"
+    ]
+  },
+  "2106112": {
+    "race_id": "2106112",
+    "predicted_at": "2026-09-07 11:40",
+    "winner": "Lince",
+    "top3": [
+      "Lince",
+      "Taumante",
+      "Camaleonte"
+    ],
+    "ranked": [
+      "Lince",
+      "Taumante",
+      "Camaleonte",
+      "Pirucchio",
+      "Orologio",
+      "Barello",
+      "Cefeo",
+      "Modello"
+    ],
+    "win_probs": [
+      18.8,
+      15.9,
+      15.8,
+      15.5,
+      11.4,
+      8.8,
+      7.0,
+      6.8
+    ],
+    "imp_winner": "",
+    "imp_top3": [],
+    "eo": "E",
+    "ou": "O",
+    "exacta": [
+      "Lince",
+      "Taumante"
+    ],
+    "quinella": [
+      "Lince",
+      "Taumante"
+    ],
+    "trifecta": [
+      "Lince",
+      "Taumante",
+      "Camaleonte"
+    ]
+  },
+  "2106115": {
+    "race_id": "2106115",
+    "predicted_at": "2026-09-07 11:40",
+    "winner": "Red",
+    "top3": [
+      "Red",
+      "Recital",
+      "Tanai"
+    ],
+    "ranked": [
+      "Red",
+      "Recital",
+      "Tanai",
+      "Vergine",
+      "Giraffa",
+      "Fiammante",
+      "Reggae",
+      "Sileno"
+    ],
+    "win_probs": [
+      22.3,
+      20.4,
+      14.1,
+      11.5,
+      9.3,
+      7.5,
+      7.4,
       7.4
     ],
     "imp_winner": "",
@@ -33,287 +174,89 @@
     "eo": "E",
     "ou": "O",
     "exacta": [
-      "Ram",
-      "Pallino"
+      "Red",
+      "Recital"
     ],
     "quinella": [
-      "Ram",
-      "Pallino"
+      "Red",
+      "Recital"
     ],
     "trifecta": [
-      "Ram",
-      "Pallino",
-      "Revival"
+      "Red",
+      "Recital",
+      "Tanai"
     ]
   },
-  "2066602": {
-    "race_id": "2066602",
-    "predicted_at": "2026-08-11 01:13",
-    "winner": "Pluto",
+  "2106118": {
+    "race_id": "2106118",
+    "predicted_at": "2026-09-07 11:40",
+    "winner": "Rayo",
     "top3": [
-      "Pluto",
-      "Pirucchio",
-      "Teodamante"
+      "Rayo",
+      "Ra",
+      "Revel"
     ],
     "ranked": [
-      "Pluto",
-      "Pirucchio",
-      "Teodamante",
-      "Cassiopea",
-      "Pepperkorn",
-      "Record",
-      "Siciliano",
-      "Ala Destra"
+      "Rayo",
+      "Ra",
+      "Revel",
+      "Paccopostale",
+      "Campano",
+      "Rabarbaro",
+      "Reggae",
+      "Lumacone"
     ],
     "win_probs": [
-      18.7,
-      14.5,
-      14.1,
+      20.5,
+      14.2,
       13.6,
-      12.4,
-      9.9,
-      9.7,
-      7.2
+      13.2,
+      11.6,
+      9.3,
+      9.1,
+      8.5
     ],
     "imp_winner": "",
     "imp_top3": [],
     "eo": "E",
     "ou": "U",
     "exacta": [
-      "Pluto",
-      "Pirucchio"
+      "Rayo",
+      "Ra"
     ],
     "quinella": [
-      "Pluto",
-      "Pirucchio"
+      "Ra",
+      "Rayo"
     ],
     "trifecta": [
-      "Pluto",
-      "Pirucchio",
-      "Teodamante"
+      "Rayo",
+      "Ra",
+      "Revel"
     ]
   },
-  "2066605": {
-    "race_id": "2066605",
-    "predicted_at": "2026-08-11 01:13",
-    "winner": "Paride",
+  "2106121": {
+    "race_id": "2106121",
+    "predicted_at": "2026-09-07 11:40",
+    "winner": "Immacolato",
     "top3": [
-      "Paride",
-      "Tantalo",
-      "Temeno"
-    ],
-    "ranked": [
-      "Paride",
-      "Tantalo",
-      "Temeno",
-      "Aye Aye",
-      "Ofiuco",
-      "Cane Maggiore",
-      "Renard",
-      "Salmoneo"
-    ],
-    "win_probs": [
-      21.7,
-      14.9,
-      14.5,
-      13.1,
-      10.9,
-      8.7,
-      8.3,
-      7.8
-    ],
-    "imp_winner": "",
-    "imp_top3": [],
-    "eo": "E",
-    "ou": "O",
-    "exacta": [
-      "Paride",
-      "Tantalo"
-    ],
-    "quinella": [
-      "Paride",
-      "Tantalo"
-    ],
-    "trifecta": [
-      "Paride",
-      "Tantalo",
-      "Temeno"
-    ]
-  },
-  "2066608": {
-    "race_id": "2066608",
-    "predicted_at": "2026-08-11 01:13",
-    "winner": "Pluto",
-    "top3": [
-      "Pluto",
-      "Re Dei Re",
-      "Temeno"
-    ],
-    "ranked": [
-      "Pluto",
-      "Re Dei Re",
-      "Temeno",
-      "Raz",
-      "Argo",
-      "Caribou",
-      "Rex",
-      "Toro"
-    ],
-    "win_probs": [
-      22.9,
-      17.6,
-      13.6,
-      12.3,
-      8.8,
-      8.7,
-      8.4,
-      7.8
-    ],
-    "imp_winner": "",
-    "imp_top3": [],
-    "eo": "E",
-    "ou": "O",
-    "exacta": [
-      "Pluto",
-      "Re Dei Re"
-    ],
-    "quinella": [
-      "Re Dei Re",
-      "Pluto"
-    ],
-    "trifecta": [
-      "Pluto",
-      "Re Dei Re",
-      "Temeno"
-    ]
-  },
-  "2066611": {
-    "race_id": "2066611",
-    "predicted_at": "2026-08-11 01:13",
-    "winner": "Pettirosso",
-    "top3": [
-      "Pettirosso",
-      "Dentino",
-      "Aye Aye"
-    ],
-    "ranked": [
-      "Pettirosso",
-      "Dentino",
-      "Aye Aye",
-      "Reign",
-      "Vincoio",
-      "Archimede",
-      "Balena",
-      "Baros"
-    ],
-    "win_probs": [
-      24.6,
-      16.3,
-      12.5,
-      11.7,
-      10.0,
-      8.8,
-      8.2,
-      8.0
-    ],
-    "imp_winner": "",
-    "imp_top3": [],
-    "eo": "O",
-    "ou": "O",
-    "exacta": [
-      "Pettirosso",
-      "Dentino"
-    ],
-    "quinella": [
-      "Dentino",
-      "Pettirosso"
-    ],
-    "trifecta": [
-      "Pettirosso",
-      "Dentino",
-      "Aye Aye"
-    ]
-  },
-  "2066614": {
-    "race_id": "2066614",
-    "predicted_at": "2026-08-11 01:13",
-    "winner": "Rank",
-    "top3": [
-      "Rank",
-      "Arcobaleno",
+      "Immacolato",
+      "Telchine",
       "Yerba Buena"
     ],
     "ranked": [
-      "Rank",
-      "Arcobaleno",
+      "Immacolato",
+      "Telchine",
       "Yerba Buena",
-      "Maiunagioia",
-      "Rein",
-      "Siciliano",
+      "Pardo",
+      "Raphis",
+      "Rifeo",
+      "Rabarbaro",
       "Betslip",
       "My Bets",
       "Login to place bets",
       "Bet limits:",
       "Max Payout:",
-      "Cane Minore",
-      "Rich"
-    ],
-    "win_probs": [
-      7.8,
-      7.8,
-      7.8,
-      7.8,
-      7.8,
-      7.8,
-      7.8,
-      7.8,
-      7.8,
-      7.8,
-      7.8,
-      7.2,
-      7.2
-    ],
-    "imp_winner": "",
-    "imp_top3": [],
-    "eo": "O",
-    "ou": "O",
-    "exacta": [
-      "Rank",
-      "Arcobaleno"
-    ],
-    "quinella": [
-      "Rank",
-      "Arcobaleno"
-    ],
-    "trifecta": [
-      "Rank",
-      "Arcobaleno",
-      "Yerba Buena"
-    ]
-  },
-  "2066617": {
-    "race_id": "2066617",
-    "predicted_at": "2026-08-11 01:17",
-    "winner": "Pettirosso",
-    "top3": [
-      "Pettirosso",
-      "Yerba Buena",
-      "Perseo"
-    ],
-    "ranked": [
-      "Pettirosso",
-      "Yerba Buena",
-      "Perseo",
-      "Mammifero",
-      "Cane Maggiore",
-      "Lolita",
-      "Betslip",
-      "My Bets",
-      "Login to place bets",
-      "Bet limits:",
-      "Max Payout:",
-      "Tenete",
-      "Rich"
+      "Giraffa"
     ],
     "win_probs": [
       13.5,
@@ -327,64 +270,7 @@
       7.3,
       7.3,
       7.3,
-      6.8,
-      6.8
-    ],
-    "imp_winner": "",
-    "imp_top3": [],
-    "eo": "O",
-    "ou": "O",
-    "exacta": [
-      "Pettirosso",
-      "Yerba Buena"
-    ],
-    "quinella": [
-      "Yerba Buena",
-      "Pettirosso"
-    ],
-    "trifecta": [
-      "Pettirosso",
-      "Yerba Buena",
-      "Perseo"
-    ]
-  },
-  "2066620": {
-    "race_id": "2066620",
-    "predicted_at": "2026-08-11 01:19",
-    "winner": "Teano",
-    "top3": [
-      "Teano",
-      "Caribou",
-      "Vincoio"
-    ],
-    "ranked": [
-      "Teano",
-      "Caribou",
-      "Vincoio",
-      "Quadrifoglio",
-      "Elektra",
-      "Run Bolero",
-      "Pergolato",
-      "Betslip",
-      "My Bets",
-      "Login to place bets",
-      "Bet limits:",
-      "Max Payout:",
-      "Rais"
-    ],
-    "win_probs": [
-      7.8,
-      7.8,
-      7.8,
-      7.8,
-      7.8,
-      7.8,
-      7.8,
-      7.8,
-      7.8,
-      7.8,
-      7.8,
-      7.8,
+      7.3,
       6.7
     ],
     "imp_winner": "",
@@ -392,208 +278,208 @@
     "eo": "O",
     "ou": "O",
     "exacta": [
-      "Teano",
-      "Caribou"
+      "Immacolato",
+      "Telchine"
     ],
     "quinella": [
-      "Teano",
-      "Caribou"
+      "Telchine",
+      "Immacolato"
     ],
     "trifecta": [
-      "Teano",
-      "Caribou",
-      "Vincoio"
+      "Immacolato",
+      "Telchine",
+      "Yerba Buena"
     ]
   },
-  "2066623": {
-    "race_id": "2066623",
-    "predicted_at": "2026-08-11 01:23",
-    "winner": "Remi",
+  "2106124": {
+    "race_id": "2106124",
+    "predicted_at": "2026-09-07 11:44",
+    "winner": "Rajah",
     "top3": [
-      "Remi",
-      "Strozzolino",
-      "Archimede"
+      "Rajah",
+      "Dinklage",
+      "Rho"
     ],
     "ranked": [
-      "Remi",
-      "Strozzolino",
-      "Archimede",
-      "Lolita",
-      "Cold Hooves",
-      "Rama",
-      "Pavone",
+      "Rajah",
+      "Dinklage",
+      "Rho",
+      "Lahara",
+      "Colpobasso",
+      "Reign",
+      "Bluff",
+      "Raid",
       "Betslip",
       "My Bets",
       "Login to place bets",
       "Bet limits:",
-      "Max Payout:",
-      "Ram"
+      "Max Payout:"
     ],
     "win_probs": [
-      7.7,
-      7.7,
-      7.7,
-      7.7,
-      7.7,
-      7.7,
-      7.7,
-      7.7,
-      7.7,
-      7.7,
-      7.7,
-      7.7,
-      7.2
+      12.7,
+      11.9,
+      6.9,
+      6.9,
+      6.9,
+      6.9,
+      6.9,
+      6.9,
+      6.9,
+      6.9,
+      6.9,
+      6.9,
+      6.9
     ],
     "imp_winner": "",
     "imp_top3": [],
-    "eo": "O",
-    "ou": "O",
+    "eo": "E",
+    "ou": "U",
     "exacta": [
-      "Remi",
-      "Strozzolino"
+      "Rajah",
+      "Dinklage"
     ],
     "quinella": [
-      "Remi",
-      "Strozzolino"
+      "Dinklage",
+      "Rajah"
     ],
     "trifecta": [
-      "Remi",
-      "Strozzolino",
-      "Archimede"
+      "Rajah",
+      "Dinklage",
+      "Rho"
     ]
   },
-  "2066626": {
-    "race_id": "2066626",
-    "predicted_at": "2026-08-11 01:24",
-    "winner": "Telefo",
+  "2106127": {
+    "race_id": "2106127",
+    "predicted_at": "2026-09-07 11:46",
+    "winner": "Satiri",
     "top3": [
-      "Telefo",
-      "Leone Minore",
-      "Pugliese"
+      "Satiri",
+      "Carena",
+      "Regne"
     ],
     "ranked": [
-      "Telefo",
-      "Leone Minore",
-      "Pugliese",
-      "Carolino",
-      "Actarus",
-      "Poletta",
-      "Betslip",
-      "My Bets",
-      "Login to place bets",
-      "Bet limits:",
-      "Max Payout:",
-      "Urano",
-      "Recital"
-    ],
-    "win_probs": [
-      7.8,
-      7.8,
-      7.8,
-      7.8,
-      7.8,
-      7.8,
-      7.8,
-      7.8,
-      7.8,
-      7.8,
-      7.8,
-      7.2,
-      7.2
-    ],
-    "imp_winner": "",
-    "imp_top3": [],
-    "eo": "O",
-    "ou": "O",
-    "exacta": [
-      "Telefo",
-      "Leone Minore"
-    ],
-    "quinella": [
-      "Telefo",
-      "Leone Minore"
-    ],
-    "trifecta": [
-      "Telefo",
-      "Leone Minore",
-      "Pugliese"
-    ]
-  },
-  "2066629": {
-    "race_id": "2066629",
-    "predicted_at": "2026-08-11 01:28",
-    "winner": "Renoir",
-    "top3": [
-      "Renoir",
-      "Follow Me",
-      "Sagittario"
-    ],
-    "ranked": [
-      "Renoir",
-      "Follow Me",
-      "Sagittario",
-      "Tartaro",
-      "Toro",
-      "Siciliano",
-      "Betslip",
-      "My Bets",
-      "Login to place bets",
-      "Bet limits:",
-      "Max Payout:",
-      "Garante",
-      "Paride"
-    ],
-    "win_probs": [
-      13.5,
-      7.3,
-      7.3,
-      7.3,
-      7.3,
-      7.3,
-      7.3,
-      7.3,
-      7.3,
-      7.3,
-      7.3,
-      6.8,
-      6.8
-    ],
-    "imp_winner": "",
-    "imp_top3": [],
-    "eo": "O",
-    "ou": "O",
-    "exacta": [
-      "Renoir",
-      "Follow Me"
-    ],
-    "quinella": [
-      "Follow Me",
-      "Renoir"
-    ],
-    "trifecta": [
-      "Renoir",
-      "Follow Me",
-      "Sagittario"
-    ]
-  },
-  "2066632": {
-    "race_id": "2066632",
-    "predicted_at": "2026-08-11 01:30",
-    "winner": "Quentin",
-    "top3": [
-      "Quentin",
-      "Escoforte",
-      "Semele"
-    ],
-    "ranked": [
-      "Quentin",
-      "Escoforte",
-      "Semele",
-      "Quintino",
-      "Sagittario",
+      "Satiri",
+      "Carena",
+      "Regne",
       "Tamiri",
-      "Ofiuco",
-      "Cantamessa",
+      "Bufaletto",
+      "Rey",
+      "Betslip",
+      "My Bets",
+      "Login to place bets",
+      "Bet limits:",
+      "Max Payout:",
+      "Recital",
+      "Mollymo"
+    ],
+    "win_probs": [
+      16.2,
+      11.6,
+      10.8,
+      6.2,
+      6.2,
+      6.2,
+      6.2,
+      6.2,
+      6.2,
+      6.2,
+      6.2,
+      5.8,
+      5.8
+    ],
+    "imp_winner": "",
+    "imp_top3": [],
+    "eo": "E",
+    "ou": "U",
+    "exacta": [
+      "Satiri",
+      "Carena"
+    ],
+    "quinella": [
+      "Carena",
+      "Satiri"
+    ],
+    "trifecta": [
+      "Satiri",
+      "Carena",
+      "Regne"
+    ]
+  },
+  "2106130": {
+    "race_id": "2106130",
+    "predicted_at": "2026-09-07 11:50",
+    "winner": "Rem",
+    "top3": [
+      "Rem",
+      "Sardo",
+      "Tazio"
+    ],
+    "ranked": [
+      "Rem",
+      "Sardo",
+      "Tazio",
+      "Codacorta",
+      "Ruspante",
+      "Sanlucar",
+      "Ray",
+      "Betslip",
+      "My Bets",
+      "Login to place bets",
+      "Bet limits:",
+      "Max Payout:",
+      "Garante"
+    ],
+    "win_probs": [
+      7.7,
+      7.7,
+      7.7,
+      7.7,
+      7.7,
+      7.7,
+      7.7,
+      7.7,
+      7.7,
+      7.7,
+      7.7,
+      7.7,
+      7.2
+    ],
+    "imp_winner": "",
+    "imp_top3": [],
+    "eo": "O",
+    "ou": "O",
+    "exacta": [
+      "Rem",
+      "Sardo"
+    ],
+    "quinella": [
+      "Rem",
+      "Sardo"
+    ],
+    "trifecta": [
+      "Rem",
+      "Sardo",
+      "Tazio"
+    ]
+  },
+  "2106133": {
+    "race_id": "2106133",
+    "predicted_at": "2026-09-07 11:51",
+    "winner": "Record",
+    "top3": [
+      "Record",
+      "Tereo",
+      "Tazio"
+    ],
+    "ranked": [
+      "Record",
+      "Tereo",
+      "Tazio",
+      "Marcel",
+      "Semele",
+      "Cariatide",
+      "Bufaletto",
+      "Dino",
       "Betslip",
       "My Bets",
       "Login to place bets",
@@ -620,42 +506,146 @@
     "eo": "O",
     "ou": "O",
     "exacta": [
-      "Quentin",
-      "Escoforte"
+      "Record",
+      "Tereo"
     ],
     "quinella": [
-      "Quentin",
-      "Escoforte"
+      "Record",
+      "Tereo"
     ],
     "trifecta": [
-      "Quentin",
-      "Escoforte",
-      "Semele"
+      "Record",
+      "Tereo",
+      "Tazio"
     ]
   },
-  "2066635": {
-    "race_id": "2066635",
-    "predicted_at": "2026-08-11 01:34",
-    "winner": "Ride",
+  "2106136": {
+    "race_id": "2106136",
+    "predicted_at": "2026-09-07 11:55",
+    "winner": "Martello",
     "top3": [
-      "Ride",
-      "Risico",
-      "Reggae"
+      "Martello",
+      "Pirucchio",
+      "Telchine"
     ],
     "ranked": [
-      "Ride",
-      "Risico",
-      "Reggae",
-      "Talo",
-      "Orecchioinfuocato",
-      "Sibilla",
+      "Martello",
+      "Pirucchio",
+      "Telchine",
+      "Sparks II",
+      "Cariatide",
+      "Tarchezio",
       "Betslip",
       "My Bets",
       "Login to place bets",
       "Bet limits:",
       "Max Payout:",
-      "Ranger",
-      "Istorione"
+      "Urano",
+      "Narvik"
+    ],
+    "win_probs": [
+      12.7,
+      12.7,
+      6.9,
+      6.9,
+      6.9,
+      6.9,
+      6.9,
+      6.9,
+      6.9,
+      6.9,
+      6.9,
+      6.4,
+      6.4
+    ],
+    "imp_winner": "",
+    "imp_top3": [],
+    "eo": "O",
+    "ou": "O",
+    "exacta": [
+      "Martello",
+      "Pirucchio"
+    ],
+    "quinella": [
+      "Martello",
+      "Pirucchio"
+    ],
+    "trifecta": [
+      "Martello",
+      "Pirucchio",
+      "Telchine"
+    ]
+  },
+  "2106139": {
+    "race_id": "2106139",
+    "predicted_at": "2026-09-07 12:01",
+    "winner": "Tazio",
+    "top3": [
+      "Tazio",
+      "Rhone",
+      "Spremi Tutti"
+    ],
+    "ranked": [
+      "Tazio",
+      "Rhone",
+      "Spremi Tutti",
+      "Talao",
+      "Albacete",
+      "Rink",
+      "Dragone",
+      "Scalino"
+    ],
+    "win_probs": [
+      22.5,
+      16.9,
+      15.1,
+      13.4,
+      9.8,
+      8.2,
+      7.2,
+      6.9
+    ],
+    "imp_winner": "",
+    "imp_top3": [],
+    "eo": "E",
+    "ou": "U",
+    "exacta": [
+      "Tazio",
+      "Rhone"
+    ],
+    "quinella": [
+      "Rhone",
+      "Tazio"
+    ],
+    "trifecta": [
+      "Tazio",
+      "Rhone",
+      "Spremi Tutti"
+    ]
+  },
+  "2106142": {
+    "race_id": "2106142",
+    "predicted_at": "2026-09-07 12:01",
+    "winner": "Pariolo",
+    "top3": [
+      "Pariolo",
+      "Tobia",
+      "Raksha"
+    ],
+    "ranked": [
+      "Pariolo",
+      "Tobia",
+      "Raksha",
+      "Red",
+      "Talia",
+      "Teano",
+      "Betslip",
+      "My Bets",
+      "Login to place bets",
+      "Bet limits:",
+      "Max Payout:",
+      "Real",
+      "Revival"
     ],
     "win_probs": [
       7.8,
@@ -677,17 +667,902 @@
     "eo": "O",
     "ou": "O",
     "exacta": [
-      "Ride",
-      "Risico"
+      "Pariolo",
+      "Tobia"
     ],
     "quinella": [
-      "Ride",
-      "Risico"
+      "Pariolo",
+      "Tobia"
     ],
     "trifecta": [
-      "Ride",
-      "Risico",
-      "Reggae"
+      "Pariolo",
+      "Tobia",
+      "Raksha"
+    ]
+  },
+  "2106145": {
+    "race_id": "2106145",
+    "predicted_at": "2026-09-07 12:06",
+    "winner": "Macchina Pneumatica",
+    "top3": [
+      "Macchina Pneumatica",
+      "Tazio",
+      "Delfino"
+    ],
+    "ranked": [
+      "Macchina Pneumatica",
+      "Tazio",
+      "Delfino",
+      "Reign",
+      "Labola",
+      "Siciliano",
+      "Campano",
+      "Istorione"
+    ],
+    "win_probs": [
+      17.9,
+      15.9,
+      15.6,
+      14.2,
+      12.5,
+      8.7,
+      7.9,
+      7.2
+    ],
+    "imp_winner": "",
+    "imp_top3": [],
+    "eo": "E",
+    "ou": "O",
+    "exacta": [
+      "Macchina Pneumatica",
+      "Tazio"
+    ],
+    "quinella": [
+      "Macchina Pneumatica",
+      "Tazio"
+    ],
+    "trifecta": [
+      "Macchina Pneumatica",
+      "Tazio",
+      "Delfino"
+    ]
+  },
+  "2106148": {
+    "race_id": "2106148",
+    "predicted_at": "2026-09-07 12:06",
+    "winner": "Camaleonte",
+    "top3": [
+      "Camaleonte",
+      "Scazzato",
+      "Mensa"
+    ],
+    "ranked": [
+      "Camaleonte",
+      "Scazzato",
+      "Mensa",
+      "Renne",
+      "Bilancia",
+      "Peperoncino",
+      "Lolita",
+      "Betslip",
+      "My Bets",
+      "Login to place bets",
+      "Bet limits:",
+      "Max Payout:",
+      "Real"
+    ],
+    "win_probs": [
+      13.5,
+      7.3,
+      7.3,
+      7.3,
+      7.3,
+      7.3,
+      7.3,
+      7.3,
+      7.3,
+      7.3,
+      7.3,
+      7.3,
+      6.7
+    ],
+    "imp_winner": "",
+    "imp_top3": [],
+    "eo": "O",
+    "ou": "O",
+    "exacta": [
+      "Camaleonte",
+      "Scazzato"
+    ],
+    "quinella": [
+      "Scazzato",
+      "Camaleonte"
+    ],
+    "trifecta": [
+      "Camaleonte",
+      "Scazzato",
+      "Mensa"
+    ]
+  },
+  "2106151": {
+    "race_id": "2106151",
+    "predicted_at": "2026-09-07 12:12",
+    "winner": "Sibilla",
+    "top3": [
+      "Sibilla",
+      "Xanto",
+      "Revue"
+    ],
+    "ranked": [
+      "Sibilla",
+      "Xanto",
+      "Revue",
+      "Scudo",
+      "Real",
+      "Regina",
+      "Tarassippo",
+      "Hally"
+    ],
+    "win_probs": [
+      19.2,
+      16.7,
+      14.6,
+      12.4,
+      10.3,
+      9.6,
+      9.0,
+      8.4
+    ],
+    "imp_winner": "",
+    "imp_top3": [],
+    "eo": "E",
+    "ou": "U",
+    "exacta": [
+      "Sibilla",
+      "Xanto"
+    ],
+    "quinella": [
+      "Xanto",
+      "Sibilla"
+    ],
+    "trifecta": [
+      "Sibilla",
+      "Xanto",
+      "Revue"
+    ]
+  },
+  "2106154": {
+    "race_id": "2106154",
+    "predicted_at": "2026-09-07 12:12",
+    "winner": "Pettinino",
+    "top3": [
+      "Pettinino",
+      "Cantamessa",
+      "Arcobaleno"
+    ],
+    "ranked": [
+      "Pettinino",
+      "Cantamessa",
+      "Arcobaleno",
+      "Run Bolero",
+      "Rifeo",
+      "Tarchezio",
+      "Betslip",
+      "My Bets",
+      "Login to place bets",
+      "Bet limits:",
+      "Max Payout:",
+      "Codalunga",
+      "Riff"
+    ],
+    "win_probs": [
+      12.8,
+      7.4,
+      7.4,
+      7.4,
+      7.4,
+      7.4,
+      7.4,
+      7.4,
+      7.4,
+      7.4,
+      7.4,
+      6.8,
+      6.8
+    ],
+    "imp_winner": "",
+    "imp_top3": [],
+    "eo": "O",
+    "ou": "O",
+    "exacta": [
+      "Pettinino",
+      "Cantamessa"
+    ],
+    "quinella": [
+      "Cantamessa",
+      "Pettinino"
+    ],
+    "trifecta": [
+      "Pettinino",
+      "Cantamessa",
+      "Arcobaleno"
+    ]
+  },
+  "2106157": {
+    "race_id": "2106157",
+    "predicted_at": "2026-09-07 12:17",
+    "winner": "The Gardener",
+    "top3": [
+      "The Gardener",
+      "Martello",
+      "Pariolo"
+    ],
+    "ranked": [
+      "The Gardener",
+      "Martello",
+      "Pariolo",
+      "Tarassippo",
+      "Accoccolato",
+      "Telemaco",
+      "Grain o Sand",
+      "Ras",
+      "Betslip",
+      "My Bets",
+      "Login to place bets",
+      "Bet limits:",
+      "Max Payout:"
+    ],
+    "win_probs": [
+      16.8,
+      12.0,
+      6.5,
+      6.5,
+      6.5,
+      6.5,
+      6.5,
+      6.5,
+      6.5,
+      6.5,
+      6.5,
+      6.5,
+      6.5
+    ],
+    "imp_winner": "",
+    "imp_top3": [],
+    "eo": "E",
+    "ou": "U",
+    "exacta": [
+      "The Gardener",
+      "Martello"
+    ],
+    "quinella": [
+      "Martello",
+      "The Gardener"
+    ],
+    "trifecta": [
+      "The Gardener",
+      "Martello",
+      "Pariolo"
+    ]
+  },
+  "2106160": {
+    "race_id": "2106160",
+    "predicted_at": "2026-09-07 12:19",
+    "winner": "Immacolato",
+    "top3": [
+      "Immacolato",
+      "Tarchezio",
+      "Pietrificato"
+    ],
+    "ranked": [
+      "Immacolato",
+      "Tarchezio",
+      "Pietrificato",
+      "Salmoneo",
+      "Paccopostale",
+      "Lepre",
+      "Telegono",
+      "Betslip",
+      "My Bets",
+      "Login to place bets",
+      "Bet limits:",
+      "Max Payout:",
+      "Pippo"
+    ],
+    "win_probs": [
+      13.5,
+      7.3,
+      7.3,
+      7.3,
+      7.3,
+      7.3,
+      7.3,
+      7.3,
+      7.3,
+      7.3,
+      7.3,
+      7.3,
+      6.7
+    ],
+    "imp_winner": "",
+    "imp_top3": [],
+    "eo": "O",
+    "ou": "O",
+    "exacta": [
+      "Immacolato",
+      "Tarchezio"
+    ],
+    "quinella": [
+      "Tarchezio",
+      "Immacolato"
+    ],
+    "trifecta": [
+      "Immacolato",
+      "Tarchezio",
+      "Pietrificato"
+    ]
+  },
+  "2106163": {
+    "race_id": "2106163",
+    "predicted_at": "2026-09-07 12:27",
+    "winner": "Heres",
+    "top3": [
+      "Heres",
+      "Piccolo",
+      "Record"
+    ],
+    "ranked": [
+      "Heres",
+      "Piccolo",
+      "Record",
+      "Gemelli",
+      "Pegaso",
+      "Arcobaleno",
+      "Leone",
+      "Rey"
+    ],
+    "win_probs": [
+      21.6,
+      15.3,
+      14.1,
+      12.2,
+      10.5,
+      9.7,
+      9.2,
+      7.4
+    ],
+    "imp_winner": "",
+    "imp_top3": [],
+    "eo": "E",
+    "ou": "U",
+    "exacta": [
+      "Heres",
+      "Piccolo"
+    ],
+    "quinella": [
+      "Piccolo",
+      "Heres"
+    ],
+    "trifecta": [
+      "Heres",
+      "Piccolo",
+      "Record"
+    ]
+  },
+  "2106166": {
+    "race_id": "2106166",
+    "predicted_at": "2026-09-07 12:27",
+    "winner": "Recital",
+    "top3": [
+      "Recital",
+      "Taso",
+      "Reef"
+    ],
+    "ranked": [
+      "Recital",
+      "Taso",
+      "Reef",
+      "Artax",
+      "Pergolato",
+      "Revel",
+      "Caldo",
+      "Dragone"
+    ],
+    "win_probs": [
+      22.4,
+      20.0,
+      15.9,
+      10.5,
+      7.9,
+      7.8,
+      7.8,
+      7.7
+    ],
+    "imp_winner": "",
+    "imp_top3": [],
+    "eo": "E",
+    "ou": "U",
+    "exacta": [
+      "Recital",
+      "Taso"
+    ],
+    "quinella": [
+      "Taso",
+      "Recital"
+    ],
+    "trifecta": [
+      "Recital",
+      "Taso",
+      "Reef"
+    ]
+  },
+  "2106169": {
+    "race_id": "2106169",
+    "predicted_at": "2026-09-07 12:27",
+    "winner": "Immacolato",
+    "top3": [
+      "Immacolato",
+      "Tano Cho",
+      "Telchine"
+    ],
+    "ranked": [
+      "Immacolato",
+      "Tano Cho",
+      "Telchine",
+      "Codacorta",
+      "Tauro",
+      "Tarassippo",
+      "Betslip",
+      "My Bets",
+      "Login to place bets",
+      "Bet limits:",
+      "Max Payout:",
+      "Connection lost. Trying to reconnect.",
+      "Adrenalinico",
+      "Prmus"
+    ],
+    "win_probs": [
+      12.7,
+      6.8,
+      6.8,
+      6.8,
+      6.8,
+      6.8,
+      6.8,
+      6.8,
+      6.8,
+      6.8,
+      6.8,
+      6.8,
+      6.3,
+      6.3
+    ],
+    "imp_winner": "",
+    "imp_top3": [],
+    "eo": "E",
+    "ou": "O",
+    "exacta": [
+      "Immacolato",
+      "Tano Cho"
+    ],
+    "quinella": [
+      "Tano Cho",
+      "Immacolato"
+    ],
+    "trifecta": [
+      "Immacolato",
+      "Tano Cho",
+      "Telchine"
+    ]
+  },
+  "2106172": {
+    "race_id": "2106172",
+    "predicted_at": "2026-09-07 12:34",
+    "winner": "Satiri",
+    "top3": [
+      "Satiri",
+      "Ubipo",
+      "Pirucchio"
+    ],
+    "ranked": [
+      "Satiri",
+      "Ubipo",
+      "Pirucchio",
+      "Grain o Sand",
+      "Spirited",
+      "Dentino",
+      "Tafio",
+      "Uccello Del Paradiso",
+      "Betslip",
+      "My Bets",
+      "Login to place bets",
+      "Bet limits:",
+      "Max Payout:",
+      "Connection lost. Trying to reconnect."
+    ],
+    "win_probs": [
+      15.1,
+      10.8,
+      10.8,
+      5.8,
+      5.8,
+      5.8,
+      5.8,
+      5.8,
+      5.8,
+      5.8,
+      5.8,
+      5.8,
+      5.8,
+      5.8
+    ],
+    "imp_winner": "",
+    "imp_top3": [],
+    "eo": "O",
+    "ou": "U",
+    "exacta": [
+      "Satiri",
+      "Ubipo"
+    ],
+    "quinella": [
+      "Satiri",
+      "Ubipo"
+    ],
+    "trifecta": [
+      "Satiri",
+      "Ubipo",
+      "Pirucchio"
+    ]
+  },
+  "2106211": {
+    "race_id": "2106211",
+    "predicted_at": "2026-09-07 13:26",
+    "winner": "Brigadier",
+    "top3": [
+      "Brigadier",
+      "Martello",
+      "Neovincente"
+    ],
+    "ranked": [
+      "Brigadier",
+      "Martello",
+      "Neovincente",
+      "Lepre",
+      "Tafio",
+      "Cancro",
+      "Blunote",
+      "Pavone"
+    ],
+    "win_probs": [
+      19.5,
+      18.4,
+      17.3,
+      14.7,
+      8.6,
+      7.3,
+      7.2,
+      7.1
+    ],
+    "imp_winner": "",
+    "imp_top3": [],
+    "eo": "E",
+    "ou": "O",
+    "exacta": [
+      "Brigadier",
+      "Martello"
+    ],
+    "quinella": [
+      "Brigadier",
+      "Martello"
+    ],
+    "trifecta": [
+      "Brigadier",
+      "Martello",
+      "Neovincente"
+    ]
+  },
+  "2106214": {
+    "race_id": "2106214",
+    "predicted_at": "2026-09-07 13:26",
+    "winner": "Raggio",
+    "top3": [
+      "Raggio",
+      "Semele",
+      "Tereo"
+    ],
+    "ranked": [
+      "Raggio",
+      "Semele",
+      "Tereo",
+      "Lince",
+      "Scorpione",
+      "Pungolo",
+      "Baros",
+      "Bilancia"
+    ],
+    "win_probs": [
+      17.7,
+      17.4,
+      16.7,
+      14.7,
+      9.6,
+      8.6,
+      8.1,
+      7.2
+    ],
+    "imp_winner": "",
+    "imp_top3": [],
+    "eo": "E",
+    "ou": "O",
+    "exacta": [
+      "Raggio",
+      "Semele"
+    ],
+    "quinella": [
+      "Raggio",
+      "Semele"
+    ],
+    "trifecta": [
+      "Raggio",
+      "Semele",
+      "Tereo"
+    ]
+  },
+  "2106217": {
+    "race_id": "2106217",
+    "predicted_at": "2026-09-07 13:26",
+    "winner": "Red",
+    "top3": [
+      "Red",
+      "O Khendo",
+      "Dino"
+    ],
+    "ranked": [
+      "Red",
+      "O Khendo",
+      "Dino",
+      "Brigadier",
+      "Ring",
+      "Baccalone",
+      "Rafeiro Do Alentejo",
+      "Scilla"
+    ],
+    "win_probs": [
+      23.3,
+      18.8,
+      16.2,
+      9.5,
+      9.2,
+      7.7,
+      7.7,
+      7.6
+    ],
+    "imp_winner": "",
+    "imp_top3": [],
+    "eo": "E",
+    "ou": "O",
+    "exacta": [
+      "Red",
+      "O Khendo"
+    ],
+    "quinella": [
+      "Red",
+      "O Khendo"
+    ],
+    "trifecta": [
+      "Red",
+      "O Khendo",
+      "Dino"
+    ]
+  },
+  "2106220": {
+    "race_id": "2106220",
+    "predicted_at": "2026-09-07 13:26",
+    "winner": "Andromeda",
+    "top3": [
+      "Andromeda",
+      "Xanto",
+      "Rama"
+    ],
+    "ranked": [
+      "Andromeda",
+      "Xanto",
+      "Rama",
+      "Maiunagioia",
+      "Reps",
+      "Telchine",
+      "Rifeo",
+      "Baros"
+    ],
+    "win_probs": [
+      18.4,
+      17.0,
+      12.4,
+      11.2,
+      11.0,
+      10.9,
+      9.8,
+      9.3
+    ],
+    "imp_winner": "",
+    "imp_top3": [],
+    "eo": "E",
+    "ou": "U",
+    "exacta": [
+      "Andromeda",
+      "Xanto"
+    ],
+    "quinella": [
+      "Xanto",
+      "Andromeda"
+    ],
+    "trifecta": [
+      "Andromeda",
+      "Xanto",
+      "Rama"
+    ]
+  },
+  "2106223": {
+    "race_id": "2106223",
+    "predicted_at": "2026-09-07 13:26",
+    "winner": "Temeno",
+    "top3": [
+      "Temeno",
+      "Relax",
+      "Re Dei Re"
+    ],
+    "ranked": [
+      "Temeno",
+      "Relax",
+      "Re Dei Re",
+      "Star Pietrisco",
+      "Sarpedonte",
+      "Fammifare",
+      "Rho",
+      "Talo"
+    ],
+    "win_probs": [
+      19.8,
+      16.3,
+      13.6,
+      13.1,
+      12.8,
+      9.0,
+      8.0,
+      7.3
+    ],
+    "imp_winner": "",
+    "imp_top3": [],
+    "eo": "O",
+    "ou": "U",
+    "exacta": [
+      "Temeno",
+      "Relax"
+    ],
+    "quinella": [
+      "Temeno",
+      "Relax"
+    ],
+    "trifecta": [
+      "Temeno",
+      "Relax",
+      "Re Dei Re"
+    ]
+  },
+  "2106226": {
+    "race_id": "2106226",
+    "predicted_at": "2026-09-07 13:26",
+    "winner": "Satiri",
+    "top3": [
+      "Satiri",
+      "Elektra",
+      "Aye Aye"
+    ],
+    "ranked": [
+      "Satiri",
+      "Elektra",
+      "Aye Aye",
+      "Scorpione",
+      "Dentino",
+      "Idra",
+      "Gemelli",
+      "Betslip",
+      "My Bets",
+      "Login to place bets",
+      "Bet limits:",
+      "Max Payout:",
+      "Recital"
+    ],
+    "win_probs": [
+      17.9,
+      6.9,
+      6.9,
+      6.9,
+      6.9,
+      6.9,
+      6.9,
+      6.9,
+      6.9,
+      6.9,
+      6.9,
+      6.9,
+      6.4
+    ],
+    "imp_winner": "",
+    "imp_top3": [],
+    "eo": "O",
+    "ou": "U",
+    "exacta": [
+      "Satiri",
+      "Elektra"
+    ],
+    "quinella": [
+      "Elektra",
+      "Satiri"
+    ],
+    "trifecta": [
+      "Satiri",
+      "Elektra",
+      "Aye Aye"
+    ]
+  },
+  "2106229": {
+    "race_id": "2106229",
+    "predicted_at": "2026-09-07 13:38",
+    "winner": "Fenice",
+    "top3": [
+      "Fenice",
+      "Accelerato",
+      "Pardo"
+    ],
+    "ranked": [
+      "Fenice",
+      "Accelerato",
+      "Pardo",
+      "Aquario",
+      "Quadrifoglio",
+      "Peperoncino",
+      "Betslip",
+      "My Bets",
+      "Login to place bets",
+      "Bet limits:",
+      "Max Payout:",
+      "Connection lost. Trying to reconnect.",
+      "Fornace",
+      "Tenete"
+    ],
+    "win_probs": [
+      12.1,
+      11.3,
+      6.5,
+      6.5,
+      6.5,
+      6.5,
+      6.5,
+      6.5,
+      6.5,
+      6.5,
+      6.5,
+      6.5,
+      6.0,
+      6.0
+    ],
+    "imp_winner": "",
+    "imp_top3": [],
+    "eo": "O",
+    "ou": "U",
+    "exacta": [
+      "Fenice",
+      "Accelerato"
+    ],
+    "quinella": [
+      "Fenice",
+      "Accelerato"
+    ],
+    "trifecta": [
+      "Fenice",
+      "Accelerato",
+      "Pardo"
     ]
   }
 }
